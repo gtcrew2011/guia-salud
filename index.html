@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Salud — Felipe Gil</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;700&display=swap');
+
+  :root {
+    --bg:      #161f2c;
+    --surface: #1e2a3a;
+    --card:    #243245;
+    --border:  #2e4060;
+    --accent:  #e05252;
+    --blue:    #4a9eca;
+    --green:   #4caf7d;
+    --purple:  #9b72cf;
+    --gold:    #e8b84b;
+    --teal:    #45b8ac;
+    --orange:  #e8894b;
+    --text:    #dde6f0;
+    --muted:   #8ba0b8;
+    --soft:    #b8c8dc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.65; font-size: 15px; }
+
+  header {
+    background: linear-gradient(160deg, #1a2840 0%, #0f1924 100%);
+    border-bottom: 2px solid rgba(224,82,82,0.4);
+    padding: 24px 20px 18px;
+    text-align: center;
+  }
+  header h1 { font-family: 'Oswald', sans-serif; font-size: clamp(1.3rem,5vw,2rem); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  header p { color: var(--muted); font-size: 0.82rem; margin-top: 5px; }
+  .badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 9px; }
+  .badge { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px; padding: 3px 11px; border-radius: 20px; }
+  .b-red  { background: rgba(224,82,82,0.2);  border: 1px solid rgba(224,82,82,0.45);  color: #f1a8a8; }
+  .b-gold { background: rgba(232,184,75,0.15); border: 1px solid rgba(232,184,75,0.4);  color: #f5d98a; }
+  .b-green{ background: rgba(76,175,125,0.15); border: 1px solid rgba(76,175,125,0.4);  color: #90d4b0; }
+  .b-blue { background: rgba(74,158,202,0.15); border: 1px solid rgba(74,158,202,0.4);  color: #a8d4f0; }
+
+  /* TABS */
+  .tab-bar { display: flex; overflow-x: auto; background: #111922; border-bottom: 1px solid var(--border); -webkit-overflow-scrolling: touch; scrollbar-width: none; position: sticky; top: 0; z-index: 100; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; padding: 12px 14px; font-family: 'Oswald', sans-serif; font-size: 0.76rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; white-space: nowrap; user-select: none; }
+  .tab:hover { color: var(--soft); }
+  .tab.active { color: #fff; border-bottom-color: var(--accent); }
+
+  /* PANELS */
+  .panel { display: none; padding: 20px 16px 48px; max-width: 760px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  /* SECTION HDR */
+  .sec-hdr { border-left: 3px solid var(--accent); padding: 8px 13px; font-family: 'Oswald', sans-serif; font-size: 0.86rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); margin: 20px 0 11px; background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; }
+  .sec-hdr.green  { border-left-color: var(--green); }
+  .sec-hdr.blue   { border-left-color: var(--blue); }
+  .sec-hdr.gold   { border-left-color: var(--gold); }
+  .sec-hdr.purple { border-left-color: var(--purple); }
+  .sec-hdr.teal   { border-left-color: var(--teal); }
+  .sec-hdr.orange { border-left-color: var(--orange); }
+
+  /* CARDS */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 12px; }
+  .card-title { font-family: 'Oswald', sans-serif; font-size: 0.95rem; color: var(--accent); margin-bottom: 3px; }
+  .card-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 9px; }
+
+  /* TABLES */
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.83rem; min-width: 280px; }
+  thead tr { background: #1a2840; }
+  thead th { padding: 9px 9px; font-family: 'Oswald', sans-serif; font-weight: 500; letter-spacing: 0.8px; text-align: center; color: var(--soft); font-size: 0.75rem; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.12s; }
+  tbody tr:nth-child(even) { background: rgba(255,255,255,0.03); }
+  tbody tr:hover { background: rgba(74,158,202,0.07); }
+  tbody td { padding: 8px 9px; text-align: center; color: var(--text); line-height: 1.4; }
+  td.left { text-align: left; }
+
+  /* KV */
+  .kv { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 13px; }
+  .kv-row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .kv-row:last-child { border-bottom: none; }
+  .kv-row:nth-child(even) { background: rgba(255,255,255,0.025); }
+  .kv-key { flex: 0 0 130px; font-weight: 600; color: var(--muted); padding: 8px 11px; font-size: 0.77rem; text-transform: uppercase; letter-spacing: 0.3px; }
+  .kv-val { padding: 8px 11px; color: var(--text); flex: 1; font-size: 0.87rem; }
+
+  /* ALERTS */
+  .alert { border-radius: 8px; padding: 10px 13px; font-size: 0.86rem; margin-bottom: 10px; display: flex; gap: 9px; align-items: flex-start; line-height: 1.55; }
+  .alert-warn   { background: rgba(192,57,43,0.12);  border: 1px solid rgba(192,57,43,0.3);  color: #f0a8a8; }
+  .alert-ok     { background: rgba(76,175,125,0.1);   border: 1px solid rgba(76,175,125,0.3); color: #90d4b0; }
+  .alert-info   { background: rgba(74,158,202,0.1);   border: 1px solid rgba(74,158,202,0.3); color: #a8d4f0; }
+  .alert-gold   { background: rgba(232,184,75,0.08);  border: 1px solid rgba(232,184,75,0.3); color: #f5d98a; }
+  .alert-purple { background: rgba(155,114,207,0.1);  border: 1px solid rgba(155,114,207,0.3);color: #c8b0f0; }
+  .alert-icon   { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li { display: flex; align-items: flex-start; gap: 11px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.87rem; line-height: 1.55; color: var(--text); }
+  .checklist li:last-child { border-bottom: none; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+  .dot.green  { background: var(--green); }
+  .dot.gold   { background: var(--gold); }
+  .dot.blue   { background: var(--blue); }
+  .dot.purple { background: var(--purple); }
+  .dot.teal   { background: var(--teal); }
+
+  /* TAGS */
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 500; padding: 2px 9px; border-radius: 20px; margin: 3px; }
+  .tag-red  { background: rgba(192,57,43,0.2);  color: #f0a8a8; border: 1px solid rgba(192,57,43,0.3); }
+  .tag-green{ background: rgba(76,175,125,0.2); color: #90d4b0; border: 1px solid rgba(76,175,125,0.3); }
+  .tag-gold { background: rgba(232,184,75,0.15);color: #f5d98a; border: 1px solid rgba(232,184,75,0.3); }
+  .tag-blue { background: rgba(74,158,202,0.15);color: #a8d4f0; border: 1px solid rgba(74,158,202,0.3); }
+  .tag-teal { background: rgba(69,184,172,0.15);color: #90ddd5; border: 1px solid rgba(69,184,172,0.3); }
+
+  /* GOLD RULE */
+  .gold-rule { border-left: 3px solid var(--gold); padding: 9px 13px; font-size: 0.87rem; color: #f5d98a; margin-bottom: 8px; border-radius: 0 6px 6px 0; background: rgba(232,184,75,0.06); line-height: 1.55; }
+
+  /* SUPP GRID */
+  .supp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px,1fr)); gap: 9px; margin: 11px 0; }
+  .supp-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .supp-name { font-family: 'Oswald', sans-serif; font-size: 0.88rem; color: var(--gold); margin-bottom: 4px; }
+  .supp-dose { font-size: 0.81rem; color: #fff; font-weight: 600; margin-bottom: 3px; }
+  .supp-time { font-size: 0.77rem; color: var(--muted); margin-bottom: 3px; }
+  .supp-why  { font-size: 0.77rem; color: var(--blue); }
+
+  /* TIMING */
+  .timing-block { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 13px; }
+  .timing-row { display: flex; align-items: center; gap: 11px; padding: 9px 13px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .timing-row:last-child { border-bottom: none; }
+  .timing-row:nth-child(even) { background: rgba(255,255,255,0.025); }
+  .timing-time { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--gold); font-size: 0.87rem; flex: 0 0 68px; }
+  .timing-action { flex: 1; color: var(--text); font-size: 0.87rem; }
+  .timing-note { font-size: 0.75rem; color: var(--muted); flex: 0 0 100px; text-align: right; }
+
+  /* WEEK GRID */
+  .week-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; margin: 11px 0; }
+  @media (max-width: 560px) { .week-grid { grid-template-columns: repeat(2,1fr); } }
+  .day-card { border-radius: 7px; padding: 9px 5px; text-align: center; }
+  .day-name { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.77rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+  .day-type { font-weight: 600; font-size: 0.73rem; margin-bottom: 2px; }
+  .day-time { font-size: 0.68rem; color: #f5d98a; font-weight: 600; margin-bottom: 1px; }
+  .day-detail { font-size: 0.67rem; opacity: 0.85; }
+  .day-training { background: rgba(26,82,118,0.5);  border: 1px solid rgba(74,158,202,0.3);  color: #a8d4f0; }
+  .day-rest     { background: rgba(30,68,40,0.5);   border: 1px solid rgba(76,175,125,0.2);  color: #90d4b0; }
+  .day-recovery { background: rgba(60,30,80,0.5);   border: 1px solid rgba(155,114,207,0.3); color: #c8b0f0; }
+
+  /* PRIORITY BOX */
+  .priority-box { background: rgba(192,57,43,0.07); border: 1px solid rgba(192,57,43,0.25); border-radius: 10px; padding: 15px; margin-bottom: 13px; }
+  .priority-title { font-family: 'Oswald', sans-serif; font-size: 0.8rem; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 9px; }
+
+  /* DOCTOR BOX */
+  .doctor-box { background: rgba(69,184,172,0.07); border: 1px solid rgba(69,184,172,0.25); border-radius: 10px; padding: 15px; margin-bottom: 13px; }
+  .doctor-title { font-family: 'Oswald', sans-serif; font-size: 0.8rem; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 9px; }
+
+  /* PRODUCT CARD */
+  .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 13px; margin-bottom: 9px; display: flex; gap: 12px; align-items: flex-start; }
+  .product-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .product-name { font-family: 'Oswald', sans-serif; font-size: 0.93rem; color: #fff; margin-bottom: 2px; }
+  .product-brand { font-size: 0.77rem; color: var(--gold); font-weight: 600; margin-bottom: 3px; }
+  .product-detail { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+  /* RECIPE CARD */
+  .recipe-card { background: linear-gradient(135deg, rgba(76,175,125,0.08), rgba(232,184,75,0.05)); border: 1px solid rgba(76,175,125,0.25); border-radius: 10px; padding: 16px; margin-bottom: 13px; }
+  .recipe-title { font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--green); margin-bottom: 3px; letter-spacing: 0.5px; }
+  .recipe-sub { font-size: 0.79rem; color: var(--muted); margin-bottom: 12px; }
+  .ingredient-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
+  .ingredient-row:last-child { border-bottom: none; }
+  .ing-name { color: var(--text); }
+  .ing-qty { color: var(--gold); font-weight: 600; font-family: 'Oswald', sans-serif; }
+
+  /* BATCH GRID */
+  .batch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 9px; margin: 11px 0; }
+  .batch-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .batch-icon { font-size: 1.4rem; margin-bottom: 5px; }
+  .batch-name { font-family: 'Oswald', sans-serif; font-size: 0.88rem; color: var(--green); margin-bottom: 2px; }
+  .batch-qty { font-size: 0.78rem; color: var(--gold); font-weight: 600; margin-bottom: 3px; }
+  .batch-use { font-size: 0.76rem; color: var(--muted); }
+
+  /* EXERCISE CARD */
+  .ex-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 11px; }
+  .ex-title { font-family: 'Oswald', sans-serif; font-size: 0.95rem; color: var(--accent); margin-bottom: 3px; }
+  .ex-note { font-size: 0.79rem; color: var(--muted); margin-bottom: 9px; font-style: italic; }
+
+  /* COMBO */
+  .combo-box { background: rgba(60,30,80,0.2); border: 1px solid rgba(155,114,207,0.25); border-radius: 10px; padding: 15px; margin: 11px 0; text-align: center; }
+  .combo-steps { display: flex; align-items: center; justify-content: center; gap: 9px; flex-wrap: wrap; margin-top: 9px; }
+  .combo-step { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 9px 13px; font-size: 0.83rem; font-weight: 600; }
+  .combo-arrow { color: var(--muted); font-size: 1.1rem; }
+
+  /* TRACKER LINK */
+  .tracker-link-btn { display: flex; align-items: center; gap: 13px; background: linear-gradient(135deg, rgba(69,184,172,0.12), rgba(74,158,202,0.08)); border: 1px solid rgba(69,184,172,0.35); border-radius: 12px; padding: 15px 17px; margin-bottom: 15px; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+  .tracker-link-btn:hover { background: linear-gradient(135deg, rgba(69,184,172,0.2), rgba(74,158,202,0.14)); border-color: rgba(69,184,172,0.6); transform: translateY(-1px); }
+  .tracker-link-btn:active { transform: scale(0.98); }
+  .tracker-link-icon { font-size: 1.9rem; flex-shrink: 0; }
+  .tracker-link-text { flex: 1; }
+  .tracker-link-title { font-family: 'Oswald', sans-serif; font-size: 0.97rem; font-weight: 700; color: var(--teal); margin-bottom: 2px; }
+  .tracker-link-sub { font-size: 0.79rem; color: var(--muted); }
+  .tracker-link-arrow { font-size: 1.2rem; color: var(--teal); flex-shrink: 0; opacity: 0.7; }
+
+  /* TOOLS */
+  .tools-row { display: flex; gap: 9px; align-items: flex-start; }
+  @media (max-width: 480px) { .tools-row { flex-direction: column; } }
+  .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 13px; padding: 18px 16px 16px; margin-bottom: 13px; text-align: center; }
+  .tool-label { font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); margin-bottom: 9px; text-transform: uppercase; }
+  .tool-display { font-family: 'Oswald', sans-serif; font-size: clamp(2.6rem,11vw,3.8rem); font-weight: 700; color: var(--teal); letter-spacing: 2px; line-height: 1; margin: 5px 0; font-variant-numeric: tabular-nums; transition: color 0.3s; }
+  .tool-display.running { color: var(--green); }
+  .tool-display.finished { color: var(--accent); }
+  .sw-display { font-size: clamp(1.9rem,7vw,2.8rem) !important; }
+  .tool-hint { font-size: 0.75rem; color: var(--muted); margin: 5px 0 13px; }
+  .tool-avg { font-family: 'Oswald', sans-serif; font-size: 0.8rem; color: var(--blue); letter-spacing: 1px; margin-top: 2px; min-height: 17px; }
+  .tool-adj-row { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 3px; }
+  .adj-btn { background: var(--surface); border: 1px solid var(--border); color: var(--soft); font-size: 1.3rem; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; transition: background 0.15s; line-height: 1; }
+  .adj-btn:hover { background: var(--border); }
+  .adj-btn:active { transform: scale(0.93); }
+  .tool-btn-row { display: flex; gap: 9px; justify-content: center; margin-top: 13px; }
+  .tool-btn { font-family: 'Oswald', sans-serif; font-size: 0.83rem; letter-spacing: 1px; padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+  .btn-start { background: var(--teal); color: #fff; min-width: 115px; }
+  .btn-start:hover { opacity: 0.88; }
+  .btn-start.pause { background: var(--gold); color: #1a1a1a; }
+  .btn-reset { background: var(--surface); border: 1px solid var(--border); color: var(--soft); }
+  .btn-reset:hover { background: var(--border); }
+  .prog-wrap { height: 5px; background: rgba(255,255,255,0.07); border-radius: 10px; margin-top: 15px; overflow: hidden; }
+  .prog-bar { height: 100%; border-radius: 10px; transition: width 0.5s linear, background 0.3s; }
+  .counter-card { flex: 0 0 135px; display: flex; flex-direction: column; align-items: center; }
+  .counter-display { font-family: 'Oswald', sans-serif; font-size: clamp(2.8rem,13vw,4.2rem); font-weight: 700; color: var(--blue); line-height: 1; margin: 5px 0 11px; transition: transform 0.08s, color 0.2s; }
+  .counter-display.bump { transform: scale(1.18); color: var(--green); }
+  .counter-display.done { color: var(--gold); }
+  .counter-tap { background: var(--blue); color: #fff; font-family: 'Oswald', sans-serif; font-size: 0.97rem; letter-spacing: 2px; font-weight: 700; width: 88px; height: 88px; border-radius: 50%; border: none; cursor: pointer; transition: transform 0.1s, opacity 0.1s; box-shadow: 0 4px 18px rgba(74,158,202,0.35); text-transform: uppercase; }
+  .counter-tap:active { transform: scale(0.9); opacity: 0.85; }
+  .lap-row { display: flex; justify-content: space-between; padding: 5px 7px; font-size: 0.81rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--muted); }
+  .lap-row span:last-child { color: var(--blue); font-weight: 600; font-family: 'Oswald', sans-serif; }
+
+  /* STATS GRID */
+  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-bottom: 13px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 9px; text-align: center; }
+  .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .stat-lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* CRIT GRID */
+  .crit-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; margin: 11px 0; }
+  @media (max-width: 440px) { .crit-grid { grid-template-columns: 1fr; } }
+  .crit-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 13px; }
+  .crit-num { font-family: 'Oswald', sans-serif; font-size: 1.7rem; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+  .crit-label { font-weight: 700; font-size: 0.86rem; margin-bottom: 3px; color: #fff; }
+  .crit-desc { font-size: 0.79rem; color: var(--muted); }
+  .crit-time { font-size: 0.73rem; color: var(--gold); font-weight: 600; margin-top: 5px; }
+
+  footer { text-align: center; padding: 18px; color: var(--muted); font-size: 0.73rem; border-top: 1px solid var(--border); margin-top: 20px; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Guía de Salud Integral</h1>
+  <p>Felipe Gil &nbsp;·&nbsp; Dr. Mateo Rivera &nbsp;·&nbsp; Mayo 2026</p>
+  <div class="badges">
+    <span class="badge b-red">Plan v3.0</span>
+    <span class="badge b-gold">🦁 León · 5:00am</span>
+    <span class="badge b-green">Ex-fumador 9 meses</span>
+    <span class="badge b-blue">Wedge Pillow ✅</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="showTab('plan',this)">📋 Plan</div>
+  <div class="tab" onclick="showTab('sueno',this)">😴 Sueño</div>
+  <div class="tab" onclick="showTab('suplementos',this)">💊 Suplementos</div>
+  <div class="tab" onclick="showTab('salud',this)">🫁 Salud</div>
+  <div class="tab" onclick="showTab('respiracion',this)" id="tabRespiracion">🌬️ Respiración</div>
+  <div class="tab" onclick="showTab('nutricion',this)">🥗 Nutrición</div>
+  <div class="tab" onclick="showTab('entreno',this)">💪 Entreno</div>
+</div>
+
+<!-- ══ PLAN ══ -->
+<div id="plan" class="panel active">
+  <div class="sec-hdr">Diagnóstico General</div>
+  <div class="priority-box">
+    <div class="priority-title">⚠️ Sospecha Clínica Principal</div>
+    <ul class="checklist">
+      <li><span class="dot"></span><strong>Apnea del sueño obstructiva</strong> — despertares nocturnos, ronquido, body battery bajo, fatiga a mediodía. Requiere home sleep test.</li>
+      <li><span class="dot"></span><strong>GERD activo nocturno silencioso</strong> — el reflujo sube aunque no lo sientas. Wedge pillow instalado ✅</li>
+      <li><span class="dot"></span><strong>Sistema nervioso en recuperación</strong> — 15 años tabaco + vapeo. El cuerpo consume energía mientras se reconstruye.</li>
+    </ul>
+  </div>
+
+  <div class="sec-hdr">5 Acciones Más Impactantes</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th class="left">Acción</th><th>Impacto</th><th>Estado</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td class="left">Home sleep test — pedir al médico</td><td style="color:#f0a8a8">Crítico</td><td style="color:var(--muted)">Pendiente</td></tr>
+      <tr><td>2</td><td class="left">Wedge pillow 8 pulgadas memory foam</td><td style="color:#f0a8a8">Alto</td><td style="color:var(--green)">✅ Listo</td></tr>
+      <tr><td>3</td><td class="left">Alarma 5:00am (Cronotipo León)</td><td style="color:#f5d98a">Alto</td><td style="color:var(--green)">✅ Listo</td></tr>
+      <tr><td>4</td><td class="left">Corte de comida antes de las 7pm</td><td style="color:#f0a8a8">Alto</td><td style="color:var(--muted)">Aplicar</td></tr>
+      <tr><td>5</td><td class="left">Cetirizina 10mg antes del gym</td><td style="color:#f0a8a8">Crítico</td><td style="color:var(--muted)">Siempre</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sec-hdr gold">Metas a 90 Días</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Período</th><th class="left">Progreso esperado</th></tr></thead>
+    <tbody>
+      <tr><td>Mes 1</td><td class="left">GERD reduce. Flema disminuye. Energía mejora. Perder 2–4 lbs.</td></tr>
+      <tr><td>Mes 2</td><td class="left">Nasal breathing en entrenamientos completos. Tightness nocturna reducida. 4–6 lbs más.</td></tr>
+      <tr><td>Mes 3</td><td class="left">Síntomas respiratorios resueltos. GERD manejado. 8–12 lbs total. Voldyne ~2,500 ml.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sec-hdr teal">Acciones Médicas Pendientes</div>
+  <div class="doctor-box">
+    <div class="doctor-title">🏥 Esta Semana — Urgente</div>
+    <ul class="checklist">
+      <li><span class="dot teal"></span>Llamar al médico en Maryland — pedir home sleep study. Decir: <em>"Quiero un home sleep study para descartar apnea obstructiva."</em></li>
+    </ul>
+  </div>
+  <ul class="checklist">
+    <li><span class="dot blue"></span><strong>Alergólogo</strong> — presentar urticaria colinérgica + GERD juntos. Pedir prueba de provocación y triptasa sérica.</li>
+    <li><span class="dot blue"></span><strong>Espirometría</strong> — línea base pulmonar para medir recuperación post-tabaco.</li>
+    <li><span class="dot blue"></span>Si GERD no mejora en 6–8 semanas — puede necesitar medicación puente.</li>
+  </ul>
+
+  <div class="sec-hdr orange">Compras Pendientes</div>
+  <div class="product-card"><div class="product-icon">💊</div><div><div class="product-name">NAC 500mg</div><div class="product-brand">Thorne</div><div class="product-detail">Split dose AM/PM con comida.</div></div></div>
+  <div class="product-card"><div class="product-icon">🌿</div><div><div class="product-name">Slippery Elm Polvo</div><div class="product-brand">Starwest Botanicals</div><div class="product-detail">USDA Organic, 100% corteza interior.</div></div></div>
+  <div class="product-card"><div class="product-icon">🦠</div><div><div class="product-name">Probiótico multi-cepa</div><div class="product-brand">Seed DS-01 o Garden of Life</div><div class="product-detail">Tomar 2 horas después del NAC.</div></div></div>
+  <div class="product-card"><div class="product-icon">🧲</div><div><div class="product-name">Magnesio Glicinato</div><div class="product-brand">Thorne o Pure Encapsulations</div><div class="product-detail">Solo forma glicinato. 300–400mg al dormir.</div></div></div>
+  <div class="product-card"><div class="product-icon">💊</div><div><div class="product-name">Cetirizina (Zyrtec) 10mg</div><div class="product-brand">Genérica</div><div class="product-detail">60 min antes de cada sesión de gym.</div></div></div>
+  <div class="product-card"><div class="product-icon">💊</div><div><div class="product-name">Famotidina (Pepcid) 20mg</div><div class="product-brand">Genérica</div><div class="product-detail">Episodios agudos de urticaria y GERD.</div></div></div>
+</div>
+
+<!-- ══ SUEÑO ══ -->
+<div id="sueno" class="panel">
+  <div class="sec-hdr">Cronotipo León — Protocolo de Sueño</div>
+  <div class="alert alert-gold"><span class="alert-icon">🦁</span>León: Despertar natural 5–6am. Pico cognitivo 8–12am. El 4am interrumpía el ciclo de sueño profundo — 5:00am es tu hora natural. ✅ Actualizado.</div>
+
+  <div class="sec-hdr blue">Horario Óptimo</div>
+  <div class="timing-block">
+    <div class="timing-row"><div class="timing-time">9:00pm</div><div class="timing-action">Pantallas apagadas</div><div class="timing-note">30 min antes</div></div>
+    <div class="timing-row"><div class="timing-time">9:30pm</div><div class="timing-action">Dormir — cabecera elevada</div><div class="timing-note">Wedge 8" ✅</div></div>
+    <div class="timing-row"><div class="timing-time">5:00am</div><div class="timing-action">Despertar natural del León</div><div class="timing-note">7.5 hrs sueño</div></div>
+  </div>
+
+  <div class="sec-hdr green">Configuración del Cuarto</div>
+  <ul class="checklist">
+    <li><span class="dot green"></span><strong>Wedge pillow 8 pulgadas memory foam</strong> — instalado ✅ Elevar cabecera previene reflujo nocturno silencioso.</li>
+    <li><span class="dot green"></span>Temperatura fresca — el León duerme mejor en ambiente fresco</li>
+    <li><span class="dot green"></span>Cuarto oscuro — blackout curtains si es posible</li>
+    <li><span class="dot green"></span>Sin pantallas 30 min antes de dormir</li>
+    <li><span class="dot green"></span>Sin comida 3 horas antes — última comida máximo 7pm</li>
+  </ul>
+
+  <div class="sec-hdr">Métricas Garmin — Seguimiento</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-val" style="color:var(--muted)">Bajo</div><div class="stat-lbl">Body Battery ahora</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--gold)">60+</div><div class="stat-lbl">Meta mes 1</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--green)">70+</div><div class="stat-lbl">Meta mes 3</div></div>
+  </div>
+  <div class="alert alert-warn"><span class="alert-icon">⚠️</span>Si body battery no sube 10 puntos en 30 días — el sleep study es la respuesta. La apnea no la corrige ningún suplemento.</div>
+</div>
+
+<!-- ══ SUPLEMENTOS ══ -->
+<div id="suplementos" class="panel">
+  <div class="sec-hdr">Stack Completo</div>
+  <div class="supp-grid">
+    <div class="supp-card"><div class="supp-name">NAC</div><div class="supp-dose">500mg × 2/día</div><div class="supp-time">⏰ Desayuno + cena</div><div class="supp-why">Limpia mucosidad, repara pulmones</div></div>
+    <div class="supp-card"><div class="supp-name">Magnesio Glicinato</div><div class="supp-dose">300–400mg</div><div class="supp-time">⏰ Al dormir</div><div class="supp-why">Sueño, GERD, broncodilatador</div></div>
+    <div class="supp-card"><div class="supp-name">Vitamina D3 + K2</div><div class="supp-dose">Según etiqueta</div><div class="supp-time">⏰ Mañana con comida</div><div class="supp-why">Reparación pulmonar, inmunidad</div></div>
+    <div class="supp-card"><div class="supp-name">Omega-3</div><div class="supp-dose">Según etiqueta</div><div class="supp-time">⏰ Con comidas</div><div class="supp-why">Anti-inflamatorio, vías aéreas</div></div>
+    <div class="supp-card"><div class="supp-name">Zinc</div><div class="supp-dose">Según etiqueta</div><div class="supp-time">⏰ Con comida</div><div class="supp-why">Reparación pulmonar, inmunidad</div></div>
+    <div class="supp-card"><div class="supp-name">L-Glutamina</div><div class="supp-dose">5g en polvo</div><div class="supp-time">⏰ Mañana, estómago vacío</div><div class="supp-why">Repara mucosa intestinal</div></div>
+    <div class="supp-card"><div class="supp-name">Probiótico</div><div class="supp-dose">Según etiqueta</div><div class="supp-time">⏰ Noche, 2hrs después NAC</div><div class="supp-why">Reconstruye microbioma</div></div>
+    <div class="supp-card"><div class="supp-name">Slippery Elm</div><div class="supp-dose">1 tsp agua tibia</div><div class="supp-time">⏰ 15-20 min antes cena</div><div class="supp-why">Recubre esófago — GERD</div></div>
+    <div class="supp-card" style="border-color:rgba(224,82,82,0.4)"><div class="supp-name" style="color:var(--accent)">Cetirizina</div><div class="supp-dose">10mg</div><div class="supp-time">⏰ 60 min ANTES del gym</div><div class="supp-why">Previene urticaria</div></div>
+  </div>
+
+  <div class="sec-hdr blue">Horario Diario</div>
+  <div class="timing-block">
+    <div class="timing-row"><div class="timing-time">5:00am</div><div class="timing-action">L-Glutamina 5g en agua — estómago vacío</div><div class="timing-note">Primero del día</div></div>
+    <div class="timing-row"><div class="timing-time">Desayuno</div><div class="timing-action">NAC 500mg · D3+K2 · Omega-3 · Zinc</div><div class="timing-note">Con comida</div></div>
+    <div class="timing-row"><div class="timing-time">Gym −60min</div><div class="timing-action">Cetirizina 10mg</div><div class="timing-note">Días de entreno</div></div>
+    <div class="timing-row"><div class="timing-time">Antes cena</div><div class="timing-action">Slippery Elm 1 tsp — 15-20 min antes</div><div class="timing-note">1hr separado</div></div>
+    <div class="timing-row"><div class="timing-time">Cena</div><div class="timing-action">NAC 500mg · Omega-3</div><div class="timing-note">Con comida</div></div>
+    <div class="timing-row"><div class="timing-time">Dormir</div><div class="timing-action">Magnesio Glicinato 300–400mg</div><div class="timing-note">Al acostarse</div></div>
+    <div class="timing-row"><div class="timing-time">Dormir +2h</div><div class="timing-action">Probiótico</div><div class="timing-note">2hrs después NAC</div></div>
+  </div>
+</div>
+
+<!-- ══ SALUD ══ -->
+<div id="salud" class="panel">
+
+  <!-- GERD -->
+  <div class="sec-hdr">🔥 GERD — Protocolo</div>
+  <div class="alert alert-warn"><span class="alert-icon">🔥</span>El reflujo nocturno silencioso interrumpe el sueño profundo aunque no lo sientas. Wedge pillow instalado ✅ — es la intervención más importante.</div>
+  <ul class="checklist">
+    <li><span class="dot"></span><strong>No comer dentro de 3 horas de dormir</strong> — última comida máximo 7pm</li>
+    <li><span class="dot"></span><strong>Wedge pillow 8 pulgadas</strong> ✅ instalado</li>
+    <li><span class="dot"></span>Porciones pequeñas en la cena — nunca overeating de noche</li>
+    <li><span class="dot"></span>Caminar 10-15 min después de comer — no acostarse</li>
+    <li><span class="dot"></span>Masticar despacio y completamente</li>
+  </ul>
+  <div class="sec-hdr" style="border-left-color:var(--accent)">Evitar Siempre</div>
+  <div style="margin:9px 0">
+    <span class="tag tag-red">Café en ayunas</span><span class="tag tag-red">Alcohol</span><span class="tag tag-red">Tomates</span><span class="tag tag-red">Cítricos</span><span class="tag tag-red">Chocolate</span><span class="tag tag-red">Fritos</span><span class="tag tag-red">Carbonatados</span><span class="tag tag-red">Lácteos pesados</span><span class="tag tag-red">Menta</span>
+  </div>
+  <div class="alert alert-gold" style="margin-top:10px"><span class="alert-icon">🔗</span><strong>Conexión GERD–Urticaria:</strong> La histamina es el denominador común. Famotidina trata ambas — un medicamento, dos problemas.</div>
+
+  <!-- PULMONES -->
+  <div class="sec-hdr teal">🫁 Pulmones — Recuperación Post-Tabaco</div>
+  <div class="alert alert-ok"><span class="alert-icon">✅</span>El exceso de flema es señal de curación — los cilios se regeneran. Esto es sanación, no enfermedad.</div>
+  <ul class="checklist">
+    <li><span class="dot teal"></span><strong>Nasal breathing durante todos los entrenamientos</strong> — sin excepción</li>
+    <li><span class="dot teal"></span>Inhalación de vapor 3x/semana — agua caliente + eucalipto + menta, 10 min</li>
+    <li><span class="dot teal"></span>Espirometría pendiente — para establecer línea base de recuperación</li>
+  </ul>
+  <div style="margin:9px 0">
+    <span class="tag tag-red">Lácteos</span><span class="tag tag-red">Trigo procesado</span><span class="tag tag-red">Bebidas frías en la mañana</span><span class="tag tag-red">Velas perfumadas</span><span class="tag tag-red">Ambientadores</span>
+  </div>
+
+  <!-- URTICARIA -->
+  <div class="sec-hdr" style="border-left-color:var(--purple)">🔴 Urticaria Colinérgica</div>
+  <div class="alert alert-purple"><span class="alert-icon">🔬</span>Tu desencadenante es intensidad abrupta — <strong>NO el calor</strong>. La progresión gradual es tu tratamiento. La taquifilaxis ya la descubriste a los 15 años.</div>
+  <ul class="checklist">
+    <li><span class="dot"></span><strong>Cetirizina 10mg — 60 min antes de cada sesión</strong> — no negociable</li>
+    <li><span class="dot"></span>Warm-up gradual 8-10 minutos — nunca empieces intenso</li>
+    <li><span class="dot"></span>Cool-down 5 minutos obligatorio — no pares abruptamente</li>
+    <li><span class="dot"></span>Si aparecen ronchas — parar inmediatamente</li>
+    <li><span class="dot"></span>Después de 2+ semanas de descanso — regresa al 70% del peso previo</li>
+  </ul>
+  <div class="alert alert-warn"><span class="alert-icon">🚨</span><strong>EMERGENCIA:</strong> Dificultad respiratoria, opresión en garganta, mareo → Emergencias inmediatamente.</div>
+</div>
+
+<!-- ══ RESPIRACION ══ -->
+<div id="respiracion" class="panel">
+
+  <a href="tracker.html" class="tracker-link-btn">
+    <span class="tracker-link-icon">📊</span>
+    <div class="tracker-link-text">
+      <div class="tracker-link-title">Abrir Tracker Respiratorio</div>
+      <div class="tracker-link-sub">Registra tus sesiones de O2Trainer y Voldyne</div>
+    </div>
+    <span class="tracker-link-arrow">→</span>
+  </a>
+
+  <div class="sec-hdr teal">⏱️ Timer</div>
+  <div class="tool-card">
+    <div class="tool-label">Tiempo</div>
+    <div class="tool-adj-row">
+      <button class="adj-btn" onclick="adjustTimer(-1)">−</button>
+      <div class="tool-display" id="timerDisplay">05:00</div>
+      <button class="adj-btn" onclick="adjustTimer(1)">+</button>
+    </div>
+    <div class="tool-hint" id="timerHint">Incrementos de 30 segundos · Mínimo 0:30</div>
+    <div class="tool-btn-row">
+      <button class="tool-btn btn-start" id="timerStartBtn" onclick="timerToggle()">▶ Iniciar</button>
+      <button class="tool-btn btn-reset" onclick="timerReset()">↺ Reset</button>
+    </div>
+    <div class="prog-wrap"><div class="prog-bar" id="timerProgress" style="width:100%"></div></div>
+  </div>
+
+  <div class="sec-hdr blue">⏱️ Cronómetro &amp; Contador de Reps</div>
+  <div class="tools-row">
+    <div class="tool-card" style="flex:1;min-width:0">
+      <div class="tool-label">Cronómetro</div>
+      <div class="tool-display sw-display" id="swDisplay">00:00.0</div>
+      <div class="tool-hint">Pausa = registra lap</div>
+      <div class="tool-avg" id="swAvg"></div>
+      <div class="tool-btn-row">
+        <button class="tool-btn btn-start" id="swStartBtn" onclick="swToggle()">▶ Iniciar</button>
+        <button class="tool-btn btn-reset" onclick="swReset()">↺</button>
+      </div>
+      <div id="swLaps" style="margin-top:10px">
+        <div id="swLapsPlaceholder" style="font-size:0.76rem;color:var(--muted);text-align:center;padding:8px 0;font-style:italic;">Los laps aparecen aquí al pausar</div>
+      </div>
+    </div>
+    <div class="tool-card counter-card">
+      <div class="tool-label">Reps</div>
+      <div class="counter-display" id="counterDisplay">0</div>
+      <button class="counter-tap" onclick="counterTap()">TAP</button>
+      <div class="tool-btn-row" style="margin-top:10px">
+        <button class="tool-btn btn-reset" onclick="counterUndo()">↩</button>
+        <button class="tool-btn btn-reset" onclick="counterReset()">↺</button>
+      </div>
+      <div class="tool-hint" style="margin-top:8px">Meta: 30 reps</div>
+      <div class="prog-wrap" style="margin-top:8px"><div class="prog-bar" id="counterProgress" style="width:0%;background:var(--blue)"></div></div>
+    </div>
+  </div>
+
+  <div class="sec-hdr teal">Secuencia Matutina — 10 min</div>
+  <div class="combo-box">
+    <div style="font-size:0.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px">Orden de uso diario</div>
+    <div class="combo-steps">
+      <div class="combo-step">🌬️ Voldyne<br><small style="color:var(--muted)">Volumen · 10 reps</small></div>
+      <div class="combo-arrow">→</div>
+      <div class="combo-step">💪 O2Trainer<br><small style="color:var(--muted)">Fuerza · 30 reps</small></div>
+      <div class="combo-arrow">→</div>
+      <div class="combo-step">🧘 Buteyko<br><small style="color:var(--muted)">Eficiencia · 5 min</small></div>
+    </div>
+  </div>
+
+  <div class="sec-hdr teal">Voldyne 4000 — Línea Base</div>
+  <div style="background:linear-gradient(135deg,rgba(69,184,172,0.08),rgba(74,158,202,0.08));border:1px solid rgba(69,184,172,0.3);border-radius:10px;padding:15px;margin-bottom:12px;text-align:center">
+    <div style="font-size:0.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px">Volumen actual — Mayo 2026</div>
+    <div style="font-family:'Oswald',sans-serif;font-size:2.5rem;font-weight:700;color:var(--teal)">1,250 ml</div>
+    <div style="font-size:0.82rem;color:var(--muted);margin-top:3px">de 4,000 ml meta (31% del óptimo) · 9 seg sostenido</div>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Período</th><th>Meta Volumen</th><th>Tiempo Sostenido</th></tr></thead>
+    <tbody>
+      <tr><td>Sem 1–2</td><td>1,250 ml</td><td>9–10 seg</td></tr>
+      <tr><td>Sem 3–4</td><td>1,500 ml</td><td>8+ seg</td></tr>
+      <tr><td>Sem 5–6</td><td>1,750 ml</td><td>8+ seg</td></tr>
+      <tr><td>Mes 3</td><td>2,500 ml</td><td>8+ seg</td></tr>
+      <tr><td>Mes 6+</td><td>3,500 ml</td><td>8+ seg</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sec-hdr blue">O2Trainer — Caps</div>
+  <div class="alert alert-info"><span class="alert-icon">💡</span><strong>Número alto = fácil · Número bajo = difícil.</strong> Empiezas en 14mm → progresas hacia 1mm.</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Período</th><th>Cap</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>Sem 1–2</td><td style="color:var(--green);font-weight:700">14mm</td><td>← Empiezas aquí · 9:30 min actuales</td></tr>
+      <tr><td>Sem 3–4</td><td>13mm</td><td>Solo si 14 se siente cómodo</td></tr>
+      <tr><td>Sem 5–8</td><td>12–11mm</td><td>Progresión gradual</td></tr>
+      <tr><td>Mes 3</td><td>10mm</td><td>Sintiendo el trabajo</td></tr>
+      <tr><td>Mes 6+</td><td>7mm y abajo</td><td>Territorio avanzado</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alert alert-warn" style="margin-top:10px"><span class="alert-icon">⚠️</span>No usar con estómago lleno — la presión diafragmática empeora el GERD. Siempre en ayunas o 2+ horas después de comer.</div>
+</div>
+
+<!-- ══ NUTRICION ══ -->
+<div id="nutricion" class="panel">
+
+  <div class="alert alert-gold"><span class="alert-icon">📖</span>Come lo que tu bisabuela reconocería. Sin patrón definido → estructura de batch dominical. Sin dieta extrema — solo consistencia.</div>
+
+  <div class="sec-hdr gold">Macros Objetivo</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-val" style="color:var(--teal)">160–180g</div><div class="stat-lbl">Proteína/día</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--gold)">180–220g</div><div class="stat-lbl">Carbos/día</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--blue)">2,000–2,200</div><div class="stat-lbl">Calorías/día</div></div>
+  </div>
+  <div class="alert alert-info"><span class="alert-icon">📊</span>Déficit moderado de 300–400 kcal del mantenimiento estimado. Suficiente para perder grasa sin comprometer recuperación y energía.</div>
+
+  <div class="sec-hdr green">Batch Dominical — 90 min para Dos</div>
+  <div class="alert alert-ok"><span class="alert-icon">👨‍👩‍👦</span>Cocinas con tu esposa — mismos objetivos. Cocinan <strong>componentes, no platos completos</strong>. Cada uno ensambla según su hambre del día.</div>
+  <div class="batch-grid">
+    <div class="batch-card"><div class="batch-icon">🍗</div><div class="batch-name">Pollo al horno</div><div class="batch-qty">4 pechugas</div><div class="batch-use">Almuerzos + cenas lun–mié</div></div>
+    <div class="batch-card"><div class="batch-icon">🐟</div><div class="batch-name">Salmón o tilapia</div><div class="batch-qty">4 filetes</div><div class="batch-use">Cenas jue–vie</div></div>
+    <div class="batch-card"><div class="batch-icon">🍚</div><div class="batch-name">Arroz integral o quinoa</div><div class="batch-qty">4 tazas secas</div><div class="batch-use">Base de bowls toda la semana</div></div>
+    <div class="batch-card"><div class="batch-icon">🥦</div><div class="batch-name">Vegetales asados</div><div class="batch-qty">2 bandejas</div><div class="batch-use">Acompañamiento de todo</div></div>
+    <div class="batch-card"><div class="batch-icon">🥚</div><div class="batch-name">Huevos duros</div><div class="batch-qty">8–10 unidades</div><div class="batch-use">Desayunos + snacks</div></div>
+    <div class="batch-card"><div class="batch-icon">🍲</div><div class="batch-name">Sopa o estofado</div><div class="batch-qty">1 olla grande</div><div class="batch-use">Cenas lun–mié</div></div>
+  </div>
+  <div class="alert alert-info"><span class="alert-icon">📅</span>Sábado noche: preparar overnight oats para lun-mié (10 min). Domingo 10am–12pm: el batch completo.</div>
+
+  <div class="sec-hdr teal">Plan Diario — Felipe</div>
+  <div class="timing-block">
+    <div class="timing-row"><div class="timing-time">5:00am</div><div class="timing-action">Agua tibia con limón</div><div class="timing-note">Antes de todo</div></div>
+    <div class="timing-row"><div class="timing-time">5:25am</div><div class="timing-action">Overnight oats + 2 huevos duros</div><div class="timing-note">Desayuno</div></div>
+    <div class="timing-row"><div class="timing-time">9:30am</div><div class="timing-action">Almendras/nueces + fruta</div><div class="timing-note">Snack</div></div>
+    <div class="timing-row"><div class="timing-time">12:00pm</div><div class="timing-action">Bowl: arroz + pollo + vegetales + aceite oliva</div><div class="timing-note">Almuerzo</div></div>
+    <div class="timing-row"><div class="timing-time">2:30pm</div><div class="timing-action">Yogur griego plain + nueces</div><div class="timing-note">Snack</div></div>
+    <div class="timing-row"><div class="timing-time">6:00–6:30pm</div><div class="timing-action">Sopa + proteína + vegetales</div><div class="timing-note">Terminar a las 7pm</div></div>
+  </div>
+
+  <div class="sec-hdr green">🌙 Overnight Oats — Receta Final</div>
+  <div class="recipe-card">
+    <div class="recipe-title">Overnight Oats Optimizados</div>
+    <div class="recipe-sub">Preparar sábado noche · Rinde para lun, mar, mié · Por persona</div>
+    <div class="ingredient-row"><span class="ing-name">Avena GF rolled oats</span><span class="ing-qty">½ taza</span></div>
+    <div class="ingredient-row"><span class="ing-name">Yogur griego plain</span><span class="ing-qty">½ taza</span></div>
+    <div class="ingredient-row"><span class="ing-name">Leche de almendra sin azúcar</span><span class="ing-qty">¼ taza</span></div>
+    <div class="ingredient-row"><span class="ing-name">Blueberries</span><span class="ing-qty">½ taza</span></div>
+    <div class="ingredient-row"><span class="ing-name">½ banana madura aplastada</span><span class="ing-qty">½ banana</span></div>
+    <div class="ingredient-row"><span class="ing-name">Canela</span><span class="ing-qty">1 cdta generosa</span></div>
+    <div class="ingredient-row"><span class="ing-name">Semillas de chía</span><span class="ing-qty">1 cucharada</span></div>
+  </div>
+  <div class="alert alert-gold"><span class="alert-icon">💡</span>La banana reemplaza el maple syrup — mismo dulzor, sin spike de insulina en ayunas. La canela potencia la percepción de dulzor. Si deseas el maple, reduce a la mitad y agrega más canela.</div>
+
+  <div class="sec-hdr orange">☕ Protocolo del Café</div>
+  <ul class="checklist">
+    <li><span class="dot orange" style="background:var(--orange)"></span><strong>Nunca en ayunas</strong> — siempre 30 min después del desayuno</li>
+    <li><span class="dot orange" style="background:var(--orange)"></span>Máximo 1 taza los días que lo tomas — 2-3 veces por semana</li>
+    <li><span class="dot orange" style="background:var(--orange)"></span>Días de gym — sin café ese día (cortisol ya elevado)</li>
+    <li><span class="dot orange" style="background:var(--orange)"></span>Nunca después de las 12pm</li>
+  </ul>
+
+  <div class="sec-hdr">💧 Hidratación — de 2.5L a 3L</div>
+  <div class="timing-block">
+    <div class="timing-row"><div class="timing-time">5:00am</div><div class="timing-action">1 vaso grande agua tibia con limón</div><div class="timing-note">Ya lo haces ✅</div></div>
+    <div class="timing-row"><div class="timing-time">Cada comida</div><div class="timing-action">1 vaso de agua</div><div class="timing-note">3 vasos más</div></div>
+    <div class="timing-row"><div class="timing-time">Commute</div><div class="timing-action">1 botella en el carro</div><div class="timing-note">De regreso a casa</div></div>
+    <div class="timing-row"><div class="timing-time">Antes dormir</div><div class="timing-action">1 vaso final</div><div class="timing-note">No más de 1</div></div>
+  </div>
+
+  <div class="sec-hdr orange">Fast Food de Emergencia</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th class="left">Lugar</th><th class="left">Pedir</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td class="left">Chipotle</td><td class="left">Bowl, arroz integral, pollo, frijoles negros, salsa mild, guac. Sin crema ni queso.</td></tr>
+      <tr><td>2</td><td class="left">Sweetgreen</td><td class="left">Cualquier bowl, sin aderezo cremoso</td></tr>
+      <tr><td>3</td><td class="left">Panera</td><td class="left">Media ensalada + sopa de lentejas</td></tr>
+      <tr><td>4</td><td class="left">Chick-fil-A</td><td class="left">Grilled nuggets + side salad, light dressing</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alert alert-warn" style="margin-top:10px"><span class="alert-icon">🚫</span>Evitar siempre: McDonald's, Burger King, Wendy's, pizza chains, Chinese takeout, Taco Bell</div>
+</div>
+
+<!-- ══ ENTRENO ══ -->
+<div id="entreno" class="panel">
+
+  <div class="sec-hdr">Estructura Semanal</div>
+  <div class="week-grid">
+    <div class="day-card day-training"><div class="day-name">Dom</div><div class="day-type">Fuerza A</div><div class="day-time">7:00am</div><div class="day-detail">45 min<br>Piernas+Core</div></div>
+    <div class="day-card day-rest"><div class="day-name">Lun</div><div class="day-type">REST</div><div class="day-time">—</div><div class="day-detail">Caminar con tu hijo</div></div>
+    <div class="day-card day-training"><div class="day-name">Mar</div><div class="day-type">Fuerza B</div><div class="day-time">5:00pm</div><div class="day-detail">30 min<br>Pecho+Espalda</div></div>
+    <div class="day-card day-recovery"><div class="day-name">Mié</div><div class="day-type">Recovery</div><div class="day-time">Noche</div><div class="day-detail">Sauna+Cold Plunge</div></div>
+    <div class="day-card day-rest"><div class="day-name">Jue</div><div class="day-type">REST</div><div class="day-time">—</div><div class="day-detail">Completo</div></div>
+    <div class="day-card day-rest"><div class="day-name">Vie</div><div class="day-type">REST</div><div class="day-time">—</div><div class="day-detail">Completo</div></div>
+    <div class="day-card day-rest"><div class="day-name">Sáb</div><div class="day-type">REST</div><div class="day-time">—</div><div class="day-detail">Completo</div></div>
+  </div>
+
+  <div class="sec-hdr">Pre-Entrenamiento — Siempre</div>
+  <ul class="checklist">
+    <li><span class="dot"></span><strong>Cetirizina 10mg — 60 min antes</strong> — no negociable</li>
+    <li><span class="dot"></span>Warm-up gradual 8–10 minutos</li>
+    <li><span class="dot"></span>Cool-down 5 minutos obligatorio</li>
+    <li><span class="dot"></span>Ducha tibia después — no caliente</li>
+    <li><span class="dot"></span>Si aparecen ronchas — parar inmediatamente</li>
+  </ul>
+
+  <div class="sec-hdr" style="border-left-color:var(--blue)">💪 Fuerza A — Domingo 7:00am · 45 min</div>
+  <div class="ex-card"><div class="ex-title">1. Goblet Squat (Kettlebell)</div><div class="ex-note">Reactivación gradual. Empezabas 30 lbs en marzo.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>30 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 3–4</td><td>35 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 5–6</td><td>40 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 7–8</td><td>45 lbs</td><td>3×10</td><td>60 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">2. Barbell Romanian Deadlift</div><div class="ex-note">Barra olímpica 45 lbs. Barra pegada al cuerpo, caderas atrás, espalda neutra.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>45 lbs (barra)</td><td>3×10</td><td>75 seg</td></tr><tr><td>Sem 3–4</td><td>65 lbs</td><td>3×10</td><td>75 seg</td></tr><tr><td>Sem 5–6</td><td>75 lbs</td><td>3×10</td><td>75 seg</td></tr><tr><td>Sem 7–8</td><td>85 lbs</td><td>3×8</td><td>75 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">3. Leg Press</div><div class="ex-note">Movimiento compuesto. Controla la bajada.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>90 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 3–4</td><td>110 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 5–6</td><td>130 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 7–8</td><td>150 lbs</td><td>3×10</td><td>60 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">4. Cable Kneeling Crunch (Rope)</div><div class="ex-note">No uses el cuello — contrae el abdomen.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>30 lbs</td><td>3×15</td><td>45 seg</td></tr><tr><td>Sem 3–4</td><td>35 lbs</td><td>3×15</td><td>45 seg</td></tr><tr><td>Sem 5–6</td><td>40 lbs</td><td>3×15</td><td>45 seg</td></tr><tr><td>Sem 7–8</td><td>45 lbs</td><td>3×12</td><td>45 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">5. Plank</div><div class="ex-note">Cuerpo recto — glúteos apretados, no arquees la espalda.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>—</td><td>3×20 seg</td><td>45 seg</td></tr><tr><td>Sem 3–4</td><td>—</td><td>3×30 seg</td><td>45 seg</td></tr><tr><td>Sem 5–6</td><td>—</td><td>3×40 seg</td><td>45 seg</td></tr><tr><td>Sem 7–8</td><td>—</td><td>3×45 seg</td><td>45 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">6. Escaladora — Cardio Final</div><div class="ex-note">Ritmo moderado. Nasal breathing siempre.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Nivel</th><th>Duración</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>5</td><td>8 min</td></tr><tr><td>Sem 3–4</td><td>6</td><td>10 min</td></tr><tr><td>Sem 5–6</td><td>6</td><td>12 min</td></tr><tr><td>Sem 7–8</td><td>7</td><td>12 min</td></tr></tbody></table></div></div>
+
+  <div class="sec-hdr" style="border-left-color:var(--green)">💪 Fuerza B — Martes 5:00pm · 30 min</div>
+  <div class="ex-card"><div class="ex-title">1. Dumbbell Bench Press</div><div class="ex-note">Peso por mano. Baja controlado, sube explosivo.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso c/m</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>25 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 3–4</td><td>30 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 5–6</td><td>35 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 7–8</td><td>40 lbs</td><td>3×8</td><td>60 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">2. Cable Row (Seated)</div><div class="ex-note">Pecho afuera, espalda recta.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>40 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 3–4</td><td>50 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 5–6</td><td>55 lbs</td><td>3×12</td><td>60 seg</td></tr><tr><td>Sem 7–8</td><td>60 lbs</td><td>3×10</td><td>60 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">3. Dumbbell Row (Un brazo)</div><div class="ex-note">Rodilla en banco. Jala el codo hacia el techo.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso c/m</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>25 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 3–4</td><td>30 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 5–6</td><td>35 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 7–8</td><td>40 lbs</td><td>3×10</td><td>60 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">4. Dumbbell Shoulder Press (Estándar)</div><div class="ex-note">Sentado a 90°. No bloquees codos — tensión constante.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Peso c/m</th><th>Series×Reps</th><th>Descanso</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>20 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 3–4</td><td>25 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 5–6</td><td>27.5 lbs</td><td>3×10</td><td>60 seg</td></tr><tr><td>Sem 7–8</td><td>30 lbs</td><td>3×8</td><td>60 seg</td></tr></tbody></table></div></div>
+  <div class="ex-card"><div class="ex-title">5. Escaladora — Cardio Final</div><div class="ex-note">Ritmo moderado. Nasal breathing. Termina con cool-down.</div><div class="tbl-wrap"><table><thead><tr><th>Período</th><th>Nivel</th><th>Duración</th></tr></thead><tbody><tr><td>Sem 1–2</td><td>5</td><td>5 min</td></tr><tr><td>Sem 3–4</td><td>5</td><td>6 min</td></tr><tr><td>Sem 5–6</td><td>6</td><td>7 min</td></tr><tr><td>Sem 7–8</td><td>6</td><td>8 min</td></tr></tbody></table></div></div>
+
+  <div class="sec-hdr" style="border-left-color:var(--purple)">🧊 Recovery — Miércoles Noche</div>
+  <div class="combo-box">
+    <div style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px">Secuencia</div>
+    <div class="combo-steps">
+      <div class="combo-step">🔥 Sauna IR<br><small style="color:var(--muted)">15–30 min</small></div>
+      <div class="combo-arrow">→</div>
+      <div class="combo-step">⏸️ Descanso<br><small style="color:var(--muted)">10 min</small></div>
+      <div class="combo-arrow">→</div>
+      <div class="combo-step">🧊 Cold Plunge<br><small style="color:var(--muted)">2–8 min</small></div>
+    </div>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Período</th><th>Sauna</th><th>Cold Plunge</th></tr></thead>
+    <tbody>
+      <tr><td>Sem 1–2</td><td>15 min</td><td>2–3 min · 50–59°F</td></tr>
+      <tr><td>Sem 3–4</td><td>20 min</td><td>3–4 min</td></tr>
+      <tr><td>Mes 2+</td><td>25–30 min</td><td>5–8 min</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="sec-hdr gold">Semana 9 — Deload Obligatorio</div>
+  <div class="alert alert-ok"><span class="alert-icon">✅</span>70% del peso máximo alcanzado · Solo 2 series por ejercicio · El cuerpo consolida las ganancias aquí — no es perder tiempo.</div>
+
+  <div class="sec-hdr">¿Cuándo Agregar un Tercer Día?</div>
+  <div class="crit-grid">
+    <div class="crit-card"><div class="crit-num">01</div><div class="crit-label">Body Battery 60+</div><div class="crit-desc">Por 3 semanas consecutivas</div><div class="crit-time">Mínimo: Sem 10+</div></div>
+    <div class="crit-card"><div class="crit-num">02</div><div class="crit-label">Sin Urticaria</div><div class="crit-desc">Cero episodios en el plan actual</div><div class="crit-time">Mínimo: Sem 9+</div></div>
+    <div class="crit-card"><div class="crit-num">03</div><div class="crit-label">Deload Completado</div><div class="crit-desc">Semana 9 finalizada</div><div class="crit-time">Sem 9</div></div>
+    <div class="crit-card"><div class="crit-num">04</div><div class="crit-label">Sueño Mejorado</div><div class="crit-desc">Garmin sleep score 70+</div><div class="crit-time">Variable</div></div>
+  </div>
+
+  <div class="gold-rule">Regla de oro: Si descansas 2+ semanas → regresa al 70% del peso previo. La progresión lenta mantiene la urticaria dormida.</div>
+</div>
+
+<footer>
+  Guía diseñada por Dr. Mateo Rivera &nbsp;·&nbsp; Mayo 2026 &nbsp;·&nbsp; v3.0<br>
+  Revisión a los 90 días — Agosto 2026
+</footer>
+
+<script>
+// ── ALARM ─────────────────────────────────────────────────────
+function playAlarm() {
+  try {
+    let ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.35, 0.7].forEach(offset => {
+      let o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880; o.type = 'sine';
+      g.gain.setValueAtTime(0.6, ctx.currentTime + offset);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + offset + 0.28);
+      o.start(ctx.currentTime + offset);
+      o.stop(ctx.currentTime + offset + 0.3);
+    });
+  } catch(e) {}
+}
+
+// ── TIMER ─────────────────────────────────────────────────────
+let timerTotal = 5*60, timerLeft = 5*60, timerRunning = false, timerInterval = null;
+
+function fmtTimer(s) { return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+
+function updateTimerDisplay() {
+  let d = document.getElementById('timerDisplay');
+  let p = document.getElementById('timerProgress');
+  d.textContent = fmtTimer(timerLeft);
+  p.style.width = (timerTotal > 0 ? (timerLeft/timerTotal)*100 : 100)+'%';
+  if (timerRunning) { d.className='tool-display running'; p.style.background='var(--green)'; }
+  else if (timerLeft===0) { d.className='tool-display finished'; p.style.background='var(--accent)'; }
+  else { d.className='tool-display'; p.style.background='var(--teal)'; }
+}
+
+function adjustTimer(delta) {
+  if (timerRunning) return;
+  timerTotal = Math.max(30, timerTotal + delta*30);
+  timerLeft = timerTotal;
+  let m = Math.floor(timerTotal/60), s = timerTotal%60;
+  document.getElementById('timerHint').textContent = m>0?(m+' min'+(s>0?' '+s+' seg':'')):s+' seg';
+  updateTimerDisplay();
+}
+
+function timerToggle() {
+  let btn = document.getElementById('timerStartBtn');
+  if (!timerRunning) {
+    if (timerLeft===0) timerLeft = timerTotal;
+    timerRunning = true; btn.textContent='⏸ Pausar'; btn.classList.add('pause');
+    timerInterval = setInterval(() => {
+      timerLeft--;
+      updateTimerDisplay();
+      if (timerLeft<=0) {
+        clearInterval(timerInterval); timerRunning=false;
+        btn.textContent='▶ Iniciar'; btn.classList.remove('pause');
+        if (navigator.vibrate) navigator.vibrate([400,200,400,200,400]);
+        playAlarm();
+      }
+    }, 1000);
+  } else {
+    clearInterval(timerInterval); timerRunning=false;
+    btn.textContent='▶ Reanudar'; btn.classList.remove('pause');
+  }
+  updateTimerDisplay();
+}
+
+function timerReset() {
+  clearInterval(timerInterval); timerRunning=false; timerLeft=timerTotal;
+  let btn=document.getElementById('timerStartBtn'); btn.textContent='▶ Iniciar'; btn.classList.remove('pause');
+  updateTimerDisplay();
+}
+
+// ── STOPWATCH ─────────────────────────────────────────────────
+let swTime=0, swRunning=false, swInterval=null, swLapCount=0, swLapStart=0, swLapTimes=[];
+
+function fmtSW(t) {
+  let tenth=t%10, secs=Math.floor(t/10)%60, mins=Math.floor(t/600);
+  return String(mins).padStart(2,'0')+':'+String(secs).padStart(2,'0')+'.'+tenth;
+}
+
+function updateSwAvg() {
+  let el = document.getElementById('swAvg');
+  if (!el || swLapTimes.length===0) { if(el) el.textContent=''; return; }
+  let avg = swLapTimes.reduce((a,b)=>a+b,0)/swLapTimes.length;
+  el.textContent = 'Promedio: '+fmtSW(Math.round(avg))+' / rep';
+}
+
+function updateSWDisplay() {
+  let d=document.getElementById('swDisplay');
+  d.textContent=fmtSW(swTime);
+  d.className='tool-display sw-display'+(swRunning?' running':'');
+}
+
+function swToggle() {
+  let btn=document.getElementById('swStartBtn');
+  if (!swRunning) {
+    swRunning=true; btn.textContent='⏸ Pausar'; btn.classList.add('pause');
+    swInterval=setInterval(()=>{ swTime++; updateSWDisplay(); },100);
+  } else {
+    clearInterval(swInterval); swRunning=false; btn.textContent='▶ Reanudar'; btn.classList.remove('pause');
+    swLapCount++;
+    let lapTime=swTime-swLapStart; swLapStart=swTime; swLapTimes.push(lapTime);
+    let laps=document.getElementById('swLaps');
+    let ph=document.getElementById('swLapsPlaceholder'); if(ph) ph.style.display='none';
+    let row=document.createElement('div'); row.className='lap-row';
+    row.innerHTML='<span>Rep '+swLapCount+'</span><span>'+fmtSW(lapTime)+'</span>';
+    laps.appendChild(row);
+    updateSwAvg();
+  }
+  updateSWDisplay();
+}
+
+function swReset() {
+  clearInterval(swInterval); swRunning=false; swTime=0; swLapCount=0; swLapStart=0; swLapTimes=[];
+  let btn=document.getElementById('swStartBtn'); btn.textContent='▶ Iniciar'; btn.classList.remove('pause');
+  document.getElementById('swLaps').innerHTML='<div id="swLapsPlaceholder" style="font-size:0.76rem;color:var(--muted);text-align:center;padding:8px 0;font-style:italic;">Los laps aparecen aquí al pausar</div>';
+  let avgEl=document.getElementById('swAvg'); if(avgEl) avgEl.textContent='';
+  updateSWDisplay();
+}
+
+// ── COUNTER ───────────────────────────────────────────────────
+const COUNTER_TARGET=30; let counterVal=0, counterHistory=[];
+
+function updateCounter() {
+  let d=document.getElementById('counterDisplay'), p=document.getElementById('counterProgress');
+  d.textContent=counterVal;
+  let pct=Math.min(100,(counterVal/COUNTER_TARGET)*100); p.style.width=pct+'%';
+  if (counterVal>=COUNTER_TARGET) { d.className='counter-display done'; p.style.background='var(--gold)'; if(counterVal===COUNTER_TARGET&&navigator.vibrate) navigator.vibrate([200,100,200]); }
+  else { d.className='counter-display'; p.style.background='var(--blue)'; }
+}
+
+function counterTap() {
+  counterHistory.push(counterVal); counterVal++;
+  let d=document.getElementById('counterDisplay'); d.classList.add('bump');
+  setTimeout(()=>d.classList.remove('bump'),120);
+  updateCounter();
+}
+
+function counterUndo() { if(counterHistory.length===0) return; counterVal=counterHistory.pop(); updateCounter(); }
+function counterReset() { counterVal=0; counterHistory=[]; updateCounter(); }
+
+// ── TAB NAV ───────────────────────────────────────────────────
+function showTab(id, el) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  updateTimerDisplay(); updateSWDisplay(); updateCounter();
+  if (window.location.hash==='#respiracion') {
+    const tabEl=document.getElementById('tabRespiracion');
+    if (tabEl) showTab('respiracion', tabEl);
+  }
+});
+</script>
+</body>
+</html>
