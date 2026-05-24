@@ -337,7 +337,7 @@
   <div class="tab" onclick="showTab('suplementos',this)">💊 Suplementos</div>
   <div class="tab" onclick="showTab('gerd',this)">🔥 GERD</div>
   <div class="tab" onclick="showTab('pulmones',this)">🫁 Pulmones</div>
-  <div class="tab" onclick="showTab('dispositivos',this)">🌬️ Respiración</div>
+  <div class="tab" onclick="showTab('dispositivos',this)" id="tabRespiracion">🌬️ Respiración</div>
   <div class="tab" onclick="showTab('nutricion',this)">🥗 Nutrición</div>
   <div class="tab" onclick="showTab('urticaria',this)">🔴 Urticaria</div>
   <div class="tab" onclick="showTab('recovery',this)">🧊 Recovery</div>
@@ -640,6 +640,55 @@
 
   </div>
 
+  <!-- TRACKER BUTTON -->
+  <a href="tracker.html" class="tracker-link-btn">
+    <span class="tracker-link-icon">📊</span>
+    <div class="tracker-link-text">
+      <div class="tracker-link-title">Abrir Tracker Respiratorio</div>
+      <div class="tracker-link-sub">Registra tus sesiones de O2Trainer y Voldyne</div>
+    </div>
+    <span class="tracker-link-arrow">→</span>
+  </a>
+
+  <style>
+    .tracker-link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(69,184,172,0.12), rgba(74,158,202,0.08));
+      border: 1px solid rgba(69,184,172,0.35);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .tracker-link-btn:hover {
+      background: linear-gradient(135deg, rgba(69,184,172,0.2), rgba(74,158,202,0.14));
+      border-color: rgba(69,184,172,0.6);
+      transform: translateY(-1px);
+    }
+    .tracker-link-btn:active { transform: scale(0.98); }
+    .tracker-link-icon { font-size: 2rem; flex-shrink: 0; }
+    .tracker-link-text { flex: 1; }
+    .tracker-link-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .tracker-link-sub { font-size: 0.8rem; color: var(--muted); }
+    .tracker-link-arrow {
+      font-size: 1.3rem;
+      color: var(--teal);
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+  </style>
+
   <style>
     .tool-card {
       background: var(--card);
@@ -794,6 +843,25 @@
   </style>
 
   <script>
+    // ── ALARM ──────────────────────────────────────
+    function playAlarm() {
+      try {
+        let ctx = new (window.AudioContext || window.webkitAudioContext)();
+        let beeps = [0, 0.35, 0.7];
+        beeps.forEach(offset => {
+          let o = ctx.createOscillator();
+          let g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.frequency.value = 880;
+          o.type = 'sine';
+          g.gain.setValueAtTime(0.6, ctx.currentTime + offset);
+          g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + offset + 0.28);
+          o.start(ctx.currentTime + offset);
+          o.stop(ctx.currentTime + offset + 0.3);
+        });
+      } catch(e) {}
+    }
+
     // ── TIMER ──────────────────────────────────────
     let timerTotal = 5 * 60;
     let timerLeft  = timerTotal;
@@ -850,7 +918,8 @@
             timerRunning = false;
             btn.textContent = '▶ Iniciar';
             btn.classList.remove('pause');
-            if (navigator.vibrate) navigator.vibrate([400, 200, 400]);
+            if (navigator.vibrate) navigator.vibrate([400, 200, 400, 200, 400]);
+            playAlarm();
           }
         }, 1000);
       } else {
@@ -1362,6 +1431,14 @@
 </footer>
 
 <script>
+// Auto-activate tab from URL hash
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === '#respiracion') {
+    const tabEl = document.getElementById('tabRespiracion');
+    if (tabEl) showTab('dispositivos', tabEl);
+  }
+});
+
 function showTab(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
