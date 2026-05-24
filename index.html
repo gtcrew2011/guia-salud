@@ -617,6 +617,7 @@
       <div class="tool-label">CRONÓMETRO</div>
       <div class="tool-display sw-display" id="swDisplay">00:00.0</div>
       <div class="tool-hint">Pausa = registra lap</div>
+      <div id="swAvg" style="font-family:'Oswald',sans-serif;font-size:0.82rem;color:var(--blue);letter-spacing:1px;margin-top:2px;min-height:18px;"></div>
       <div class="tool-btn-row">
         <button class="tool-btn btn-start" id="swStartBtn" onclick="swToggle()">▶ Iniciar</button>
         <button class="tool-btn btn-reset" onclick="swReset()">↺</button>
@@ -951,6 +952,14 @@
     let swInterval = null;
     let swLapCount = 0;
     let swLapStart = 0;
+    let swLapTimes = [];
+
+    function updateSwAvg() {
+      const el = document.getElementById('swAvg');
+      if (!el || swLapTimes.length === 0) { if(el) el.textContent = ''; return; }
+      const avg = swLapTimes.reduce((a,b) => a+b, 0) / swLapTimes.length;
+      el.textContent = 'Promedio: ' + fmtSW(Math.round(avg)) + ' / rep';
+    }
 
     function fmtSW(ticks) {
       let tenth = ticks % 10;
@@ -990,6 +999,8 @@
         row.className = 'lap-row';
         row.innerHTML = '<span>Rep ' + swLapCount + '</span><span>' + fmtSW(lapTime) + '</span>';
         laps.appendChild(row);
+        swLapTimes.push(lapTime);
+        updateSwAvg();
       }
       updateSWDisplay();
     }
@@ -997,7 +1008,8 @@
     function swReset() {
       clearInterval(swInterval);
       swRunning = false;
-      swTime = 0; swLapCount = 0; swLapStart = 0;
+      swTime = 0; swLapCount = 0; swLapStart = 0; swLapTimes = [];
+      const avgEl = document.getElementById('swAvg'); if(avgEl) avgEl.textContent = '';
       let btn = document.getElementById('swStartBtn');
       btn.textContent = '▶ Iniciar';
       btn.classList.remove('pause');
