@@ -613,7 +613,7 @@
   <div class="sec-hdr blue">⏱️ Cronómetro &amp; Contador de Reps</div>
   <div class="sw-counter-row">
 
-    <div class="tool-card" style="flex:1;min-width:0">
+    <div class="tool-card" style="flex:1;min-width:0;display:flex;flex-direction:column;">
       <div class="tool-label">CRONÓMETRO</div>
       <div class="tool-display sw-display" id="swDisplay">00:00.0</div>
       <div class="tool-hint">Pausa = registra lap</div>
@@ -621,7 +621,11 @@
         <button class="tool-btn btn-start" id="swStartBtn" onclick="swToggle()">▶ Iniciar</button>
         <button class="tool-btn btn-reset" onclick="swReset()">↺</button>
       </div>
-      <div id="swLaps" style="margin-top:10px"></div>
+      <div id="swLaps" style="margin-top:auto;padding-top:10px">
+        <div id="swLapsPlaceholder" style="font-size:0.76rem;color:var(--muted);text-align:center;padding:8px 0;font-style:italic;">
+          Los laps aparecen aquí al pausar
+        </div>
+      </div>
     </div>
 
     <div class="tool-card counter-card">
@@ -791,7 +795,7 @@
     .sw-counter-row {
       display: flex;
       gap: 10px;
-      align-items: flex-start;
+      align-items: stretch;
     }
     @media (max-width: 480px) {
       .sw-counter-row { flex-direction: column; }
@@ -980,6 +984,8 @@
         let lapTime = swTime - swLapStart;
         swLapStart = swTime;
         let laps = document.getElementById('swLaps');
+        let ph = document.getElementById('swLapsPlaceholder');
+        if (ph) ph.style.display = 'none';
         let row = document.createElement('div');
         row.className = 'lap-row';
         row.innerHTML = '<span>Rep ' + swLapCount + '</span><span>' + fmtSW(lapTime) + '</span>';
@@ -995,7 +1001,7 @@
       let btn = document.getElementById('swStartBtn');
       btn.textContent = '▶ Iniciar';
       btn.classList.remove('pause');
-      document.getElementById('swLaps').innerHTML = '';
+      document.getElementById('swLaps').innerHTML = '<div id="swLapsPlaceholder" style="font-size:0.76rem;color:var(--muted);text-align:center;padding:8px 0;font-style:italic;">Los laps aparecen aquí al pausar</div>';
       updateSWDisplay();
     }
 
