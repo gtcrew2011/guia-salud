@@ -200,8 +200,9 @@
   .tracker-link-arrow { font-size: 1.2rem; color: var(--teal); flex-shrink: 0; opacity: 0.7; }
 
   /* TOOLS */
-  .tools-row { display: flex; gap: 9px; align-items: flex-start; }
-  @media (max-width: 480px) { .tools-row { flex-direction: column; } }
+  .tools-row { display: flex; gap: 9px; align-items: stretch; flex-wrap: nowrap; }
+  .tools-row .tool-card { min-width: 0; }
+  .counter-card { display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 13px; padding: 18px 16px 16px; margin-bottom: 13px; text-align: center; }
   .tool-label { font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); margin-bottom: 9px; text-transform: uppercase; }
   .tool-display { font-family: 'Oswald', sans-serif; font-size: clamp(2.6rem,11vw,3.8rem); font-weight: 700; color: var(--teal); letter-spacing: 2px; line-height: 1; margin: 5px 0; font-variant-numeric: tabular-nums; transition: color 0.3s; }
