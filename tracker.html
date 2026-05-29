@@ -565,10 +565,17 @@ async function loadProgress() {
   document.getElementById('progressContent').style.display = 'none';
 
   const raw = await fbGet('sessions');
-  const sessions = raw ? Object.values(raw) : [];
+  // Sort once by ts ascending (oldest first) — single source of truth for all charts
+  const sessions = raw
+    ? Object.values(raw).sort((a,b) => {
+        // primary: timestamp; fallback: date string comparison
+        if (a.ts && b.ts) return a.ts - b.ts;
+        return (a.date||'').localeCompare(b.date||'');
+      })
+    : [];
 
-  const o2 = sessions.filter(s => s.type === 'o2trainer').sort((a,b) => a.date.localeCompare(b.date) || (a.ts||0)-(b.ts||0));
-  const vd = sessions.filter(s => s.type === 'voldyne').sort((a,b) => a.date.localeCompare(b.date) || (a.ts||0)-(b.ts||0));
+  const o2 = sessions.filter(s => s.type === 'o2trainer');
+  const vd = sessions.filter(s => s.type === 'voldyne');
 
   // ── STREAK
   const allDates = [...new Set(sessions.map(s => s.date))].sort();
@@ -708,9 +715,8 @@ function drawChart(canvasId, labels, values, color, unit, yLabel) {
 }
 
 function drawO2Chart(sessions) {
-  // ensure ascending by date + ts so oldest is leftmost
-  const sorted = [...sessions].sort((a,b) => a.date.localeCompare(b.date) || (a.ts||0)-(b.ts||0));
-  const last20 = sorted.slice(-20);
+  // sessions already sorted ascending by ts at load time
+  const last20 = sessions.slice(-20);
   const labels = last20.map(s => s.date);
   const values = last20.map(s => +(s.totalSecs/60).toFixed(2));
   drawChart('o2Chart', labels, values, '#45b8ac', ' min', 'Minutos');
@@ -722,7 +728,8 @@ function drawVChart(sessions) {
   sessions.forEach(s => {
     if (!byDay[s.date] || s.volume > byDay[s.date]) byDay[s.date] = s.volume;
   });
-  const dates  = Object.keys(byDay).sort((a,b) => a.localeCompare(b)).slice(-20);
+  // byDay built from sessions already sorted ascending — keys reflect insertion order
+  const dates = Object.keys(byDay).slice(-20);
   const values = dates.map(d => byDay[d]);
   drawChart('vChart', dates, values, '#4a9eca', ' ml', 'ml');
 }
