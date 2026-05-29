@@ -6,25 +6,22 @@
 <title>Tracker Respiratorio — Felipe Gil</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;700&display=swap');
-
   :root {
-    --bg:      #161f2c;
+    --bg: #161f2c;
     --surface: #1e2a3a;
-    --card:    #243245;
-    --border:  #2e4060;
-    --accent:  #e05252;
-    --blue:    #4a9eca;
-    --green:   #4caf7d;
-    --gold:    #e8b84b;
-    --teal:    #45b8ac;
-    --text:    #dde6f0;
-    --muted:   #8ba0b8;
-    --soft:    #b8c8dc;
+    --card: #243245;
+    --border: #2e4060;
+    --accent: #e05252;
+    --blue: #4a9eca;
+    --green: #4caf7d;
+    --gold: #e8b84b;
+    --teal: #45b8ac;
+    --text: #dde6f0;
+    --muted: #8ba0b8;
+    --soft: #b8c8dc;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
-
   /* ── HEADER ── */
   header {
     background: linear-gradient(160deg, #1a2840 0%, #0f1924 100%);
@@ -36,29 +33,24 @@
   header p { color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
   .header-badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
   .hbadge { font-size: 0.68rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-  .hb-teal   { background: rgba(69,184,172,0.15); border: 1px solid rgba(69,184,172,0.35); color: #90ddd5; }
-  .hb-blue   { background: rgba(74,158,202,0.15); border: 1px solid rgba(74,158,202,0.35); color: #a8d4f0; }
-
+  .hb-teal { background: rgba(69,184,172,0.15); border: 1px solid rgba(69,184,172,0.35); color: #90ddd5; }
+  .hb-blue { background: rgba(74,158,202,0.15); border: 1px solid rgba(74,158,202,0.35); color: #a8d4f0; }
   /* ── TABS ── */
   .tab-bar { display: flex; background: #111922; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
   .tab { flex: 1; padding: 13px 8px; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-align: center; transition: all 0.18s; user-select: none; }
   .tab:hover { color: var(--soft); }
   .tab.active { color: #fff; border-bottom-color: var(--accent); }
-
   /* ── PANELS ── */
   .panel { display: none; padding: 18px 14px 48px; max-width: 680px; margin: 0 auto; }
   .panel.active { display: block; }
-
   /* ── SECTION HDR ── */
   .sec-hdr { border-left: 3px solid var(--accent); padding: 8px 12px; font-family: 'Oswald', sans-serif; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); margin: 20px 0 12px; background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; }
-  .sec-hdr.teal   { border-left-color: var(--teal); }
-  .sec-hdr.blue   { border-left-color: var(--blue); }
-  .sec-hdr.green  { border-left-color: var(--green); }
-  .sec-hdr.gold   { border-left-color: var(--gold); }
-
+  .sec-hdr.teal { border-left-color: var(--teal); }
+  .sec-hdr.blue { border-left-color: var(--blue); }
+  .sec-hdr.green { border-left-color: var(--green); }
+  .sec-hdr.gold { border-left-color: var(--gold); }
   /* ── CARDS ── */
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-
   /* ── FORM ── */
   .form-group { margin-bottom: 14px; }
   label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
@@ -78,11 +70,9 @@
   input:focus, select:focus, textarea:focus { border-color: var(--teal); }
   select option { background: var(--surface); }
   textarea { resize: vertical; min-height: 70px; }
-
   /* ── TWO COL ── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 420px) { .two-col { grid-template-columns: 1fr; } }
-
   /* ── BUTTONS ── */
   .btn {
     font-family: 'Oswald', sans-serif;
@@ -106,29 +96,24 @@
   .btn-ghost:hover { background: var(--border); }
   .btn-danger { background: rgba(224,82,82,0.15); border: 1px solid rgba(224,82,82,0.3); color: #f0a8a8; font-size: 0.75rem; padding: 5px 12px; }
   .btn-danger:hover { background: rgba(224,82,82,0.25); }
-
   /* ── ALERTS ── */
   .alert { border-radius: 8px; padding: 11px 14px; font-size: 0.86rem; margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
-  .alert-ok     { background: rgba(76,175,125,0.1);  border: 1px solid rgba(76,175,125,0.3);  color: #90d4b0; }
-  .alert-warn   { background: rgba(232,184,75,0.1);  border: 1px solid rgba(232,184,75,0.3);  color: #f5d98a; }
-  .alert-info   { background: rgba(74,158,202,0.1);  border: 1px solid rgba(74,158,202,0.3);  color: #a8d4f0; }
-  .alert-error  { background: rgba(224,82,82,0.1);   border: 1px solid rgba(224,82,82,0.3);   color: #f0a8a8; }
-  .alert-icon   { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
-
+  .alert-ok { background: rgba(76,175,125,0.1); border: 1px solid rgba(76,175,125,0.3); color: #90d4b0; }
+  .alert-warn { background: rgba(232,184,75,0.1); border: 1px solid rgba(232,184,75,0.3); color: #f5d98a; }
+  .alert-info { background: rgba(74,158,202,0.1); border: 1px solid rgba(74,158,202,0.3); color: #a8d4f0; }
+  .alert-error { background: rgba(224,82,82,0.1); border: 1px solid rgba(224,82,82,0.3); color: #f0a8a8; }
+  .alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
   /* ── STATUS MSG ── */
   #statusMsg, #vStatusMsg { min-height: 36px; }
-
   /* ── STATS GRID ── */
   .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
   @media (max-width: 400px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
   .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 13px 10px; text-align: center; }
   .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
   .stat-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-
   /* ── PROGRESS BAR ── */
   .prog-wrap { background: rgba(255,255,255,0.06); border-radius: 8px; height: 8px; overflow: hidden; margin: 6px 0 2px; }
-  .prog-bar  { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
-
+  .prog-bar { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
   /* ── LOG LIST ── */
   .log-list { display: flex; flex-direction: column; gap: 8px; }
   .log-item {
@@ -145,42 +130,34 @@
   .log-date { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); margin-bottom: 3px; }
   .log-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
   .log-tag { font-size: 0.75rem; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
-  .log-tag.teal   { background: rgba(69,184,172,0.15); color: #90ddd5; border: 1px solid rgba(69,184,172,0.25); }
-  .log-tag.blue   { background: rgba(74,158,202,0.15); color: #a8d4f0; border: 1px solid rgba(74,158,202,0.25); }
-  .log-tag.gold   { background: rgba(232,184,75,0.12); color: #f5d98a; border: 1px solid rgba(232,184,75,0.25); }
-  .log-tag.green  { background: rgba(76,175,125,0.15); color: #90d4b0; border: 1px solid rgba(76,175,125,0.25); }
+  .log-tag.teal { background: rgba(69,184,172,0.15); color: #90ddd5; border: 1px solid rgba(69,184,172,0.25); }
+  .log-tag.blue { background: rgba(74,158,202,0.15); color: #a8d4f0; border: 1px solid rgba(74,158,202,0.25); }
+  .log-tag.gold { background: rgba(232,184,75,0.12); color: #f5d98a; border: 1px solid rgba(232,184,75,0.25); }
+  .log-tag.green { background: rgba(76,175,125,0.15); color: #90d4b0; border: 1px solid rgba(76,175,125,0.25); }
   .log-note { font-size: 0.8rem; color: var(--muted); margin-top: 5px; font-style: italic; }
   .log-del { flex-shrink: 0; }
-
   /* ── CHART ── */
   .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; overflow-x: auto; }
   .chart-title { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
   canvas { display: block; max-width: 100%; }
-
   /* ── EMPTY STATE ── */
   .empty { text-align: center; padding: 36px 20px; color: var(--muted); }
   .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
   .empty p { font-size: 0.88rem; }
-
   /* ── LOADING ── */
   .loading { text-align: center; padding: 28px; color: var(--muted); font-size: 0.88rem; }
-
   /* ── STREAK ── */
   .streak-box { background: linear-gradient(135deg, rgba(69,184,172,0.1), rgba(74,158,202,0.08)); border: 1px solid rgba(69,184,172,0.25); border-radius: 10px; padding: 14px; text-align: center; margin-bottom: 14px; }
   .streak-num { font-family: 'Oswald', sans-serif; font-size: 2.8rem; font-weight: 700; color: var(--teal); line-height: 1; }
   .streak-lbl { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-
   /* ── FILTER BAR ── */
   .filter-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
   .filter-btn { font-size: 0.75rem; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .filter-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
-
   /* ── SPINNER ── */
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
-
   footer { text-align: center; padding: 18px; color: var(--muted); font-size: 0.73rem; border-top: 1px solid var(--border); margin-top: 20px; }
-
   /* ── BACK BUTTON ── */
   .back-btn {
     display: inline-flex;
@@ -201,11 +178,9 @@
   }
   .back-btn:hover { background: rgba(69,184,172,0.2); border-color: rgba(69,184,172,0.55); }
   .back-btn:active { transform: scale(0.96); }
-
 </style>
 </head>
 <body>
-
 <header>
   <h1>Tracker Respiratorio</h1>
   <p>Felipe Gil &nbsp;·&nbsp; Seguimiento de progreso pulmonar</p>
@@ -226,7 +201,6 @@
 
 <!-- ══ REGISTRAR ══ -->
 <div id="registrar" class="panel active">
-
   <!-- O2TRAINER -->
   <div class="sec-hdr teal">💪 O2Trainer</div>
   <div class="card">
@@ -276,54 +250,12 @@
       💾 Guardar sesión O2Trainer
     </button>
   </div>
-
-  <!-- VOLDYNE -->
-  <div class="sec-hdr blue">🌬️ Voldyne 4000</div>
-  <div class="card">
-    <div class="two-col">
-      <div class="form-group">
-        <label>Fecha</label>
-        <input type="date" id="vDate">
-      </div>
-      <div class="form-group">
-        <label>Sesión</label>
-        <select id="vSession">
-          <option value="mañana">Mañana</option>
-          <option value="noche">Noche</option>
-        </select>
-      </div>
-    </div>
-    <div class="two-col">
-      <div class="form-group">
-        <label>Volumen máximo (ml)</label>
-        <input type="number" id="vVolume" min="100" max="4000" step="50" placeholder="1250">
-      </div>
-      <div class="form-group">
-        <label>Tiempo sostenido (seg)</label>
-        <input type="number" id="vSecs" min="1" max="60" placeholder="9">
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Reps completadas</label>
-      <input type="number" id="vReps" min="1" max="30" placeholder="10" value="10">
-    </div>
-    <div class="form-group">
-      <label>Notas (opcional)</label>
-      <textarea id="vNotes" placeholder="¿Mejora? ¿Más fácil sostener?"></textarea>
-    </div>
-    <div id="vStatusMsg"></div>
-    <button class="btn btn-primary" id="vSaveBtn" onclick="saveVoldyne()">
-      💾 Guardar sesión Voldyne
-    </button>
-  </div>
 </div>
 
 <!-- ══ PROGRESO ══ -->
 <div id="progreso" class="panel">
-
   <div id="progressLoading" class="loading"><span class="spinner"></span>Cargando datos...</div>
   <div id="progressContent" style="display:none">
-
     <!-- STREAK -->
     <div id="streakBox" class="streak-box">
       <div class="streak-num" id="streakNum">—</div>
@@ -348,33 +280,7 @@
     <!-- O2 CHART -->
     <div class="chart-wrap">
       <div class="chart-title">Tiempo por sesión (min) — O2Trainer</div>
-      <canvas id="o2Chart" height="140"></canvas>
-    </div>
-
-    <!-- VOLDYNE STATS -->
-    <div class="sec-hdr blue">Voldyne 4000 — Resumen</div>
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-val" id="vTotalSessions" style="color:var(--blue)">—</div><div class="stat-lbl">Sesiones</div></div>
-      <div class="stat-card"><div class="stat-val" id="vBestVol" style="color:var(--gold)">—</div><div class="stat-lbl">Mejor ml</div></div>
-      <div class="stat-card"><div class="stat-val" id="vBestSecs" style="color:var(--green)">—</div><div class="stat-lbl">Mejor seg</div></div>
-    </div>
-
-    <!-- VOLDYNE PROGRESS -->
-    <div class="card">
-      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:8px;font-weight:600;">Capacidad pulmonar (meta 4,000 ml)</div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-        <div style="font-family:'Oswald',sans-serif;font-size:1.8rem;font-weight:700;color:var(--blue)" id="vCurrentVol">—</div>
-        <div style="font-size:0.8rem;color:var(--muted)">ml actual</div>
-        <div style="margin-left:auto;font-size:0.8rem;color:var(--muted)">Meta: 4,000 ml</div>
-      </div>
-      <div class="prog-wrap"><div class="prog-bar" id="volProgress" style="background:var(--blue)"></div></div>
-      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px" id="volProgressLabel"></div>
-    </div>
-
-    <!-- VOLDYNE CHART -->
-    <div class="chart-wrap">
-      <div class="chart-title">Volumen máximo (ml) — Voldyne</div>
-      <canvas id="vChart" height="140"></canvas>
+      <canvas id="o2Chart" height="160"></canvas>
     </div>
 
     <div style="text-align:center;margin-top:8px">
@@ -385,13 +291,10 @@
 
 <!-- ══ HISTORIAL ══ -->
 <div id="historial" class="panel">
-
   <div class="filter-bar">
     <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
     <button class="filter-btn" onclick="setFilter('o2',this)">O2Trainer</button>
-    <button class="filter-btn" onclick="setFilter('voldyne',this)">Voldyne</button>
   </div>
-
   <div id="histLoading" class="loading"><span class="spinner"></span>Cargando historial...</div>
   <div id="histContent" style="display:none">
     <div class="log-list" id="logList"></div>
@@ -400,8 +303,7 @@
 
 <footer>
   Tracker diseñado por Dr. Mateo Rivera &nbsp;·&nbsp; Mayo 2026<br>
-  Línea base O2Trainer: 9:30 min / 30 reps · Cap 14mm<br>
-  Línea base Voldyne: 1,250–1,300 ml / 9 seg
+  Línea base O2Trainer: 9:30 min / 30 reps · Cap 14mm
 </footer>
 
 <script>
@@ -442,7 +344,6 @@ function fmtDate(d) {
 }
 
 function parseTime(str) {
-  // "9:30" → total seconds
   if (!str || !str.includes(':')) return null;
   const [m,s] = str.split(':').map(Number);
   return (isNaN(m)||isNaN(s)) ? null : m*60 + s;
@@ -463,21 +364,19 @@ function showStatus(elId, type, msg) {
 
 // ── INIT DATES ───────────────────────────────────────────────────────────────
 document.getElementById('o2Date').value = today();
-document.getElementById('vDate').value  = today();
 
 // ── SAVE O2TRAINER ───────────────────────────────────────────────────────────
 async function saveO2() {
-  const btn  = document.getElementById('o2SaveBtn');
+  const btn = document.getElementById('o2SaveBtn');
   const date = document.getElementById('o2Date').value;
-  const cap  = document.getElementById('o2Cap').value;
+  const cap = document.getElementById('o2Cap').value;
   const reps = parseInt(document.getElementById('o2Reps').value);
   const timeStr = document.getElementById('o2Time').value.trim();
   const notes = document.getElementById('o2Notes').value.trim();
 
   if (!date) return showStatus('statusMsg','warn','Selecciona una fecha.');
-  if (!cap)  return showStatus('statusMsg','warn','Selecciona el cap.');
+  if (!cap) return showStatus('statusMsg','warn','Selecciona el cap.');
   if (!reps || reps < 1) return showStatus('statusMsg','warn','Ingresa las reps completadas.');
-
   const totalSecs = parseTime(timeStr);
   if (!totalSecs) return showStatus('statusMsg','warn','Formato de tiempo: minutos:segundos (ej: 9:30)');
 
@@ -495,7 +394,6 @@ async function saveO2() {
   };
 
   const result = await fbPush('sessions', data);
-
   if (result) {
     showStatus('statusMsg','ok',`Sesión guardada — Cap ${cap}mm · ${reps} reps · ${timeStr}`);
     document.getElementById('o2Time').value = '';
@@ -503,53 +401,8 @@ async function saveO2() {
   } else {
     showStatus('statusMsg','error','Error al guardar. Verifica tu conexión.');
   }
-
   btn.disabled = false;
   btn.innerHTML = '💾 Guardar sesión O2Trainer';
-}
-
-// ── SAVE VOLDYNE ─────────────────────────────────────────────────────────────
-async function saveVoldyne() {
-  const btn     = document.getElementById('vSaveBtn');
-  const date    = document.getElementById('vDate').value;
-  const session = document.getElementById('vSession').value;
-  const volume  = parseInt(document.getElementById('vVolume').value);
-  const secs    = parseInt(document.getElementById('vSecs').value);
-  const reps    = parseInt(document.getElementById('vReps').value);
-  const notes   = document.getElementById('vNotes').value.trim();
-
-  if (!date)   return showStatus('vStatusMsg','warn','Selecciona una fecha.');
-  if (!volume || volume < 100) return showStatus('vStatusMsg','warn','Ingresa el volumen en ml.');
-  if (!secs || secs < 1)   return showStatus('vStatusMsg','warn','Ingresa los segundos sostenidos.');
-  if (!reps || reps < 1)   return showStatus('vStatusMsg','warn','Ingresa las reps completadas.');
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Guardando...';
-
-  const data = {
-    type: 'voldyne',
-    date,
-    session,
-    volume,
-    secs,
-    reps,
-    notes,
-    ts: Date.now()
-  };
-
-  const result = await fbPush('sessions', data);
-
-  if (result) {
-    showStatus('vStatusMsg','ok',`Sesión guardada — ${volume}ml · ${secs}seg · ${reps} reps`);
-    document.getElementById('vVolume').value = '';
-    document.getElementById('vSecs').value = '';
-    document.getElementById('vNotes').value = '';
-  } else {
-    showStatus('vStatusMsg','error','Error al guardar. Verifica tu conexión.');
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '💾 Guardar sesión Voldyne';
 }
 
 // ── DELETE SESSION ────────────────────────────────────────────────────────────
@@ -565,84 +418,64 @@ async function loadProgress() {
   document.getElementById('progressContent').style.display = 'none';
 
   const raw = await fbGet('sessions');
-  // Sort once by ts ascending (oldest first) — single source of truth for all charts
   const sessions = raw
     ? Object.values(raw).sort((a,b) => {
-        // primary: session DATE (what matters for chart axis)
         const dateCmp = (a.date||'').localeCompare(b.date||'');
         if (dateCmp !== 0) return dateCmp;
-        // tiebreaker within same date: use ts
         return (a.ts||0) - (b.ts||0);
       })
     : [];
 
   const o2 = sessions.filter(s => s.type === 'o2trainer');
-  const vd = sessions.filter(s => s.type === 'voldyne');
 
-  // ── STREAK
+  // STREAK
   const allDates = [...new Set(sessions.map(s => s.date))].sort();
   let streak = 0;
   if (allDates.length) {
     let d = new Date(today());
     while (true) {
       const ds = d.toISOString().split('T')[0];
-      if (allDates.includes(ds)) { streak++; d.setDate(d.getDate()-1); }
-      else break;
+      if (allDates.includes(ds)) { 
+        streak++; 
+        d.setDate(d.getDate()-1); 
+      } else break;
     }
   }
   document.getElementById('streakNum').textContent = streak;
 
-  // ── O2 STATS
+  // O2 STATS
   document.getElementById('o2TotalSessions').textContent = o2.length || '0';
   if (o2.length) {
-    const bestCap  = Math.min(...o2.map(s => s.cap));
+    const bestCap = Math.min(...o2.map(s => s.cap));
     const bestTime = Math.min(...o2.map(s => s.totalSecs));
-    document.getElementById('o2BestCap').textContent  = bestCap + 'mm';
+    document.getElementById('o2BestCap').textContent = bestCap + 'mm';
     document.getElementById('o2BestTime').textContent = secsToStr(bestTime);
 
-    // cap progress: 14→1, lower=better. progress = (14-current)/(14-1)
     const currCap = o2[o2.length-1].cap;
-    const capPct  = Math.round(((14 - currCap) / 13) * 100);
+    const capPct = Math.round(((14 - currCap) / 13) * 100);
     document.getElementById('capProgress').style.width = capPct + '%';
     document.getElementById('capProgressLabel').textContent = `Cap actual: ${currCap}mm`;
   } else {
-    ['o2BestCap','o2BestTime'].forEach(id => document.getElementById(id).textContent = '—');
+    document.getElementById('o2BestCap').textContent = '—';
+    document.getElementById('o2BestTime').textContent = '—';
     document.getElementById('capProgressLabel').textContent = 'Sin datos aún';
   }
 
-  // ── VOLDYNE STATS
-  document.getElementById('vTotalSessions').textContent = vd.length || '0';
-  if (vd.length) {
-    const bestVol  = Math.max(...vd.map(s => s.volume));
-    const bestSecs = Math.max(...vd.map(s => s.secs));
-    document.getElementById('vBestVol').textContent  = bestVol.toLocaleString();
-    document.getElementById('vBestSecs').textContent = bestSecs + 's';
-    document.getElementById('vCurrentVol').textContent = bestVol.toLocaleString();
-    const volPct = Math.min(100, Math.round((bestVol/4000)*100));
-    document.getElementById('volProgress').style.width = volPct + '%';
-    document.getElementById('volProgressLabel').textContent = `${volPct}% de la meta — ${(4000-bestVol).toLocaleString()} ml por alcanzar`;
-  } else {
-    ['vBestVol','vBestSecs','vCurrentVol'].forEach(id => document.getElementById(id).textContent = '—');
-    document.getElementById('volProgressLabel').textContent = 'Sin datos aún — Línea base: 1,250–1,300 ml';
-  }
-
-  // ── CHARTS
+  // CHARTS
   drawO2Chart(o2);
-  drawVChart(vd);
 
   document.getElementById('progressLoading').style.display = 'none';
   document.getElementById('progressContent').style.display = 'block';
 }
 
-// ── SIMPLE CANVAS CHART ───────────────────────────────────────────────────────
-function drawChart(canvasId, labels, values, color, unit, yLabel) {
+// ── CHART MEJORADO ───────────────────────────────────────────────────────────
+function drawChart(canvasId, labels, values, color, unit) {
   const canvas = document.getElementById(canvasId);
-  const ctx    = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   const W = canvas.parentElement.clientWidth - 28;
-  const H = 140;
-  canvas.width  = W;
+  const H = 160;
+  canvas.width = W;
   canvas.height = H;
-
   ctx.clearRect(0,0,W,H);
 
   if (!values.length) {
@@ -653,33 +486,41 @@ function drawChart(canvasId, labels, values, color, unit, yLabel) {
     return;
   }
 
-  const PAD = { top: 16, right: 16, bottom: 36, left: 44 };
+  const PAD = { top: 20, right: 20, bottom: 42, left: 48 };
   const cW = W - PAD.left - PAD.right;
-  const cH = H - PAD.top  - PAD.bottom;
+  const cH = H - PAD.top - PAD.bottom;
 
-  const minV = Math.min(...values) * 0.92;
-  const maxV = Math.max(...values) * 1.05;
-  const range = maxV - minV || 1;
+  const minV = Math.min(...values);
+  const maxV = Math.max(...values);
+  let niceMin = Math.floor(minV * 0.95);
+  let niceMax = Math.ceil(maxV * 1.05);
 
-  const toX = i => PAD.left + (i / Math.max(values.length-1,1)) * cW;
-  const toY = v => PAD.top  + (1 - (v-minV)/range) * cH;
+  if (maxV - minV < 2) {
+    niceMin = Math.floor(minV) - 0.5;
+    niceMax = Math.ceil(maxV) + 0.5;
+  }
 
-  // grid lines
-  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-  ctx.lineWidth = 1;
-  [0,0.25,0.5,0.75,1].forEach(t => {
-    const y = PAD.top + t * cH;
-    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W-PAD.right, y); ctx.stroke();
-    const val = maxV - t*(maxV-minV);
+  const toX = i => PAD.left + (i / Math.max(values.length-1, 1)) * cW;
+  const toY = v => PAD.top + (1 - (v - niceMin) / (niceMax - niceMin)) * cH;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  for (let i = 0; i <= 5; i++) {
+    const y = PAD.top + (i/5) * cH;
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, y);
+    ctx.lineTo(W - PAD.right, y);
+    ctx.stroke();
+
     ctx.fillStyle = '#8ba0b8';
     ctx.font = '10px Inter';
     ctx.textAlign = 'right';
-    ctx.fillText(Math.round(val) + unit, PAD.left-4, y+3);
-  });
+    ctx.fillText(Math.round(niceMax - i*(niceMax-niceMin)) + unit, PAD.left - 6, y + 3);
+  }
 
-  // line + gradient fill
+  // Área + Línea
   const grad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top+cH);
-  grad.addColorStop(0, color + '40');
+  grad.addColorStop(0, color + '50');
   grad.addColorStop(1, color + '05');
 
   ctx.beginPath();
@@ -695,45 +536,38 @@ function drawChart(canvasId, labels, values, color, unit, yLabel) {
   ctx.moveTo(toX(0), toY(values[0]));
   values.forEach((v,i) => { if(i>0) ctx.lineTo(toX(i), toY(v)); });
   ctx.strokeStyle = color;
-  ctx.lineWidth = 2.5;
+  ctx.lineWidth = 3;
   ctx.lineJoin = 'round';
   ctx.stroke();
 
-  // dots + labels
-  values.forEach((v,i) => {
-    ctx.beginPath();
-    ctx.arc(toX(i), toY(v), 4, 0, Math.PI*2);
-    ctx.fillStyle = color;
-    ctx.fill();
+  // Puntos y etiquetas
+  values.forEach((v, i) => {
+    const x = toX(i);
+    const y = toY(v);
 
-    if (labels[i]) {
+    ctx.beginPath();
+    ctx.arc(x, y, 4.5, 0, Math.PI*2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Etiquetas X (no saturar)
+    if (labels[i] && (values.length <= 8 || i % Math.ceil(values.length/7) === 0 || i === values.length-1)) {
       ctx.fillStyle = '#8ba0b8';
       ctx.font = '9px Inter';
       ctx.textAlign = 'center';
-      const lbl = labels[i].slice(5); // MM-DD
-      ctx.fillText(lbl, toX(i), H - PAD.bottom + 14);
+      ctx.fillText(labels[i].slice(5), x, H - PAD.bottom + 16);
     }
   });
 }
 
 function drawO2Chart(sessions) {
-  // sessions already sorted ascending by ts at load time
   const last20 = sessions.slice(-20);
   const labels = last20.map(s => s.date);
-  const values = last20.map(s => +(s.totalSecs/60).toFixed(2));
-  drawChart('o2Chart', labels, values, '#45b8ac', ' min', 'Minutos');
-}
-
-function drawVChart(sessions) {
-  // use best volume per day
-  const byDay = {};
-  sessions.forEach(s => {
-    if (!byDay[s.date] || s.volume > byDay[s.date]) byDay[s.date] = s.volume;
-  });
-  // byDay built from sessions already sorted ascending — keys reflect insertion order
-  const dates = Object.keys(byDay).slice(-20);
-  const values = dates.map(d => byDay[d]);
-  drawChart('vChart', dates, values, '#4a9eca', ' ml', 'ml');
+  const values = last20.map(s => +(s.totalSecs / 60).toFixed(2));
+  drawChart('o2Chart', labels, values, '#45b8ac', ' min');
 }
 
 // ── LOAD HISTORY ──────────────────────────────────────────────────────────────
@@ -747,15 +581,16 @@ function setFilter(f, el) {
 }
 
 async function loadHistory() {
+  // ... (mantengo tu función original de historial)
   document.getElementById('histLoading').style.display = 'block';
   document.getElementById('histContent').style.display = 'none';
 
   const raw = await fbGet('sessions');
-  const list  = document.getElementById('logList');
+  const list = document.getElementById('logList');
   list.innerHTML = '';
 
   if (!raw) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>Sin registros aún. Empieza registrando tu primera sesión.</p></div>';
+    list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>Sin registros aún.</p></div>';
     document.getElementById('histLoading').style.display = 'none';
     document.getElementById('histContent').style.display = 'block';
     return;
@@ -771,24 +606,14 @@ async function loadHistory() {
     entries.forEach(([key, s]) => {
       const div = document.createElement('div');
       div.className = 'log-item';
-
+      const icon = s.type === 'o2trainer' ? '💪' : '🌬️';
       let tags = '';
-      let icon = '';
 
       if (s.type === 'o2trainer') {
-        icon = '💪';
         tags = `
           <span class="log-tag teal">Cap ${s.cap}mm</span>
           <span class="log-tag blue">${s.reps} reps</span>
           <span class="log-tag gold">${secsToStr(s.totalSecs)}</span>
-        `;
-      } else {
-        icon = '🌬️';
-        const sess = s.session ? ` · ${s.session}` : '';
-        tags = `
-          <span class="log-tag blue">${(s.volume||0).toLocaleString()} ml</span>
-          <span class="log-tag teal">${s.secs}seg sostenido</span>
-          <span class="log-tag green">${s.reps} reps${sess}</span>
         `;
       }
 
@@ -805,7 +630,6 @@ async function loadHistory() {
       list.appendChild(div);
     });
   }
-
   document.getElementById('histLoading').style.display = 'none';
   document.getElementById('histContent').style.display = 'block';
 }
@@ -817,7 +641,7 @@ function showTab(id, el) {
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
-  if (id === 'progreso')  loadProgress();
+  if (id === 'progreso') loadProgress();
   if (id === 'historial') loadHistory();
 }
 </script>
