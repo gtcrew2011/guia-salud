@@ -568,9 +568,11 @@ async function loadProgress() {
   // Sort once by ts ascending (oldest first) — single source of truth for all charts
   const sessions = raw
     ? Object.values(raw).sort((a,b) => {
-        // primary: timestamp; fallback: date string comparison
-        if (a.ts && b.ts) return a.ts - b.ts;
-        return (a.date||'').localeCompare(b.date||'');
+        // primary: session DATE (what matters for chart axis)
+        const dateCmp = (a.date||'').localeCompare(b.date||'');
+        if (dateCmp !== 0) return dateCmp;
+        // tiebreaker within same date: use ts
+        return (a.ts||0) - (b.ts||0);
       })
     : [];
 
