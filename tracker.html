@@ -726,16 +726,21 @@ function drawChart(canvasId, labels, values, color, unit, yLabel) {
   });
 }
 
-// O2Trainer Chart - Oldest left → Newest right
+// O2Trainer Chart - Forzado oldest left → newest right
 function drawO2Chart(sessions) {
-  let last20 = sessions.slice(-20);           // ya vienen ordenados oldest → newest
+  // sessions ya viene ordenado oldest → newest
+  let last20 = sessions.slice(-20);
+  
+  // FORZAMOS el orden ascendente por fecha (más seguro)
+  last20.sort((a, b) => a.date.localeCompare(b.date));
+
   const labels = last20.map(s => s.date);
   const values = last20.map(s => +(s.totalSecs / 60).toFixed(2));
 
   drawChart('o2Chart', labels, values, '#45b8ac', ' min', 'Minutos');
 }
 
-// Voldyne Chart - Oldest left → Newest right (versión corregida)
+// Voldyne Chart - Forzado oldest left → newest right
 function drawVChart(sessions) {
   const byDay = {};
   sessions.forEach(s => {
@@ -744,17 +749,19 @@ function drawVChart(sessions) {
     }
   });
 
-  // Convertir a array y ordenar explícitamente por fecha (más seguro)
   let dateEntries = Object.entries(byDay)
     .map(([date, volume]) => ({ date, volume }))
-    .sort((a, b) => a.date.localeCompare(b.date)); // Orden ascendente (viejo → nuevo)
+    .sort((a, b) => a.date.localeCompare(b.date)); // ← Orden ascendente explícito
 
   const last20 = dateEntries.slice(-20);
+
   const labels = last20.map(item => item.date);
   const values = last20.map(item => item.volume);
 
   drawChart('vChart', labels, values, '#4a9eca', ' ml', 'ml');
-}// ── LOAD HISTORY ──────────────────────────────────────────────────────────────
+}
+
+// ── LOAD HISTORY ──────────────────────────────────────────────────────────────
 let currentFilter = 'all';
 
 function setFilter(f, el) {
