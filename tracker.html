@@ -687,7 +687,7 @@ function makeDataset(values, color) {
 function drawO2Chart(sessions) {
   let arr = [...sessions].sort((a,b) => new Date(a.date||0) - new Date(b.date||0));
   if (arr.length > 1 && new Date(arr[0].date) > new Date(arr[arr.length-1].date)) arr.reverse();
-  const last10 = arr.slice(-10);
+  const last10 = arr.slice(-7);
   const labels = last10.map(s => (s.date||'').slice(5));
   const values = last10.map(s => +((s.totalSecs||0)/60).toFixed(1));
 
@@ -735,7 +735,7 @@ function drawVChart(sessions) {
   });
   let dates = Object.keys(byDay).sort((a,b) => new Date(a) - new Date(b));
   if (dates.length > 1 && new Date(dates[0]) > new Date(dates[dates.length-1])) dates.reverse();
-  dates = dates.slice(-10);
+  dates = dates.slice(-7);
   const labels = dates.map(d => d.slice(5));
   const values = dates.map(d => byDay[d]);
 
