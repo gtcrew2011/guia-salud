@@ -203,6 +203,7 @@
   .back-btn:active { transform: scale(0.96); }
 
 </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -634,101 +635,105 @@ async function loadProgress() {
   document.getElementById('progressContent').style.display = 'block';
 }
 
-// ── SIMPLE CANVAS CHART (versión corregida y mejorada) ─────────────────────
-function drawChart(canvasId, labels, values, color, unit) {
-  const canvas = document.getElementById(canvasId);
-  const ctx = canvas.getContext('2d');
-  const W = canvas.parentElement.clientWidth - 28;
-  const H = 140;
-  canvas.width = W;
-  canvas.height = H;
-  ctx.clearRect(0, 0, W, H);
+// ── CHARTS CON CHART.JS ─────────────────────────────────────────────────────
 
-  if (!values.length) {
-    ctx.fillStyle = '#8ba0b8';
-    ctx.font = '13px Inter';
-    ctx.textAlign = 'center';
-    ctx.fillText('Sin datos aún', W/2, H/2);
-    return;
-  }
+let o2ChartInstance = null;
+let vChartInstance = null;
 
-  const PAD = { top: 20, right: 20, bottom: 40, left: 48 };
-  const cW = W - PAD.left - PAD.right;
-  const cH = H - PAD.top - PAD.bottom;
+function createOrUpdateChart(canvasId, label, data, color, unit) {
+  const ctx = document.getElementById(canvasId);
 
-  const minV = Math.min(...values) * 0.9;
-  const maxV = Math.max(...values) * 1.08;
-  const range = maxV - minV || 1;
+  // Destruir gráfico anterior si existe
+  if (canvasId === 'o2Chart' && o2ChartInstance) o2ChartInstance.destroy();
+  if (canvasId === 'vChart' && vChartInstance) vChartInstance.destroy();
 
-  const toX = i => PAD.left + (i / Math.max(values.length - 1, 1)) * cW;
-  const toY = v => PAD.top + (1 - (v - minV) / range) * cH;
-
-  // Grid horizontal
-  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-  ctx.lineWidth = 1;
-  for (let t = 0; t <= 1; t += 0.25) {
-    const y = PAD.top + t * cH;
-    ctx.beginPath();
-    ctx.moveTo(PAD.left, y);
-    ctx.lineTo(W - PAD.right, y);
-    ctx.stroke();
-
-    const val = maxV - t * range;
-    ctx.fillStyle = '#8ba0b8';
-    ctx.font = '10px Inter';
-    ctx.textAlign = 'right';
-    ctx.fillText(Math.round(val) + unit, PAD.left - 6, y + 3);
-  }
-
-  // Área rellena
-  const grad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top + cH);
-  grad.addColorStop(0, color + '50');
-  grad.addColorStop(1, color + '05');
-  ctx.beginPath();
-  ctx.moveTo(toX(0), toY(values[0]));
-  values.forEach((v, i) => { if (i > 0) ctx.lineTo(toX(i), toY(v)); });
-  ctx.lineTo(toX(values.length - 1), PAD.top + cH);
-  ctx.lineTo(toX(0), PAD.top + cH);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  // Línea principal
-  ctx.beginPath();
-  ctx.moveTo(toX(0), toY(values[0]));
-  values.forEach((v, i) => { if (i > 0) ctx.lineTo(toX(i), toY(v)); });
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 3;
-  ctx.lineJoin = 'round';
-  ctx.stroke();
-
-  // Puntos
-  values.forEach((v, i) => {
-    ctx.beginPath();
-    ctx.arc(toX(i), toY(v), 3.5, 0, Math.PI * 2);
-    ctx.fillStyle = color;
-    ctx.fill();
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: label,
+        data: data.values,
+        borderColor: color,
+        backgroundColor: color + '30',
+        borderWidth: 3,
+        tension: 0.3,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            label: (ctx) => ctx.raw + unit
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.08)' },
+          ticks: {
+            color: '#8ba0b8',
+            font: { size: 10 },
+            maxRotation: 45,
+            minRotation: 0
+          }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.08)' },
+          ticks: {
+            color: '#8ba0b8',
+            font: { size: 11 },
+            callback: (v) => v + unit
+          }
+        }
+      },
+      elements: {
+        line: { tension: 0.35 }
+      }
+    }
   });
 
-  // Etiquetas X (solo cada pocos puntos para que no se solapen)
-  ctx.fillStyle = '#8ba0b8';
-  ctx.font = '9px Inter';
-  ctx.textAlign = 'center';
-  const step = Math.max(1, Math.floor(values.length / 7));
-  for (let i = 0; i < labels.length; i += step) {
-    const lbl = labels[i].slice(5); // "2025-05-25" → "05-25"
-    ctx.fillText(lbl, toX(i), H - 12);
-  }
+  // Guardar referencia
+  if (canvasId === 'o2Chart') o2ChartInstance = chart;
+  if (canvasId === 'vChart') vChartInstance = chart;
+
+  return chart;
 }
 
-// O2Trainer Chart – Viejo a la izquierda → Nuevo a la derecha
+// O2Trainer Chart
 function drawO2Chart(sessions) {
   const last20 = sessions.slice(-20);
   const labels = last20.map(s => s.date);
   const values = last20.map(s => Number((s.totalSecs / 60).toFixed(2)));
-  drawChart('o2Chart', labels, values, '#45b8ac', ' min');
+
+  createOrUpdateChart('o2Chart', 'Tiempo (min)', { labels, values }, '#45b8ac', ' min');
 }
 
+// Voldyne Chart - Ahora 100% garantizado orden cronológico
+function drawVChart(sessions) {
+  const byDay = {};
+  sessions.forEach(s => {
+    if (!byDay[s.date] || s.volume > byDay[s.date]) {
+      byDay[s.date] = s.volume;
+    }
+  });
+
+  const sortedDates = Object.keys(byDay).sort((a, b) => a.localeCompare(b));
+  const last20Dates = sortedDates.slice(-20);
+
+  const labels = last20Dates;
+  const values = last20Dates.map(date => byDay[date]);
+
+  createOrUpdateChart('vChart', 'Volumen máximo', { labels, values }, '#4a9eca', ' ml');
+}
 // Voldyne Chart – Versión 100% corregida (ahora sí va de izquierda a derecha)
 function drawVChart(sessions) {
   const byDay = {};
