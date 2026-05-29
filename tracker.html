@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tracker Respiratorio — Felipe Gil</title>
+<title>Dashboard Financiero — Felipe & Blanmeli</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;700&display=swap');
 
@@ -17,832 +17,1477 @@
     --green:   #4caf7d;
     --gold:    #e8b84b;
     --teal:    #45b8ac;
+    --orange:  #e8894b;
+    --purple:  #9b72cf;
     --text:    #dde6f0;
     --muted:   #8ba0b8;
     --soft:    #b8c8dc;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.65; font-size: 15px; }
 
-  /* ── HEADER ── */
-  header {
-    background: linear-gradient(160deg, #1a2840 0%, #0f1924 100%);
-    border-bottom: 2px solid rgba(224,82,82,0.35);
-    padding: 20px 18px 16px;
-    text-align: center;
-  }
+  /* HEADER */
+  header { background: linear-gradient(160deg, #1a2840 0%, #0f1924 100%); border-bottom: 2px solid rgba(224,82,82,0.4); padding: 20px 18px 16px; text-align: center; }
   header h1 { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem,5vw,1.8rem); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   header p { color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
-  .header-badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-  .hbadge { font-size: 0.68rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-  .hb-teal   { background: rgba(69,184,172,0.15); border: 1px solid rgba(69,184,172,0.35); color: #90ddd5; }
-  .hb-blue   { background: rgba(74,158,202,0.15); border: 1px solid rgba(74,158,202,0.35); color: #a8d4f0; }
+  .badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .badge { font-size: 0.68rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .b-red   { background: rgba(224,82,82,0.2);  border: 1px solid rgba(224,82,82,0.4);  color: #f1a8a8; }
+  .b-green { background: rgba(76,175,125,0.15); border: 1px solid rgba(76,175,125,0.4); color: #90d4b0; }
+  .b-gold  { background: rgba(232,184,75,0.15); border: 1px solid rgba(232,184,75,0.4); color: #f5d98a; }
+  .b-blue  { background: rgba(74,158,202,0.15); border: 1px solid rgba(74,158,202,0.4); color: #a8d4f0; }
 
-  /* ── TABS ── */
-  .tab-bar { display: flex; background: #111922; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-  .tab { flex: 1; padding: 13px 8px; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-align: center; transition: all 0.18s; user-select: none; }
+  /* TABS */
+  .tab-bar { display: flex; overflow-x: auto; background: #111922; border-bottom: 1px solid var(--border); -webkit-overflow-scrolling: touch; scrollbar-width: none; position: sticky; top: 0; z-index: 100; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; padding: 11px 13px; font-family: 'Oswald', sans-serif; font-size: 0.76rem; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; white-space: nowrap; user-select: none; }
   .tab:hover { color: var(--soft); }
   .tab.active { color: #fff; border-bottom-color: var(--accent); }
 
-  /* ── PANELS ── */
-  .panel { display: none; padding: 18px 14px 48px; max-width: 680px; margin: 0 auto; }
+  /* PANELS */
+  .panel { display: none; padding: 18px 14px 48px; max-width: 780px; margin: 0 auto; width: 100%; }
   .panel.active { display: block; }
 
-  /* ── SECTION HDR ── */
-  .sec-hdr { border-left: 3px solid var(--accent); padding: 8px 12px; font-family: 'Oswald', sans-serif; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); margin: 20px 0 12px; background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; }
-  .sec-hdr.teal   { border-left-color: var(--teal); }
-  .sec-hdr.blue   { border-left-color: var(--blue); }
+  /* SECTION HDR */
+  .sec-hdr { border-left: 3px solid var(--accent); padding: 8px 12px; font-family: 'Oswald', sans-serif; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); margin: 18px 0 10px; background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; }
   .sec-hdr.green  { border-left-color: var(--green); }
+  .sec-hdr.blue   { border-left-color: var(--blue); }
   .sec-hdr.gold   { border-left-color: var(--gold); }
+  .sec-hdr.teal   { border-left-color: var(--teal); }
+  .sec-hdr.purple { border-left-color: var(--purple); }
 
-  /* ── CARDS ── */
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  /* CARDS */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 11px; }
 
-  /* ── FORM ── */
-  .form-group { margin-bottom: 14px; }
-  label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  /* ALERTS */
+  .alert { border-radius: 8px; padding: 10px 13px; font-size: 0.84rem; margin-bottom: 10px; display: block; line-height: 1.55; }
+  .alert-icon { margin-right: 6px; }
+  .alert-warn   { background: rgba(192,57,43,0.12);  border: 1px solid rgba(192,57,43,0.3);  color: #f0a8a8; }
+  .alert-ok     { background: rgba(76,175,125,0.1);   border: 1px solid rgba(76,175,125,0.3); color: #90d4b0; }
+  .alert-info   { background: rgba(74,158,202,0.1);   border: 1px solid rgba(74,158,202,0.3); color: #a8d4f0; }
+  .alert-gold   { background: rgba(232,184,75,0.08);  border: 1px solid rgba(232,184,75,0.3); color: #f5d98a; }
+
+  /* FORMS */
+  .form-group { margin-bottom: 12px; }
+  label { display: block; font-size: 0.77rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 5px; }
   input, select, textarea {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    padding: 10px 12px;
-    outline: none;
-    transition: border-color 0.15s;
-    -webkit-appearance: none;
+    width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.88rem; padding: 9px 12px;
+    outline: none; transition: border-color 0.15s; -webkit-appearance: none;
   }
   input:focus, select:focus, textarea:focus { border-color: var(--teal); }
   select option { background: var(--surface); }
-  textarea { resize: vertical; min-height: 70px; }
-
-  /* ── TWO COL ── */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 420px) { .two-col { grid-template-columns: 1fr; } }
-
-  /* ── BUTTONS ── */
-  .btn {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.88rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 12px 22px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+  textarea { resize: vertical; min-height: 72px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .four-col-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px; }
+  /* ── MOBILE RESPONSIVE ── */
+  @media(max-width:600px) {
+    .four-col-grid { grid-template-columns: repeat(2,1fr); }
+    .panel { padding: 14px 12px 48px; }
+    header h1 { font-size: 1.2rem; letter-spacing: 1px; }
+    header p { font-size: 0.75rem; }
+    .tab { padding: 10px 11px; font-size: 0.7rem; letter-spacing: 0.5px; }
+    .stat-grid { grid-template-columns: repeat(2,1fr); gap: 7px; }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .visit-tracker { grid-template-columns: repeat(2,1fr); gap: 8px; }
+    .micro-row { flex-wrap: wrap; gap: 6px; }
+    .micro-row .micro-bar-wrap { flex: 1 1 100%; order: 3; margin: 0; }
+    .micro-row .micro-name { flex: 1 1 auto; }
+    .micro-row .micro-amount { order: 2; }
+    .debt-header { flex-direction: column; gap: 8px; }
+    .debt-header > div:last-child { flex-direction: row; align-items: center; }
+    .cascade-row { flex-wrap: wrap; gap: 4px; }
+    .answer-row { flex-direction: column; gap: 8px; }
+    .answer-btn { padding: 14px; }
+    .decision-amount { font-size: 2.8rem; }
+    .meeting-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .challenge-header { flex-direction: column; gap: 6px; align-items: flex-start; }
+    .payment-entry { flex-direction: column; gap: 6px; align-items: flex-start; }
+    .btn-full { font-size: 0.8rem; padding: 11px 16px; }
+    .checkin-pills { gap: 6px; }
+    .checkin-pill { font-size: 0.78rem; padding: 5px 11px; }
+    .streak-num { font-size: 3rem; }
+    .ynab-connect { padding: 16px 12px; }
+    .cascade-box { padding: 12px; }
+    .tally-row { flex-wrap: wrap; gap: 4px; }
+    .tally-label { flex: 1 1 140px; }
   }
-  .btn-primary { background: var(--teal); color: #fff; width: 100%; justify-content: center; margin-top: 4px; }
+  @media(max-width:380px) {
+    .four-col-grid { grid-template-columns: repeat(2,1fr); gap:6px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .stat-val { font-size: 1.1rem; }
+    .visit-tracker { grid-template-columns: 1fr 1fr; }
+    .badges { gap: 5px; }
+    .badge { font-size: 0.63rem; padding: 2px 8px; }
+  }
+
+  /* BUTTONS */
+  .btn { font-family: 'Oswald', sans-serif; font-size: 0.84rem; letter-spacing: 1px; text-transform: uppercase; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: var(--teal); color: #fff; }
   .btn-primary:hover { opacity: 0.88; }
-  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:active { transform: scale(0.97); }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-ghost { background: var(--surface); border: 1px solid var(--border); color: var(--soft); font-size: 0.78rem; padding: 6px 14px; }
+  .btn-ghost { background: var(--surface); border: 1px solid var(--border); color: var(--soft); }
   .btn-ghost:hover { background: var(--border); }
-  .btn-danger { background: rgba(224,82,82,0.15); border: 1px solid rgba(224,82,82,0.3); color: #f0a8a8; font-size: 0.75rem; padding: 5px 12px; }
-  .btn-danger:hover { background: rgba(224,82,82,0.25); }
+  .btn-danger { background: rgba(224,82,82,0.15); border: 1px solid rgba(224,82,82,0.3); color: #f0a8a8; font-size: 0.75rem; padding: 5px 11px; }
+  .btn-success { background: var(--green); color: #fff; }
+  .btn-full { width: 100%; justify-content: center; margin-top: 4px; }
 
-  /* ── ALERTS ── */
-  .alert { border-radius: 8px; padding: 11px 14px; font-size: 0.86rem; margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
-  .alert-ok     { background: rgba(76,175,125,0.1);  border: 1px solid rgba(76,175,125,0.3);  color: #90d4b0; }
-  .alert-warn   { background: rgba(232,184,75,0.1);  border: 1px solid rgba(232,184,75,0.3);  color: #f5d98a; }
-  .alert-info   { background: rgba(74,158,202,0.1);  border: 1px solid rgba(74,158,202,0.3);  color: #a8d4f0; }
-  .alert-error  { background: rgba(224,82,82,0.1);   border: 1px solid rgba(224,82,82,0.3);   color: #f0a8a8; }
-  .alert-icon   { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+  /* PROGRESS */
+  .prog-wrap { background: rgba(255,255,255,0.06); border-radius: 10px; height: 10px; overflow: hidden; margin: 6px 0; }
+  .prog-bar { height: 100%; border-radius: 10px; transition: width 0.6s ease; }
 
-  /* ── STATUS MSG ── */
-  #statusMsg, #vStatusMsg { min-height: 36px; }
+  /* STAT GRID */
+  .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-bottom: 14px; }
+  @media(max-width:440px) { .stat-grid { grid-template-columns: repeat(2,1fr); } }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px; text-align: center; }
+  .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 700; line-height: 1; margin-bottom: 3px; }
+  .stat-lbl { font-size: 0.69rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
 
-  /* ── STATS GRID ── */
-  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
-  @media (max-width: 400px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
-  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 13px 10px; text-align: center; }
-  .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
-  .stat-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  /* CATEGORY ROW */
+  .cat-row { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .cat-row:last-child { border-bottom: none; }
+  .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .cat-name { font-size: 0.87rem; font-weight: 500; }
+  .cat-amounts { font-size: 0.82rem; color: var(--muted); }
+  .cat-pct { font-family: 'Oswald', sans-serif; font-size: 0.82rem; font-weight: 700; }
 
-  /* ── PROGRESS BAR ── */
-  .prog-wrap { background: rgba(255,255,255,0.06); border-radius: 8px; height: 8px; overflow: hidden; margin: 6px 0 2px; }
-  .prog-bar  { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
+  /* DEBT ITEM */
+  .debt-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+  .debt-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 10px; }
+  .debt-name { font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 700; color: #fff; }
+  .debt-status-badge { font-size: 0.7rem; font-weight: 600; padding: 2px 9px; border-radius: 20px; white-space: nowrap; }
+  .ds-collection { background: rgba(224,82,82,0.2); color: #f0a8a8; }
+  .ds-current     { background: rgba(76,175,125,0.2); color: #90d4b0; }
+  .ds-pending     { background: rgba(232,184,75,0.15); color: #f5d98a; }
+  .ds-done        { background: rgba(76,175,125,0.3); color: #fff; }
+  .debt-amounts { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; }
+  .debt-balance { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; }
+  .debt-payments-log { margin-top: 10px; }
+  .payment-entry { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.8rem; }
+  .payment-entry:last-child { border-bottom: none; }
+  .payment-date { color: var(--muted); }
+  .payment-amount { color: var(--green); font-weight: 600; font-family: 'Oswald', sans-serif; }
+  .payment-note { color: var(--muted); font-style: italic; font-size: 0.76rem; }
 
-  /* ── LOG LIST ── */
-  .log-list { display: flex; flex-direction: column; gap: 8px; }
-  .log-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .log-left { flex: 1; min-width: 0; }
-  .log-date { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); margin-bottom: 3px; }
-  .log-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-  .log-tag { font-size: 0.75rem; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
-  .log-tag.teal   { background: rgba(69,184,172,0.15); color: #90ddd5; border: 1px solid rgba(69,184,172,0.25); }
-  .log-tag.blue   { background: rgba(74,158,202,0.15); color: #a8d4f0; border: 1px solid rgba(74,158,202,0.25); }
-  .log-tag.gold   { background: rgba(232,184,75,0.12); color: #f5d98a; border: 1px solid rgba(232,184,75,0.25); }
-  .log-tag.green  { background: rgba(76,175,125,0.15); color: #90d4b0; border: 1px solid rgba(76,175,125,0.25); }
-  .log-note { font-size: 0.8rem; color: var(--muted); margin-top: 5px; font-style: italic; }
-  .log-del { flex-shrink: 0; }
+  /* MEETING LOG */
+  .meeting-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+  .meeting-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .meeting-date { font-family: 'Oswald', sans-serif; font-size: 0.9rem; color: var(--gold); }
+  .meeting-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .m-badge { font-size: 0.69rem; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .mb-yes { background: rgba(76,175,125,0.2); color: #90d4b0; }
+  .mb-no  { background: rgba(224,82,82,0.2);  color: #f0a8a8; }
+  .meeting-notes { font-size: 0.83rem; color: var(--soft); line-height: 1.55; margin-top: 6px; }
+  .meeting-commit { font-size: 0.8rem; color: var(--teal); margin-top: 6px; font-style: italic; }
 
-  /* ── CHART ── */
-  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; overflow: hidden; }
-  .chart-title { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-  .chart-wrap { position: relative; height: 180px; }
+  /* GROCERY CHALLENGE */
+  .challenge-month { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+  .challenge-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .challenge-month-name { font-family: 'Oswald', sans-serif; font-size: 1rem; color: #fff; }
+  .challenge-result { font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .cr-win  { background: rgba(76,175,125,0.25); color: #90d4b0; }
+  .cr-lose { background: rgba(224,82,82,0.2);  color: #f0a8a8; }
+  .cr-pending { background: rgba(232,184,75,0.15); color: #f5d98a; }
 
-  /* ── EMPTY STATE ── */
-  .empty { text-align: center; padding: 36px 20px; color: var(--muted); }
-  .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
-  .empty p { font-size: 0.88rem; }
+  /* YNAB CONNECT */
+  .ynab-connect { background: linear-gradient(135deg, rgba(74,158,202,0.1), rgba(69,184,172,0.08)); border: 1px solid rgba(74,158,202,0.3); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 16px; }
+  .ynab-logo { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--blue); margin-bottom: 6px; letter-spacing: 2px; }
+  .ynab-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 14px; }
 
-  /* ── LOADING ── */
-  .loading { text-align: center; padding: 28px; color: var(--muted); font-size: 0.88rem; }
+  /* SEMAPHORE */
+  .semaphore { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+  .sem-green  { background: var(--green); box-shadow: 0 0 6px rgba(76,175,125,0.6); }
+  .sem-yellow { background: var(--gold); box-shadow: 0 0 6px rgba(232,184,75,0.6); }
+  .sem-red    { background: var(--accent); box-shadow: 0 0 6px rgba(224,82,82,0.6); }
 
-  /* ── STREAK ── */
-  .streak-box { background: linear-gradient(135deg, rgba(69,184,172,0.1), rgba(74,158,202,0.08)); border: 1px solid rgba(69,184,172,0.25); border-radius: 10px; padding: 14px; text-align: center; margin-bottom: 14px; }
-  .streak-num { font-family: 'Oswald', sans-serif; font-size: 2.8rem; font-weight: 700; color: var(--teal); line-height: 1; }
-  .streak-lbl { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  /* CASCADE BOX */
+  .cascade-box { background: linear-gradient(135deg, rgba(76,175,125,0.08), rgba(69,184,172,0.06)); border: 1px solid rgba(76,175,125,0.25); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+  .cascade-title { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .cascade-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
+  .cascade-row:last-child { border-bottom: none; }
+  .cascade-date { color: var(--muted); }
+  .cascade-amount { color: var(--green); font-weight: 700; font-family: 'Oswald', sans-serif; }
 
-  /* ── FILTER BAR ── */
-  .filter-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-  .filter-btn { font-size: 0.75rem; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.15s; }
-  .filter-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+  /* CHECKLIST */
+  .check-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.86rem; }
+  .check-row:last-child { border-bottom: none; }
+  .check-box { width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.7rem; transition: all 0.15s; }
+  .check-box.checked { background: var(--teal); border-color: var(--teal); color: #fff; }
 
-  /* ── SPINNER ── */
+  /* SPINNER */
   @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
+  .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
 
-  footer { text-align: center; padding: 18px; color: var(--muted); font-size: 0.73rem; border-top: 1px solid var(--border); margin-top: 20px; }
+  /* CONFETTI ANIMATION */
+  @keyframes confettiFall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+  .confetti-piece { position: fixed; width: 10px; height: 10px; top: -10px; animation: confettiFall linear forwards; z-index: 9999; border-radius: 2px; pointer-events: none; }
 
-  /* ── BACK BUTTON ── */
-  .back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(69,184,172,0.1);
-    border: 1px solid rgba(69,184,172,0.3);
-    color: var(--teal);
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 7px 14px;
-    border-radius: 20px;
-    text-decoration: none;
-    transition: all 0.18s;
-    margin-top: 8px;
-  }
-  .back-btn:hover { background: rgba(69,184,172,0.2); border-color: rgba(69,184,172,0.55); }
-  .back-btn:active { transform: scale(0.96); }
+  /* LOADING */
+  .loading { text-align: center; padding: 24px; color: var(--muted); font-size: 0.85rem; }
 
+  /* EMPTY */
+  .empty { text-align: center; padding: 30px 16px; color: var(--muted); }
+  .empty-icon { font-size: 2.2rem; margin-bottom: 8px; }
+  .empty p { font-size: 0.85rem; }
+
+  /* TALLY */
+  .tally-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
+  .tally-row:last-child { border-bottom: none; }
+  .tally-label { color: var(--text); }
+  .tally-val { font-weight: 600; }
+
+  footer { text-align: center; padding: 16px; color: var(--muted); font-size: 0.72rem; border-top: 1px solid var(--border); }
+
+  /* ANTES DE COMPRAR */
+  .decision-card { background: linear-gradient(135deg, rgba(232,184,75,0.1), rgba(69,184,172,0.06)); border: 1px solid rgba(232,184,75,0.3); border-radius: 14px; padding: 20px; margin-bottom: 14px; text-align: center; }
+  .decision-amount { font-family: 'Oswald', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--gold); line-height: 1; margin: 10px 0; }
+  .decision-eq { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
+  .decision-debt { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--teal); }
+
+  .question-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 12px; }
+  .question-text { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 14px; line-height: 1.5; }
+  .answer-row { display: flex; gap: 10px; }
+  .answer-btn { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: 'Oswald', sans-serif; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; text-transform: uppercase; text-align: center; transition: all 0.15s; }
+  .answer-btn:hover { transform: translateY(-1px); }
+  .answer-btn.yes { border-color: var(--green); color: var(--green); }
+  .answer-btn.yes:hover { background: rgba(76,175,125,0.15); }
+  .answer-btn.no  { border-color: var(--accent); color: #f0a8a8; }
+  .answer-btn.no:hover  { background: rgba(224,82,82,0.1); }
+
+  .result-box { border-radius: 12px; padding: 18px; text-align: center; margin-top: 14px; }
+  .result-go   { background: rgba(76,175,125,0.12); border: 1px solid rgba(76,175,125,0.3); }
+  .result-stop { background: rgba(224,82,82,0.1); border: 1px solid rgba(224,82,82,0.3); }
+  .result-wait { background: rgba(232,184,75,0.08); border: 1px solid rgba(232,184,75,0.3); }
+  .result-icon { font-size: 2.5rem; margin-bottom: 8px; }
+  .result-title { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+  .result-msg { font-size: 0.84rem; color: var(--muted); line-height: 1.55; }
+
+  /* CHECK-IN */
+  .streak-display { background: linear-gradient(135deg, rgba(232,184,75,0.12), rgba(69,184,172,0.08)); border: 1px solid rgba(232,184,75,0.3); border-radius: 14px; padding: 20px; text-align: center; margin-bottom: 14px; }
+  .streak-num { font-family: 'Oswald', sans-serif; font-size: 4rem; font-weight: 700; color: var(--gold); line-height: 1; }
+  .streak-lbl { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .streak-fire { font-size: 1.5rem; }
+
+  .micro-tracker { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+  .micro-header { background: #1a2840; padding: 10px 14px; font-family: 'Oswald', sans-serif; font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .micro-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); flex-wrap: wrap; gap: 4px; }
+  .micro-row:last-child { border-bottom: none; }
+  .micro-name { font-size: 0.87rem; color: var(--text); }
+  .micro-amount { font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; }
+  .micro-bar-wrap { flex: 1; margin: 0 12px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .micro-bar { height: 100%; border-radius: 4px; }
+
+  .visit-tracker { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 14px; }
+  .visit-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+  .visit-store { font-family: 'Oswald', sans-serif; font-size: 0.88rem; color: var(--soft); margin-bottom: 8px; }
+  .visit-count { font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .visit-limit { font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
+  .visit-btn { background: var(--teal); color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-family: 'Oswald', sans-serif; font-size: 0.78rem; letter-spacing: 1px; cursor: pointer; width: 100%; transition: opacity 0.15s; }
+  .visit-btn:hover { opacity: 0.85; }
+  .visit-btn.over { background: var(--accent); }
+
+  .checkin-form { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+  .checkin-q { margin-bottom: 14px; }
+  .checkin-q label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--soft); margin-bottom: 8px; }
+  .checkin-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .checkin-pill { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 0.82rem; cursor: pointer; transition: all 0.15s; }
+  .checkin-pill.sel-good { background: rgba(76,175,125,0.2); border-color: var(--green); color: #90d4b0; }
+  .checkin-pill.sel-ok   { background: rgba(232,184,75,0.15); border-color: var(--gold); color: #f5d98a; }
+  .checkin-pill.sel-bad  { background: rgba(224,82,82,0.12); border-color: var(--accent); color: #f0a8a8; }
+
+  .history-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+  .history-date { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; }
+  .history-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .hp { font-size: 0.72rem; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
+  .hp-good { background: rgba(76,175,125,0.2); color: #90d4b0; }
+  .hp-ok   { background: rgba(232,184,75,0.15); color: #f5d98a; }
+  .hp-bad  { background: rgba(224,82,82,0.12); color: #f0a8a8; }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 
 <header>
-  <h1>Tracker Respiratorio</h1>
-  <p>Felipe Gil &nbsp;·&nbsp; Seguimiento de progreso pulmonar</p>
-  <div class="header-badges">
-    <span class="hbadge hb-teal">🌬️ O2Trainer</span>
-    <span class="hbadge hb-blue">💨 Voldyne 4000</span>
-  </div>
-  <div style="margin-top:10px">
-    <a href="index.html#respiracion" class="back-btn">← Volver a Guía de Salud</a>
+  <h1>Dashboard Financiero</h1>
+  <p>Felipe Gil & Blanmeli Torrealba &nbsp;·&nbsp; 2026</p>
+  <div class="badges">
+    <span class="badge b-red" id="totalDebtBadge">Deuda: ~$57,175</span>
+    <span class="badge b-gold">Ingreso: $7,120/mes</span>
+    <span class="badge b-green" id="connectionBadge">⚪ YNAB desconectado</span>
   </div>
 </header>
 
 <div class="tab-bar">
-  <div class="tab active" onclick="showTab('registrar',this)">➕ Registrar</div>
-  <div class="tab" onclick="showTab('progreso',this)">📈 Progreso</div>
-  <div class="tab" onclick="showTab('historial',this)">📋 Historial</div>
+  <div class="tab active" onclick="showTab('overview',this)">📊 Resumen</div>
+  <div class="tab" onclick="showTab('ynab',this)">💰 YNAB Live</div>
+  <div class="tab" onclick="showTab('deudas',this)">💳 Deudas</div>
+  <div class="tab" onclick="showTab('reunion',this)">👫 Reunión</div>
+  <div class="tab" onclick="showTab('groceries',this)">🛒 Reto Groceries</div>
+  <div class="tab" onclick="showTab('presupuesto',this)">📋 Presupuesto</div>
+  <div class="tab" onclick="showTab('checkin',this)">✅ Check-in</div>
+  <div class="tab" onclick="showTab('antes',this)">🤔 ¿Lo compro?</div>
 </div>
 
-<!-- ══ REGISTRAR ══ -->
-<div id="registrar" class="panel active">
+<!-- ══ OVERVIEW ══ -->
+<div id="overview" class="panel active">
 
-  <!-- O2TRAINER -->
-  <div class="sec-hdr teal">💪 O2Trainer</div>
+  <div class="sec-hdr">Resumen del Mes</div>
+  <div class="stat-grid" id="overviewStats">
+    <div class="stat-card"><div class="stat-val" style="color:var(--accent)" id="ov-spent">—</div><div class="stat-lbl">Gastado este mes</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--green)" id="ov-income">$7,120</div><div class="stat-lbl">Ingreso mensual</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--gold)" id="ov-left">—</div><div class="stat-lbl">Disponible</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--teal)" id="ov-groceries">—</div><div class="stat-lbl">Groceries mes</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--orange)" id="ov-dining">—</div><div class="stat-lbl">Dining out mes</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--green)" id="ov-debt-paid">$0</div><div class="stat-lbl">Deuda pagada 2026</div></div>
+  </div>
+
+  <div class="alert alert-info"><span class="alert-icon">💡</span>Conecta YNAB en el tab "💰 YNAB Live" para ver datos en tiempo real de groceries y dining out.</div>
+
+  <div class="sec-hdr gold">Efecto Cascada — Deudas con Fecha de Término</div>
+  <div class="cascade-box">
+    <div class="cascade-title">Dinero que se libera automáticamente</div>
+    <div class="cascade-row"><div class="cascade-date">Agosto 2026</div><div><span style="color:var(--text)">Mariangela pagada</span></div><div class="cascade-amount">+$500/mes</div></div>
+    <div class="cascade-row"><div class="cascade-date">Agosto 2027</div><div><span style="color:var(--text)">Abogados pagados</span></div><div class="cascade-amount">+$860/mes</div></div>
+    <div class="cascade-row" style="font-weight:700"><div class="cascade-date">Ago 2027+</div><div style="color:var(--green)">Total liberado</div><div class="cascade-amount">+$1,360/mes</div></div>
+  </div>
+
+  <div class="sec-hdr">Próximas Acciones Urgentes</div>
+  <div class="card" id="urgentChecklist">
+    <div class="check-row"><div class="check-box" onclick="toggleCheck(this)"></div><span>Llamar a Carmax — saber estatus del balance</span></div>
+    <div class="check-row"><div class="check-box" onclick="toggleCheck(this)"></div><span>Llamar al IRS — configurar payment plan (irs.gov)</span></div>
+    <div class="check-row"><div class="check-box" onclick="toggleCheck(this)"></div><span>Llamar a AMEX — negociar settlement al 40-50%</span></div>
+    <div class="check-row"><div class="check-box" onclick="toggleCheck(this)"></div><span>Llamar a Wells Fargo colección — negociar settlement</span></div>
+    <div class="check-row"><div class="check-box" onclick="toggleCheck(this)"></div><span>Llamar a Maryland CCU — negociar settlement</span></div>
+    <div class="check-row"><div class="check-box" onclick="toggleCheck(this)"></div><span>Reunión de dinero esta semana con Blanmeli</span></div>
+    <div class="check-row"><div class="check-box" onclick="toggleCheck(this)"></div><span>Ir al supermercado con dos listas separadas — presupuesto $195/semana</span></div>
+  </div>
+
+  <div class="sec-hdr teal">Progreso Total de Deudas</div>
   <div class="card">
-    <div class="two-col">
-      <div class="form-group">
-        <label>Fecha</label>
-        <input type="date" id="o2Date">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <span style="font-size:0.85rem">Balance inicial: <strong>$57,175</strong></span>
+      <span style="font-size:0.85rem">Pagado: <strong id="totalPaidDisplay" style="color:var(--green)">$0</strong></span>
+    </div>
+    <div class="prog-wrap"><div class="prog-bar" id="totalDebtProgress" style="width:0%;background:var(--green)"></div></div>
+    <div style="font-size:0.75rem;color:var(--muted);margin-top:4px" id="totalDebtPct">0% completado</div>
+  </div>
+</div>
+
+<!-- ══ YNAB LIVE ══ -->
+<div id="ynab" class="panel">
+
+  <div class="ynab-connect" id="ynabConnectBox">
+    <div class="ynab-logo">YNAB</div>
+    <div class="ynab-sub">Conecta tu cuenta para ver datos en tiempo real.</div>
+    <div class="form-group" style="text-align:left;max-width:400px;margin:0 auto 12px">
+      <label>Personal Access Token</label>
+      <input type="password" id="ynabTokenInput" placeholder="YNAB → My Account → Developer Settings">
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;cursor:pointer" onclick="toggleRemember()" id="rememberRow">
+      <div id="rememberToggle" style="width:42px;height:24px;border-radius:12px;background:var(--teal);position:relative;transition:background 0.2s;flex-shrink:0">
+        <div id="rememberKnob" style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:21px;transition:left 0.2s"></div>
       </div>
-      <div class="form-group">
-        <label>Cap (mm)</label>
-        <select id="o2Cap">
-          <option value="14">14mm — Inicio</option>
-          <option value="13">13mm</option>
-          <option value="12">12mm</option>
-          <option value="11">11mm</option>
-          <option value="10">10mm</option>
-          <option value="9">9mm</option>
-          <option value="8">8mm</option>
-          <option value="7">7mm</option>
-          <option value="6">6mm</option>
-          <option value="5">5mm</option>
-          <option value="4">4mm</option>
-          <option value="3">3mm</option>
-          <option value="2.5">2.5mm</option>
-          <option value="2">2mm</option>
-          <option value="1.5">1.5mm</option>
-          <option value="1">1mm — Máximo</option>
-        </select>
+      <span style="font-size:0.82rem;color:var(--soft)">Recordar en este dispositivo</span>
+    </div>
+    <button class="btn btn-primary" onclick="connectYNAB()"><span id="connectSpinner"></span>Conectar YNAB</button>
+    <div style="font-size:0.74rem;color:var(--muted);margin-top:10px">⚠️ Solo se guarda en este dispositivo. Nunca en Firebase ni GitHub.</div>
+  </div>
+
+  <div id="ynabContent" style="display:none">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-size:0.82rem;color:var(--green)">✅ Conectado a YNAB</div>
+      <button class="btn btn-ghost" style="font-size:0.75rem;padding:5px 12px" onclick="disconnectYNAB()">Desconectar</button>
+    </div>
+
+    <div class="sec-hdr">Presupuesto — Mes Actual</div>
+    <div id="budgetSelector" class="form-group">
+      <label>Selecciona tu presupuesto</label>
+      <select id="budgetSelect" onchange="loadBudgetData()">
+        <option value="">Cargando...</option>
+      </select>
+    </div>
+
+    <div id="ynabLoading" class="loading"><span class="spinner"></span>Cargando datos...</div>
+
+    <div id="ynabData" style="display:none">
+
+      <!-- SEMAPHORE CATEGORIES -->
+      <div class="sec-hdr">Semáforo de Categorías Clave</div>
+      <div class="card" id="semaphoreCards"></div>
+
+      <!-- ALL CATEGORIES -->
+      <div class="sec-hdr blue">Todas las Categorías del Mes</div>
+      <div class="card" id="allCategories"></div>
+
+      <!-- ACCOUNTS -->
+      <div class="sec-hdr gold">Cuentas y Balances</div>
+      <div class="card" id="accountsList"></div>
+
+      <div style="text-align:center;margin-top:10px">
+        <button class="btn btn-ghost" onclick="loadBudgetData()">↻ Actualizar datos</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEUDAS ══ -->
+<div id="deudas" class="panel">
+
+  <div class="sec-hdr">Registrar Pago de Deuda</div>
+  <div class="card">
+    <div class="form-group">
+      <label>Deuda</label>
+      <select id="debtSelect">
+        <option value="wells_fargo">Wells Fargo CC — Colección</option>
+        <option value="capital_one">Capital One CC — Current</option>
+        <option value="maryland_ccu">Maryland CCU — Colección</option>
+        <option value="irs">IRS — Pendiente</option>
+        <option value="amex">AMEX CC — Colección</option>
+        <option value="carmax">Carmax — Por definir</option>
+        <option value="mariangela">Mariangela (amiga)</option>
+        <option value="emily">Emily</option>
+        <option value="maria_camacho">Maria Camacho</option>
+        <option value="abogados">Abogados — Inmigración</option>
+        <option value="aca">Carro ACA</option>
+        <option value="mathias_medical">Mathias Medical</option>
+        <option value="blan_medical">Blan Medical</option>
+      </select>
     </div>
     <div class="two-col">
       <div class="form-group">
-        <label>Reps completadas</label>
-        <input type="number" id="o2Reps" min="1" max="100" placeholder="30" value="30">
+        <label>Monto pagado ($)</label>
+        <input type="number" id="paymentAmount" placeholder="860.00" min="1" step="0.01">
       </div>
       <div class="form-group">
-        <label>Tiempo total (min:seg)</label>
-        <input type="text" id="o2Time" placeholder="9:30" pattern="\d+:\d{2}">
+        <label>Fecha del pago</label>
+        <input type="date" id="paymentDate">
       </div>
+    </div>
+    <div class="form-group">
+      <label>Tipo de pago</label>
+      <select id="paymentType">
+        <option value="regular">Pago regular</option>
+        <option value="settlement">Settlement negociado</option>
+        <option value="extra">Pago extra</option>
+        <option value="payoff">Pago total — ¡Deuda liquidada!</option>
+      </select>
     </div>
     <div class="form-group">
       <label>Notas (opcional)</label>
-      <textarea id="o2Notes" placeholder="¿Cómo se sintió? ¿Mareo? ¿Fácil?"></textarea>
+      <input type="text" id="paymentNote" placeholder="Ej: Settlement aceptado al 45%">
     </div>
-    <div id="statusMsg"></div>
-    <button class="btn btn-primary" id="o2SaveBtn" onclick="saveO2()">
-      💾 Guardar sesión O2Trainer
-    </button>
+    <div id="paymentStatus"></div>
+    <button class="btn btn-primary btn-full" onclick="savePayment()">💳 Registrar Pago</button>
   </div>
 
-  <!-- VOLDYNE -->
-  <div class="sec-hdr blue">🌬️ Voldyne 4000</div>
+  <div class="sec-hdr">Historial de Deudas</div>
+  <div id="debtsList"><div class="loading"><span class="spinner"></span>Cargando...</div></div>
+</div>
+
+<!-- ══ REUNION ══ -->
+<div id="reunion" class="panel">
+
+  <div class="sec-hdr purple">Registrar Reunión Semanal</div>
   <div class="card">
     <div class="two-col">
       <div class="form-group">
-        <label>Fecha</label>
-        <input type="date" id="vDate">
+        <label>Fecha de la reunión</label>
+        <input type="date" id="meetingDate">
       </div>
       <div class="form-group">
-        <label>Sesión</label>
-        <select id="vSession">
-          <option value="mañana">Mañana</option>
-          <option value="noche">Noche</option>
+        <label>Semana #</label>
+        <input type="number" id="meetingWeek" placeholder="1" min="1">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>¿Cumplieron el presupuesto de groceries esta semana?</label>
+      <select id="groceriesGoal">
+        <option value="yes">✅ Sí — dentro del presupuesto</option>
+        <option value="close">🟡 Casi — nos pasamos un poco</option>
+        <option value="no">❌ No — nos pasamos del presupuesto</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>¿Cumplieron el presupuesto de dining out?</label>
+      <select id="diningGoal">
+        <option value="yes">✅ Sí — dentro del presupuesto</option>
+        <option value="close">🟡 Casi — nos pasamos un poco</option>
+        <option value="no">❌ No — nos pasamos del presupuesto</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>¿Llamaron a alguna deuda en colección esta semana?</label>
+      <select id="debtCalls">
+        <option value="yes">✅ Sí</option>
+        <option value="no">❌ No</option>
+        <option value="na">N/A — ya están resueltas</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Notas de la reunión</label>
+      <textarea id="meetingNotes" placeholder="¿Qué revisaron? ¿Qué surgió? ¿Qué decidieron?"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Compromiso de Felipe esta semana</label>
+      <input type="text" id="commitFelipe" placeholder="Ej: No gastar en dining out sin avisar">
+    </div>
+
+    <div class="form-group">
+      <label>Compromiso de Blanmeli esta semana</label>
+      <input type="text" id="commitBlanmeli" placeholder="Ej: Actualizar YNAB cada día">
+    </div>
+
+    <div id="meetingStatus"></div>
+    <button class="btn btn-primary btn-full" onclick="saveMeeting()">📝 Guardar Reunión</button>
+  </div>
+
+  <div class="sec-hdr">Historial de Reuniones</div>
+  <div id="meetingsList"><div class="loading"><span class="spinner"></span>Cargando...</div></div>
+</div>
+
+<!-- ══ GROCERIES RETO ══ -->
+<div id="groceries" class="panel">
+
+  <div class="sec-hdr green">El Reto Progresivo — Money Mom Club</div>
+
+  <div class="four-col-grid">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--gold)">$850</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Junio</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--orange)">$750</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Julio</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green)">$680</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Agosto</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--teal)">$600</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Sep+</div>
+    </div>
+  </div>
+
+  <div class="sec-hdr teal">Registrar Resultado Mensual</div>
+  <div class="card">
+    <div class="three-col">
+      <div class="form-group">
+        <label>Mes</label>
+        <select id="challengeMonth">
+          <option value="2026-06">Junio 2026</option>
+          <option value="2026-07">Julio 2026</option>
+          <option value="2026-08">Agosto 2026</option>
+          <option value="2026-09">Sep 2026</option>
+          <option value="2026-10">Oct 2026</option>
+          <option value="2026-11">Nov 2026</option>
+          <option value="2026-12">Dic 2026</option>
         </select>
       </div>
-    </div>
-    <div class="two-col">
       <div class="form-group">
-        <label>Volumen máximo (ml)</label>
-        <input type="number" id="vVolume" min="100" max="4000" step="50" placeholder="1250">
+        <label>Gastado real ($)</label>
+        <input type="number" id="challengeSpent" placeholder="823.45" step="0.01">
       </div>
       <div class="form-group">
-        <label>Tiempo sostenido (seg)</label>
-        <input type="number" id="vSecs" min="1" max="60" placeholder="9">
+        <label>Meta del mes ($)</label>
+        <input type="number" id="challengeTarget" placeholder="850">
       </div>
     </div>
     <div class="form-group">
-      <label>Reps completadas</label>
-      <input type="number" id="vReps" min="1" max="30" placeholder="10" value="10">
+      <label>Notas del mes</label>
+      <input type="text" id="challengeNotes" placeholder="Ej: Usamos el SHOP Method, compramos en Aldi">
     </div>
-    <div class="form-group">
-      <label>Notas (opcional)</label>
-      <textarea id="vNotes" placeholder="¿Mejora? ¿Más fácil sostener?"></textarea>
-    </div>
-    <div id="vStatusMsg"></div>
-    <button class="btn btn-primary" id="vSaveBtn" onclick="saveVoldyne()">
-      💾 Guardar sesión Voldyne
-    </button>
+    <div id="challengeStatus"></div>
+    <button class="btn btn-primary btn-full" onclick="saveChallenge()">🛒 Registrar Resultado</button>
+  </div>
+
+  <div class="sec-hdr">Historial del Reto</div>
+  <div id="challengeHistory"><div class="loading"><span class="spinner"></span>Cargando...</div></div>
+
+  <div class="sec-hdr gold">Ahorro Acumulado vs Mayo</div>
+  <div class="card">
+    <div class="tally-row"><div class="tally-label">Gasto base (mayo 2026)</div><div class="tally-val" style="color:var(--accent)">$1,242</div></div>
+    <div class="tally-row"><div class="tally-label">Ahorro acumulado</div><div class="tally-val" style="color:var(--green)" id="totalGrocerySavings">$0</div></div>
+    <div class="tally-row"><div class="tally-label">Proyección anual si llegamos a $600</div><div class="tally-val" style="color:var(--teal)">$7,704</div></div>
   </div>
 </div>
 
-<!-- ══ PROGRESO ══ -->
-<div id="progreso" class="panel">
+<!-- ══ PRESUPUESTO TEMPLATE ══ -->
+<div id="presupuesto" class="panel">
 
-  <div id="progressLoading" class="loading"><span class="spinner"></span>Cargando datos...</div>
-  <div id="progressContent" style="display:none">
+  <div class="sec-hdr gold">Presupuesto Mensual Objetivo — $7,120/mes</div>
+  <div class="alert alert-info"><span class="alert-icon">📊</span>Basado en tu ingreso neto real. Objetivo: liberar $823/mes para deudas y ahorros en junio, subiendo a $1,073 cuando groceries llegue a $600.</div>
 
-    <!-- STREAK -->
-    <div id="streakBox" class="streak-box">
-      <div class="streak-num" id="streakNum">—</div>
-      <div class="streak-lbl">Días consecutivos entrenando</div>
+  <!-- FIJOS -->
+  <div class="sec-hdr">Gastos Fijos — $4,547/mes</div>
+  <div class="card">
+    <div id="fixedRows"></div>
+    <div class="tally-row" style="font-weight:700;border-top:2px solid var(--border);margin-top:4px;padding-top:8px">
+      <div class="tally-label" style="color:var(--accent)">Total Fijos</div>
+      <div class="tally-val" style="color:var(--accent)">$4,547</div>
     </div>
+  </div>
 
-    <!-- O2 STATS -->
-    <div class="sec-hdr teal">O2Trainer — Resumen</div>
-    <div class="stats-grid" id="o2Stats">
-      <div class="stat-card"><div class="stat-val" id="o2TotalSessions" style="color:var(--teal)">—</div><div class="stat-lbl">Sesiones</div></div>
-      <div class="stat-card"><div class="stat-val" id="o2BestCap" style="color:var(--gold)">—</div><div class="stat-lbl">Mejor cap</div></div>
-      <div class="stat-card"><div class="stat-val" id="o2BestTime" style="color:var(--green)">—</div><div class="stat-lbl">Mejor tiempo</div></div>
+  <!-- VARIABLES -->
+  <div class="sec-hdr teal">Gastos Variables — Objetivo $1,750/mes</div>
+  <div class="card">
+    <div id="variableRows"></div>
+    <div class="tally-row" style="font-weight:700;border-top:2px solid var(--border);margin-top:4px;padding-top:8px">
+      <div class="tally-label" style="color:var(--teal)">Total Variables</div>
+      <div class="tally-val" style="color:var(--teal)" id="variableTotal">$1,750</div>
     </div>
+  </div>
 
-    <!-- CAP PROGRESS -->
-    <div class="card">
-      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:8px;font-weight:600;">Progresión de cap (14mm → 1mm)</div>
-      <div class="prog-wrap"><div class="prog-bar" id="capProgress" style="background:var(--teal)"></div></div>
-      <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-top:4px"><span>14mm</span><span id="capProgressLabel"></span><span>1mm</span></div>
+  <!-- RESULTADO -->
+  <div class="sec-hdr green">Resultado — Para Deudas y Ahorros</div>
+  <div class="card">
+    <div class="tally-row"><div class="tally-label">Ingreso neto</div><div class="tally-val" style="color:var(--green)">$7,120</div></div>
+    <div class="tally-row"><div class="tally-label">Total fijos</div><div class="tally-val" style="color:var(--muted)">-$4,547</div></div>
+    <div class="tally-row"><div class="tally-label">Total variables</div><div class="tally-val" style="color:var(--muted)" id="variableTotalResult">-$1,750</div></div>
+    <div class="tally-row" style="font-weight:700;border-top:2px solid rgba(76,175,125,0.3);margin-top:4px;padding-top:8px">
+      <div class="tally-label" style="color:var(--green)">💰 Para deudas + emergencia</div>
+      <div class="tally-val" style="color:var(--green);font-size:1.1rem" id="availableResult">$823</div>
     </div>
+  </div>
 
-    <!-- O2 CHART -->
-    <div class="chart-wrap">
-      <div class="chart-title">Tiempo por sesión (min) — O2Trainer</div>
-      <div class="chart-wrap"><canvas id="o2Chart" style="width:100%!important"></canvas></div>
+  <!-- GROCERY RETO REMINDER -->
+  <div class="sec-hdr green">Reto Progresivo de Groceries</div>
+  <div class="four-col-grid">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--gold)">$850</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Junio</div>
     </div>
-
-    <!-- VOLDYNE STATS -->
-    <div class="sec-hdr blue">Voldyne 4000 — Resumen</div>
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-val" id="vTotalSessions" style="color:var(--blue)">—</div><div class="stat-lbl">Sesiones</div></div>
-      <div class="stat-card"><div class="stat-val" id="vBestVol" style="color:var(--gold)">—</div><div class="stat-lbl">Mejor ml</div></div>
-      <div class="stat-card"><div class="stat-val" id="vBestSecs" style="color:var(--green)">—</div><div class="stat-lbl">Mejor seg</div></div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--orange)">$750</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Julio</div>
     </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green)">$680</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Agosto</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:700;color:var(--teal)">$600</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:2px">Sep+</div>
+    </div>
+  </div>
 
-    <!-- VOLDYNE PROGRESS -->
-    <div class="card">
-      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:8px;font-weight:600;">Capacidad pulmonar (meta 4,000 ml)</div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-        <div style="font-family:'Oswald',sans-serif;font-size:1.8rem;font-weight:700;color:var(--blue)" id="vCurrentVol">—</div>
-        <div style="font-size:0.8rem;color:var(--muted)">ml actual</div>
-        <div style="margin-left:auto;font-size:0.8rem;color:var(--muted)">Meta: 4,000 ml</div>
+  <!-- LEGEND -->
+  <div class="sec-hdr">Leyenda del Semáforo YNAB</div>
+  <div class="card">
+    <div class="tally-row"><div class="tally-label"><span class="semaphore sem-green"></span>Verde</div><div style="font-size:0.84rem;color:var(--text)">Presupuesto asignado y gastado correctamente</div></div>
+    <div class="tally-row"><div class="tally-label"><span class="semaphore sem-yellow"></span>Amarillo</div><div style="font-size:0.84rem;color:var(--text)">Sin dinero asignado en YNAB — asignar antes de gastar</div></div>
+    <div class="tally-row"><div class="tally-label"><span class="semaphore sem-red"></span>Rojo</div><div style="font-size:0.84rem;color:var(--text)">Sobregirado — se gastó más de lo presupuestado</div></div>
+  </div>
+</div>
+
+<!-- ══ CHECK-IN DIARIO ══ -->
+<div id="checkin" class="panel">
+
+  <div class="streak-display">
+    <div class="streak-fire">🔥</div>
+    <div class="streak-num" id="streakCount">0</div>
+    <div class="streak-lbl">días seguidos en el plan</div>
+  </div>
+
+  <!-- MICRO-SPEND RADAR -->
+  <div class="sec-hdr" style="border-left-color:var(--accent)">⚠️ Radar de Micro-gastos — Historial Real</div>
+  <div class="alert alert-warn"><span class="alert-icon">📊</span>Basado en tus transacciones reales: <strong>Dunkin' $77 · 7-Eleven $56 · Starbucks $46</strong> = $179/mes en micro-gastos. Casi todo tu presupuesto de dining out.</div>
+  <div class="micro-tracker">
+    <div class="micro-header">Micro-gastos este mes — Meta: $0</div>
+    <div class="micro-row">
+      <div class="micro-name">☕ Dunkin' / café</div>
+      <div class="micro-bar-wrap"><div class="micro-bar" id="bar-dunkin" style="background:var(--accent)"></div></div>
+      <div class="micro-amount" id="amt-dunkin" style="color:var(--accent)">$0</div>
+    </div>
+    <div class="micro-row">
+      <div class="micro-name">🏪 7-Eleven / conveniencia</div>
+      <div class="micro-bar-wrap"><div class="micro-bar" id="bar-seven" style="background:var(--accent)"></div></div>
+      <div class="micro-amount" id="amt-seven" style="color:var(--accent)">$0</div>
+    </div>
+    <div class="micro-row">
+      <div class="micro-name">☕ Starbucks</div>
+      <div class="micro-bar-wrap"><div class="micro-bar" id="bar-sbux" style="background:var(--accent)"></div></div>
+      <div class="micro-amount" id="amt-sbux" style="color:var(--accent)">$0</div>
+    </div>
+    <div class="micro-row" style="background:rgba(255,255,255,0.03)">
+      <div class="micro-name" style="font-weight:700">Total micro-gastos</div>
+      <div class="micro-bar-wrap"><div class="micro-bar" id="bar-total" style="background:var(--accent)"></div></div>
+      <div class="micro-amount" id="amt-total" style="color:var(--accent);font-size:1.1rem">$0</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-bottom:14px">
+    <button class="btn btn-ghost" style="font-size:0.78rem" onclick="loadMicroSpend()">↻ Actualizar desde YNAB</button>
+    <div style="font-size:0.74rem;color:var(--muted);margin-top:6px">Requiere YNAB conectado en el tab "💰 YNAB Live"</div>
+  </div>
+
+  <!-- GROCERY VISIT COUNTER -->
+  <div class="sec-hdr green">🛒 Contador de Visitas al Supermercado</div>
+  <div class="alert alert-gold"><span class="alert-icon">📊</span>Historial real: <strong>Walmart 14 visitas</strong> en 3 meses. Cada visita extra = compras no planeadas. Meta: máximo 4-5 visitas al mes total.</div>
+  <div class="visit-tracker" id="visitTracker"></div>
+  <div style="display:flex;gap:8px;margin-top:4px">
+    <button class="btn btn-ghost btn-full" onclick="resetVisits()" style="font-size:0.78rem">↺ Reset mes actual</button>
+    <button class="btn btn-ghost btn-full" onclick="toggleVisitHistory()" style="font-size:0.78rem" id="historyToggleBtn">📊 Ver historial</button>
+  </div>
+  <div id="visitHistorySection" style="display:none;margin-top:14px">
+    <div class="sec-hdr blue">Historial de Visitas — Mes a Mes</div>
+    <div id="visitHistoryContent"></div>
+  </div>
+
+  <!-- DAILY CHECK-IN -->
+  <div class="sec-hdr purple">Check-in del Día</div>
+  <div class="checkin-form">
+    <div class="checkin-q">
+      <label>¿Cómo estuvo el gasto de hoy?</label>
+      <div class="checkin-pills">
+        <span class="checkin-pill" onclick="selectPill(this,'spending')" data-val="good">✅ Bien — dentro del plan</span>
+        <span class="checkin-pill" onclick="selectPill(this,'spending')" data-val="ok">🟡 Ok — algo extra</span>
+        <span class="checkin-pill" onclick="selectPill(this,'spending')" data-val="bad">❌ Me pasé</span>
       </div>
-      <div class="prog-wrap"><div class="prog-bar" id="volProgress" style="background:var(--blue)"></div></div>
-      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px" id="volProgressLabel"></div>
     </div>
-
-    <!-- VOLDYNE CHART -->
-    <div class="chart-wrap">
-      <div class="chart-title">Volumen máximo (ml) — Voldyne</div>
-      <div class="chart-wrap"><canvas id="vChart" style="width:100%!important"></canvas></div>
+    <div class="checkin-q">
+      <label>¿Compraste en Dunkin' / 7-Eleven / Starbucks hoy?</label>
+      <div class="checkin-pills">
+        <span class="checkin-pill" onclick="selectPill(this,'micro')" data-val="no">✅ No</span>
+        <span class="checkin-pill" onclick="selectPill(this,'micro')" data-val="once">🟡 Una vez</span>
+        <span class="checkin-pill" onclick="selectPill(this,'micro')" data-val="multiple">❌ Varias</span>
+      </div>
     </div>
-
-    <div style="text-align:center;margin-top:8px">
-      <button class="btn btn-ghost" onclick="loadProgress()">↻ Actualizar</button>
+    <div class="checkin-q">
+      <label>¿Usaste la lista antes de ir al supermercado?</label>
+      <div class="checkin-pills">
+        <span class="checkin-pill" onclick="selectPill(this,'list')" data-val="yes">✅ Sí</span>
+        <span class="checkin-pill" onclick="selectPill(this,'list')" data-val="no">❌ No</span>
+        <span class="checkin-pill" onclick="selectPill(this,'list')" data-val="na">N/A — no fui</span>
+      </div>
     </div>
+    <div class="checkin-q">
+      <label>Nota rápida (opcional)</label>
+      <input type="text" id="checkinNote" placeholder="¿Qué pasó hoy con el dinero?">
+    </div>
+    <div id="checkinStatus"></div>
+    <button class="btn btn-primary btn-full" onclick="saveCheckin()">✅ Guardar check-in de hoy</button>
   </div>
+
+  <div class="sec-hdr">Historial Reciente</div>
+  <div id="checkinHistory"><div class="loading"><span class="spinner"></span>Cargando...</div></div>
 </div>
 
-<!-- ══ HISTORIAL ══ -->
-<div id="historial" class="panel">
+<!-- ══ ANTES DE COMPRAR ══ -->
+<div id="antes" class="panel">
 
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
-    <button class="filter-btn" onclick="setFilter('o2',this)">O2Trainer</button>
-    <button class="filter-btn" onclick="setFilter('voldyne',this)">Voldyne</button>
+  <div class="sec-hdr gold">💡 El Convertidor de Deuda</div>
+  <div class="alert alert-gold"><span class="alert-icon">💡</span>Antes de gastar, convierte el monto en su equivalente de deuda. Esto hace el costo real visible en el momento de la decisión.</div>
+
+  <div class="decision-card">
+    <div style="font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Si gastas...</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px">
+      <button class="adj-btn" onclick="adjustAmount(-5)" style="width:38px;height:38px;font-size:1.1rem">−</button>
+      <div class="decision-amount" id="decisionAmt">$10</div>
+      <button class="adj-btn" onclick="adjustAmount(5)" style="width:38px;height:38px;font-size:1.1rem">+</button>
+    </div>
+    <div class="decision-eq">eso equivale a...</div>
+    <div class="decision-debt" id="decisionDebt">12 minutos de trabajo</div>
+    <div style="font-size:0.78rem;color:var(--muted);margin-top:8px" id="decisionDebt2">o el 1.2% de lo que debes a Wells Fargo</div>
   </div>
 
-  <div id="histLoading" class="loading"><span class="spinner"></span>Cargando historial...</div>
-  <div id="histContent" style="display:none">
-    <div class="log-list" id="logList"></div>
+  <!-- QUICK AMOUNTS -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;justify-content:center">
+    <button class="checkin-pill" onclick="setAmount(5)">$5</button>
+    <button class="checkin-pill" onclick="setAmount(10)">$10</button>
+    <button class="checkin-pill" onclick="setAmount(15)">$15 Dunkin'</button>
+    <button class="checkin-pill" onclick="setAmount(25)">$25</button>
+    <button class="checkin-pill" onclick="setAmount(50)">$50</button>
+    <button class="checkin-pill" onclick="setAmount(80)">$80 W Sazon</button>
+    <button class="checkin-pill" onclick="setAmount(100)">$100</button>
+    <button class="checkin-pill" onclick="setAmount(200)">$200</button>
+  </div>
+
+  <!-- EL TEST ¿LO COMPRO? -->
+  <div class="sec-hdr">🤔 El Test de los 3 Segundos</div>
+  <div id="questionContainer">
+    <div class="question-card" id="q1">
+      <div class="question-text">¿Está esta compra en el presupuesto de esta semana?</div>
+      <div class="answer-row">
+        <div class="answer-btn yes" onclick="answer(1,'yes')">✅ Sí</div>
+        <div class="answer-btn no"  onclick="answer(1,'no')">❌ No</div>
+      </div>
+    </div>
+  </div>
+  <div id="testResult" style="display:none"></div>
+  <div style="text-align:center;margin-top:10px;display:none" id="resetTest">
+    <button class="btn btn-ghost" onclick="resetDecisionTest()">↺ Hacer el test de nuevo</button>
+  </div>
+
+  <!-- REGLAS RÁPIDAS -->
+  <div class="sec-hdr teal">Reglas de Oro — Para el Momento de la Decisión</div>
+  <div class="card">
+    <div class="tally-row"><div style="font-size:0.87rem">☕ <strong>Café en commute</strong></div><div style="font-size:0.82rem;color:var(--muted)">Máx 1x/semana · $0 Dunkin'/Starbucks a diario</div></div>
+    <div class="tally-row"><div style="font-size:0.87rem">🏪 <strong>7-Eleven</strong></div><div style="font-size:0.82rem;color:var(--accent)">META: $0/mes · No es una tienda</div></div>
+    <div class="tally-row"><div style="font-size:0.87rem">🛒 <strong>Supermercado</strong></div><div style="font-size:0.82rem;color:var(--muted)">Solo con lista · Sam's 2x/mes · Walmart 1x/semana</div></div>
+    <div class="tally-row"><div style="font-size:0.87rem">📦 <strong>Amazon</strong></div><div style="font-size:0.82rem;color:var(--accent)">Espera 48 horas antes de comprar · Máx $100/mes</div></div>
+    <div class="tally-row"><div style="font-size:0.87rem">💳 <strong>Klarna</strong></div><div style="font-size:0.82rem;color:var(--accent)">Si necesitas Klarna, no lo puedes pagar · No comprar</div></div>
+    <div class="tally-row"><div style="font-size:0.87rem">🍽️ <strong>Restaurantes</strong></div><div style="font-size:0.82rem;color:var(--muted)">Máx 2 salidas/semana · $25 por salida · Avisar antes</div></div>
   </div>
 </div>
 
 <footer>
-  Tracker diseñado por Dr. Mateo Rivera &nbsp;·&nbsp; Mayo 2026<br>
-  Línea base O2Trainer: 9:30 min / 30 reps · Cap 14mm<br>
-  Línea base Voldyne: 1,250–1,300 ml / 9 seg
+  Dashboard diseñado por Dr. Mateo Rivera &nbsp;·&nbsp; Felipe Gil & Blanmeli Torrealba &nbsp;·&nbsp; 2026
 </footer>
 
 <script>
-// ── FIREBASE CONFIG ──────────────────────────────────────────────────────────
-const DB = 'https://guia-salud-fg-default-rtdb.firebaseio.com';
-
-async function fbGet(path) {
-  try {
-    const r = await fetch(`${DB}/${path}.json`);
-    return r.ok ? r.json() : null;
-  } catch(e) { return null; }
-}
-
-async function fbPush(path, data) {
-  const r = await fetch(`${DB}/${path}.json`, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(data)
-  });
-  return r.ok ? r.json() : null;
-}
-
-async function fbDelete(path) {
-  const r = await fetch(`${DB}/${path}.json`, { method: 'DELETE' });
-  return r.ok;
-}
-
-// ── HELPERS ──────────────────────────────────────────────────────────────────
-function today() {
-  return new Date().toISOString().split('T')[0];
-}
-
-function fmtDate(d) {
-  if (!d) return '—';
-  const [y,m,day] = d.split('-');
-  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
-}
-
-function parseTime(str) {
-  // "9:30" → total seconds
-  if (!str || !str.includes(':')) return null;
-  const [m,s] = str.split(':').map(Number);
-  return (isNaN(m)||isNaN(s)) ? null : m*60 + s;
-}
-
-function secsToStr(s) {
-  if (!s && s!==0) return '—';
-  const m = Math.floor(s/60);
-  const sec = s%60;
-  return m + ':' + String(sec).padStart(2,'0');
-}
-
-function showStatus(elId, type, msg) {
-  const el = document.getElementById(elId);
-  el.innerHTML = `<div class="alert alert-${type}" style="margin:10px 0 4px"><span class="alert-icon">${type==='ok'?'✅':type==='warn'?'⚠️':'❌'}</span>${msg}</div>`;
-  setTimeout(() => el.innerHTML = '', 4000);
-}
-
-// ── INIT DATES ───────────────────────────────────────────────────────────────
-document.getElementById('o2Date').value = today();
-document.getElementById('vDate').value  = today();
-
-// ── SAVE O2TRAINER ───────────────────────────────────────────────────────────
-async function saveO2() {
-  const btn  = document.getElementById('o2SaveBtn');
-  const date = document.getElementById('o2Date').value;
-  const cap  = document.getElementById('o2Cap').value;
-  const reps = parseInt(document.getElementById('o2Reps').value);
-  const timeStr = document.getElementById('o2Time').value.trim();
-  const notes = document.getElementById('o2Notes').value.trim();
-
-  if (!date) return showStatus('statusMsg','warn','Selecciona una fecha.');
-  if (!cap)  return showStatus('statusMsg','warn','Selecciona el cap.');
-  if (!reps || reps < 1) return showStatus('statusMsg','warn','Ingresa las reps completadas.');
-
-  const totalSecs = parseTime(timeStr);
-  if (!totalSecs) return showStatus('statusMsg','warn','Formato de tiempo: minutos:segundos (ej: 9:30)');
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Guardando...';
-
-  const data = {
-    type: 'o2trainer',
-    date,
-    cap: parseFloat(cap),
-    reps,
-    totalSecs,
-    notes,
-    ts: Date.now()
-  };
-
-  const result = await fbPush('sessions', data);
-
-  if (result) {
-    showStatus('statusMsg','ok',`Sesión guardada — Cap ${cap}mm · ${reps} reps · ${timeStr}`);
-    document.getElementById('o2Time').value = '';
-    document.getElementById('o2Notes').value = '';
-  } else {
-    showStatus('statusMsg','error','Error al guardar. Verifica tu conexión.');
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '💾 Guardar sesión O2Trainer';
-}
-
-// ── SAVE VOLDYNE ─────────────────────────────────────────────────────────────
-async function saveVoldyne() {
-  const btn     = document.getElementById('vSaveBtn');
-  const date    = document.getElementById('vDate').value;
-  const session = document.getElementById('vSession').value;
-  const volume  = parseInt(document.getElementById('vVolume').value);
-  const secs    = parseInt(document.getElementById('vSecs').value);
-  const reps    = parseInt(document.getElementById('vReps').value);
-  const notes   = document.getElementById('vNotes').value.trim();
-
-  if (!date)   return showStatus('vStatusMsg','warn','Selecciona una fecha.');
-  if (!volume || volume < 100) return showStatus('vStatusMsg','warn','Ingresa el volumen en ml.');
-  if (!secs || secs < 1)   return showStatus('vStatusMsg','warn','Ingresa los segundos sostenidos.');
-  if (!reps || reps < 1)   return showStatus('vStatusMsg','warn','Ingresa las reps completadas.');
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Guardando...';
-
-  const data = {
-    type: 'voldyne',
-    date,
-    session,
-    volume,
-    secs,
-    reps,
-    notes,
-    ts: Date.now()
-  };
-
-  const result = await fbPush('sessions', data);
-
-  if (result) {
-    showStatus('vStatusMsg','ok',`Sesión guardada — ${volume}ml · ${secs}seg · ${reps} reps`);
-    document.getElementById('vVolume').value = '';
-    document.getElementById('vSecs').value = '';
-    document.getElementById('vNotes').value = '';
-  } else {
-    showStatus('vStatusMsg','error','Error al guardar. Verifica tu conexión.');
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '💾 Guardar sesión Voldyne';
-}
-
-// ── DELETE SESSION ────────────────────────────────────────────────────────────
-async function deleteSession(key) {
-  if (!confirm('¿Eliminar este registro?')) return;
-  const ok = await fbDelete(`sessions/${key}`);
-  if (ok) loadHistory();
-}
-
-// ── LOAD PROGRESS ─────────────────────────────────────────────────────────────
-async function loadProgress() {
-  document.getElementById('progressLoading').style.display = 'block';
-  document.getElementById('progressContent').style.display = 'none';
-
-  const raw = await fbGet('sessions');
-  // Sort once by ts ascending (oldest first) — single source of truth for all charts
-  const sessions = raw
-    ? Object.values(raw).sort((a,b) => {
-        // primary: session DATE (what matters for chart axis)
-        const dateCmp = (a.date||'').localeCompare(b.date||'');
-        if (dateCmp !== 0) return dateCmp;
-        // tiebreaker within same date: use ts
-        return (a.ts||0) - (b.ts||0);
-      })
-    : [];
-
-  const o2 = sessions.filter(s => s.type === 'o2trainer');
-  const vd = sessions.filter(s => s.type === 'voldyne');
-
-  // ── STREAK
-  const allDates = [...new Set(sessions.map(s => s.date))].sort();
-  let streak = 0;
-  if (allDates.length) {
-    let d = new Date(today());
-    while (true) {
-      const ds = d.toISOString().split('T')[0];
-      if (allDates.includes(ds)) { streak++; d.setDate(d.getDate()-1); }
-      else break;
-    }
-  }
-  document.getElementById('streakNum').textContent = streak;
-
-  // ── O2 STATS
-  document.getElementById('o2TotalSessions').textContent = o2.length || '0';
-  if (o2.length) {
-    const bestCap  = Math.min(...o2.map(s => s.cap));
-    const bestTime = Math.min(...o2.map(s => s.totalSecs));
-    document.getElementById('o2BestCap').textContent  = bestCap + 'mm';
-    document.getElementById('o2BestTime').textContent = secsToStr(bestTime);
-
-    // cap progress: 14→1, lower=better. progress = (14-current)/(14-1)
-    const currCap = o2[o2.length-1].cap;
-    const capPct  = Math.round(((14 - currCap) / 13) * 100);
-    document.getElementById('capProgress').style.width = capPct + '%';
-    document.getElementById('capProgressLabel').textContent = `Cap actual: ${currCap}mm`;
-  } else {
-    ['o2BestCap','o2BestTime'].forEach(id => document.getElementById(id).textContent = '—');
-    document.getElementById('capProgressLabel').textContent = 'Sin datos aún';
-  }
-
-  // ── VOLDYNE STATS
-  document.getElementById('vTotalSessions').textContent = vd.length || '0';
-  if (vd.length) {
-    const bestVol  = Math.max(...vd.map(s => s.volume));
-    const bestSecs = Math.max(...vd.map(s => s.secs));
-    document.getElementById('vBestVol').textContent  = bestVol.toLocaleString();
-    document.getElementById('vBestSecs').textContent = bestSecs + 's';
-    document.getElementById('vCurrentVol').textContent = bestVol.toLocaleString();
-    const volPct = Math.min(100, Math.round((bestVol/4000)*100));
-    document.getElementById('volProgress').style.width = volPct + '%';
-    document.getElementById('volProgressLabel').textContent = `${volPct}% de la meta — ${(4000-bestVol).toLocaleString()} ml por alcanzar`;
-  } else {
-    ['vBestVol','vBestSecs','vCurrentVol'].forEach(id => document.getElementById(id).textContent = '—');
-    document.getElementById('volProgressLabel').textContent = 'Sin datos aún — Línea base: 1,250–1,300 ml';
-  }
-
-  // ── CHARTS
-  drawO2Chart(o2);
-  drawVChart(vd);
-
-  document.getElementById('progressLoading').style.display = 'none';
-  document.getElementById('progressContent').style.display = 'block';
-}
-
-// ── SIMPLE CANVAS CHART ───────────────────────────────────────────────────────
-// ── CHART.JS INSTANCES ───────────────────────────────────────────────────────
-var o2ChartInstance = null;
-var vChartInstance  = null;
-
-const CHART_DEFAULTS = {
-  responsive: true,
-  maintainAspectRatio: false,
-  animation: { duration: 600 },
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: '#243245',
-      borderColor: '#2e4060',
-      borderWidth: 1,
-      titleColor: '#dde6f0',
-      bodyColor: '#8ba0b8',
-      padding: 10,
-      displayColors: false,
-    }
-  },
-  scales: {
-    x: {
-      grid: { color: 'rgba(255,255,255,0.05)' },
-      ticks: { color: '#8ba0b8', font: { size: 10 }, maxRotation: 0 },
-      border: { color: 'rgba(255,255,255,0.08)' }
-    },
-    y: {
-      grid: { color: 'rgba(255,255,255,0.05)' },
-      ticks: { color: '#8ba0b8', font: { size: 10 } },
-      border: { color: 'rgba(255,255,255,0.08)' }
-    }
-  }
-};
-
-function makeDataset(values, color) {
-  return {
-    data: values,
-    borderColor: color,
-    backgroundColor: color + '22',
-    borderWidth: 2.5,
-    pointBackgroundColor: color,
-    pointRadius: 5,
-    pointHoverRadius: 7,
-    fill: true,
-    tension: 0.3
-  };
-}
-
-function drawO2Chart(sessions) {
-  // Sort by Date object — completely unambiguous
-  let arr = [...sessions].sort((a,b) => new Date(a.date||0) - new Date(b.date||0));
-  // Safety: if somehow still descending after sort, force reverse
-  if (arr.length > 1 && new Date(arr[0].date) > new Date(arr[arr.length-1].date)) arr.reverse();
-  const last20 = arr.slice(-20);
-  const labels = last20.map(s => (s.date||'').slice(5));
-  const values = last20.map(s => +((s.totalSecs||0)/60).toFixed(2));
-
-  const ctx = document.getElementById('o2Chart').getContext('2d');
-  if (o2ChartInstance) o2ChartInstance.destroy();
-  if (!values.length) return;
-
-  o2ChartInstance = new Chart(ctx, {
-    type: 'line',
-    data: { labels, datasets: [makeDataset(values, '#45b8ac')] },
-    options: {
-      ...CHART_DEFAULTS,
-      plugins: {
-        ...CHART_DEFAULTS.plugins,
-        tooltip: { ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + ' min' }
-        }
-      },
-      scales: { ...CHART_DEFAULTS.scales,
-        y: { ...CHART_DEFAULTS.scales.y,
-          ticks: { ...CHART_DEFAULTS.scales.y.ticks, callback: v => v + ' min' }
-        }
-      }
-    }
-  });
-}
-
-function drawVChart(sessions) {
-  // Build byDay with best volume per date
-  const byDay = {};
-  sessions.forEach(s => {
-    if (s.date && s.volume) {
-      if (!byDay[s.date] || s.volume > byDay[s.date]) byDay[s.date] = s.volume;
-    }
-  });
-  // Sort dates using Date objects — completely unambiguous
-  let dates = Object.keys(byDay).sort((a,b) => new Date(a) - new Date(b));
-  // Safety: if somehow descending, reverse
-  if (dates.length > 1 && new Date(dates[0]) > new Date(dates[dates.length-1])) dates.reverse();
-  dates = dates.slice(-20);
-  const labels = dates.map(d => d.slice(5));
-  const values = dates.map(d => byDay[d]);
-
-  const ctx = document.getElementById('vChart').getContext('2d');
-  if (vChartInstance) vChartInstance.destroy();
-  if (!values.length) return;
-
-  vChartInstance = new Chart(ctx, {
-    type: 'line',
-    data: { labels, datasets: [makeDataset(values, '#4a9eca')] },
-    options: {
-      ...CHART_DEFAULTS,
-      plugins: {
-        ...CHART_DEFAULTS.plugins,
-        tooltip: { ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: { label: ctx => ctx.parsed.y.toLocaleString() + ' ml' }
-        }
-      },
-      scales: { ...CHART_DEFAULTS.scales,
-        y: { ...CHART_DEFAULTS.scales.y,
-          ticks: { ...CHART_DEFAULTS.scales.y.ticks,
-            callback: v => v.toLocaleString() + ' ml'
-          }
-        }
-      }
-    }
-  });
-}
-
-// ── LOAD HISTORY ──────────────────────────────────────────────────────────────
-let currentFilter = 'all';
-
-function setFilter(f, el) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  loadHistory();
-}
-
-async function loadHistory() {
-  document.getElementById('histLoading').style.display = 'block';
-  document.getElementById('histContent').style.display = 'none';
-
-  const raw = await fbGet('sessions');
-  const list  = document.getElementById('logList');
-  list.innerHTML = '';
-
-  if (!raw) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>Sin registros aún. Empieza registrando tu primera sesión.</p></div>';
-    document.getElementById('histLoading').style.display = 'none';
-    document.getElementById('histContent').style.display = 'block';
-    return;
-  }
-
-  const entries = Object.entries(raw)
-    .filter(([k,v]) => currentFilter === 'all' || v.type === (currentFilter==='o2'?'o2trainer':'voldyne'))
-    .sort((a,b) => b[1].ts - a[1].ts);
-
-  if (!entries.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Sin registros para este filtro.</p></div>`;
-  } else {
-    entries.forEach(([key, s]) => {
-      const div = document.createElement('div');
-      div.className = 'log-item';
-
-      let tags = '';
-      let icon = '';
-
-      if (s.type === 'o2trainer') {
-        icon = '💪';
-        tags = `
-          <span class="log-tag teal">Cap ${s.cap}mm</span>
-          <span class="log-tag blue">${s.reps} reps</span>
-          <span class="log-tag gold">${secsToStr(s.totalSecs)}</span>
-        `;
-      } else {
-        icon = '🌬️';
-        const sess = s.session ? ` · ${s.session}` : '';
-        tags = `
-          <span class="log-tag blue">${(s.volume||0).toLocaleString()} ml</span>
-          <span class="log-tag teal">${s.secs}seg sostenido</span>
-          <span class="log-tag green">${s.reps} reps${sess}</span>
-        `;
-      }
-
-      div.innerHTML = `
-        <div class="log-left">
-          <div class="log-date">${icon} ${fmtDate(s.date)}</div>
-          <div class="log-metrics">${tags}</div>
-          ${s.notes ? `<div class="log-note">"${s.notes}"</div>` : ''}
-        </div>
-        <div class="log-del">
-          <button class="btn btn-danger" onclick="deleteSession('${key}')">✕</button>
-        </div>
-      `;
-      list.appendChild(div);
-    });
-  }
-
-  document.getElementById('histLoading').style.display = 'none';
-  document.getElementById('histContent').style.display = 'block';
-}
-
-// ── TAB NAV ──────────────────────────────────────────────────────────────────
+// ── TAB NAV ───────────────────────────────────────────────────────────────────
 function showTab(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  el.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
-  if (id === 'progreso')  loadProgress();
-  if (id === 'historial') loadHistory();
+  const panel = document.getElementById(id);
+  if(panel) panel.classList.add('active');
+  if(el) el.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(id==='deudas')      loadDebts();
+  if(id==='reunion')     loadMeetings();
+  if(id==='groceries')   loadChallenges();
+  if(id==='overview')    updateOverview();
+  if(id==='presupuesto') renderBudgetTemplate();
+  if(id==='checkin')     { loadCheckinHistory(); updateStreak(); loadVisitTracker(); if(typeof visitHistoryOpen!=='undefined'&&visitHistoryOpen) loadVisitHistory(); }
+  if(id==='antes')       { updateDecision(); resetDecisionTest(); }
 }
+
+// ── FIREBASE CONFIG ───────────────────────────────────────────────────────────
+const DB = 'https://dashboard-financiero-gt-default-rtdb.firebaseio.com';
+
+async function fbGet(path) {
+  try { const r = await fetch(`${DB}/${path}.json`); return r.ok ? r.json() : null; }
+  catch(e) { return null; }
+}
+async function fbPush(path, data) {
+  try {
+    const r = await fetch(`${DB}/${path}.json`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    return r.ok ? r.json() : null;
+  } catch(e) { return null; }
+}
+async function fbDelete(path) {
+  try { const r = await fetch(`${DB}/${path}.json`, { method:'DELETE' }); return r.ok; }
+  catch(e) { return false; }
+}
+
+// ── YNAB ──────────────────────────────────────────────────────────────────────
+const YNAB_BASE = 'https://api.ynab.com/v1';
+var ynabToken = null;
+var currentBudgetId = null;
+
+var rememberChecked = true;
+function toggleRemember() {
+  rememberChecked = !rememberChecked;
+  const toggle = document.getElementById('rememberToggle');
+  const knob   = document.getElementById('rememberKnob');
+  if(rememberChecked) {
+    toggle.style.background = 'var(--teal)';
+    knob.style.left = '21px';
+  } else {
+    toggle.style.background = 'var(--border)';
+    knob.style.left = '3px';
+  }
+}
+
+async function connectYNAB(autoToken) {
+  const inputEl = document.getElementById('ynabTokenInput');
+  const token = autoToken || (inputEl ? inputEl.value.trim() : '');
+  if(!token) { alert('Pega tu Personal Access Token de YNAB'); return; }
+  const spinner = document.getElementById('connectSpinner');
+  if(spinner) spinner.innerHTML = '<span class="spinner"></span>';
+  try {
+    const r = await fetch(`${YNAB_BASE}/budgets`, { headers: { 'Authorization': `Bearer ${token}` } });
+    if(!r.ok) throw new Error('Token inválido o expirado');
+    const data = await r.json();
+    ynabToken = token;
+    if(!autoToken && rememberChecked) localStorage.setItem('ynab_token', token);
+    const sel = document.getElementById('budgetSelect');
+    sel.innerHTML = '';
+    data.data.budgets.forEach(b => {
+      const opt = document.createElement('option');
+      opt.value = b.id; opt.textContent = b.name;
+      sel.appendChild(opt);
+    });
+    const autoMsg = document.getElementById('autoConnectMsg');
+    if(autoMsg) autoMsg.remove();
+    document.getElementById('ynabConnectBox').style.display = 'none';
+    document.getElementById('ynabContent').style.display = 'block';
+    document.getElementById('connectionBadge').textContent = '🟢 YNAB conectado';
+    document.getElementById('connectionBadge').className = 'badge b-green';
+    if(data.data.budgets.length > 0) { currentBudgetId = data.data.budgets[0].id; loadBudgetData(); }
+  } catch(e) {
+    if(autoToken) { localStorage.removeItem('ynab_token'); const msg = document.getElementById('autoConnectMsg'); if(msg) msg.remove(); }
+    else { if(spinner) spinner.innerHTML = ''; alert('Error: ' + e.message); }
+  }
+  if(spinner) spinner.innerHTML = '';
+}
+
+function disconnectYNAB() {
+  ynabToken = null; currentBudgetId = null;
+  localStorage.removeItem('ynab_token');
+  document.getElementById('ynabConnectBox').style.display = 'block';
+  document.getElementById('ynabContent').style.display = 'none';
+  const inp = document.getElementById('ynabTokenInput'); if(inp) inp.value = '';
+  document.getElementById('connectionBadge').textContent = '⚪ YNAB desconectado';
+  document.getElementById('connectionBadge').className = 'badge b-blue';
+}
+
+function autoConnectYNAB() {
+  const saved = localStorage.getItem('ynab_token');
+  if(!saved) return;
+  const box = document.getElementById('ynabConnectBox');
+  if(box) {
+    const indicator = document.createElement('div');
+    indicator.id = 'autoConnectMsg';
+    indicator.style.cssText = 'font-size:0.82rem;color:var(--teal);margin-top:10px';
+    indicator.innerHTML = '<span class="spinner"></span> Conectando automáticamente...';
+    box.appendChild(indicator);
+  }
+  connectYNAB(saved);
+}
+
+async function loadBudgetData() {
+  const sel = document.getElementById('budgetSelect');
+  if(sel) currentBudgetId = sel.value;
+  if(!currentBudgetId || !ynabToken) return;
+  document.getElementById('ynabLoading').style.display = 'block';
+  document.getElementById('ynabData').style.display = 'none';
+  try {
+    const now = new Date();
+    const month = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+    const [monthRes, accountsRes] = await Promise.all([
+      fetch(`${YNAB_BASE}/budgets/${currentBudgetId}/months/${month}`, { headers:{'Authorization':`Bearer ${ynabToken}`} }),
+      fetch(`${YNAB_BASE}/budgets/${currentBudgetId}/accounts`, { headers:{'Authorization':`Bearer ${ynabToken}`} })
+    ]);
+    const monthData = await monthRes.json();
+    const accountsData = await accountsRes.json();
+    renderCategories(monthData.data.month.categories);
+    renderAccounts(accountsData.data.accounts);
+    updateOverviewFromYNAB(monthData.data.month);
+    document.getElementById('ynabLoading').style.display = 'none';
+    document.getElementById('ynabData').style.display = 'block';
+  } catch(e) {
+    document.getElementById('ynabLoading').innerHTML = '<div class="alert alert-warn">Error cargando datos. Intenta de nuevo.</div>';
+  }
+}
+
+function renderCategories(categories) {
+  const KEY_CATS = ['Groceries','Dining out','Rent','Auto','Car Insurance'];
+  const semEl = document.getElementById('semaphoreCards');
+  semEl.innerHTML = '';
+  const keyCats = categories.filter(c => KEY_CATS.some(k => c.name.toLowerCase().includes(k.toLowerCase())));
+  keyCats.forEach(cat => {
+    const budgeted = cat.budgeted / 1000;
+    const spent = Math.abs(cat.activity) / 1000;
+    const nobudget = budgeted === 0;
+    const overspent = spent > budgeted && budgeted > 0;
+    const semColor = overspent ? 'red' : nobudget ? 'yellow' : 'green';
+    const barColor = overspent ? 'var(--accent)' : nobudget ? 'var(--gold)' : 'var(--green)';
+    const label = overspent ? 'Sobregirado' : nobudget ? 'Sin presupuesto' : 'En control';
+    const pct = budgeted > 0 ? (spent/budgeted)*100 : 0;
+    semEl.innerHTML += `<div class="cat-row"><div class="cat-header"><div class="cat-name"><span class="semaphore sem-${semColor}"></span>${cat.name}</div><div style="display:flex;align-items:center;gap:10px"><div class="cat-amounts">${fmt(spent)} / ${budgeted>0?fmt(budgeted):'Sin asignar'}</div><div class="cat-pct" style="color:${barColor};font-size:0.76rem">${label}</div></div></div><div class="prog-wrap"><div class="prog-bar" style="width:${Math.min(pct||2,100)}%;background:${barColor}"></div></div></div>`;
+  });
+  const allEl = document.getElementById('allCategories');
+  allEl.innerHTML = '';
+  categories.filter(c => c.budgeted!==0||c.activity!==0).forEach(cat => {
+    const budgeted = cat.budgeted/1000, spent = Math.abs(cat.activity)/1000;
+    const pct = budgeted>0?(spent/budgeted)*100:0;
+    const nobudget=budgeted===0, overspent=spent>budgeted&&budgeted>0;
+    const barColor=overspent?'var(--accent)':nobudget?'var(--gold)':'var(--green)';
+    const label=overspent?`⚠️ ${fmt(spent-budgeted)} sobregirado`:nobudget?'Sin presupuesto':`${Math.round(pct)}% usado`;
+    allEl.innerHTML += `<div class="cat-row"><div class="cat-header"><div class="cat-name" style="font-size:0.83rem">${cat.name}</div><div style="display:flex;align-items:center;gap:8px"><div class="cat-amounts" style="font-size:0.78rem">${fmt(spent)} / ${budgeted>0?fmt(budgeted):'Sin asignar'}</div><div style="font-size:0.72rem;color:${barColor}">${label}</div></div></div><div class="prog-wrap" style="height:6px"><div class="prog-bar" style="width:${Math.min(pct||2,100)}%;background:${barColor}"></div></div></div>`;
+  });
+  const groceryCat = categories.find(c=>c.name.toLowerCase().includes('groceries'));
+  const diningCat  = categories.find(c=>c.name.toLowerCase().includes('dining'));
+  if(groceryCat) document.getElementById('ov-groceries').textContent = fmt(Math.abs(groceryCat.activity)/1000);
+  if(diningCat)  document.getElementById('ov-dining').textContent    = fmt(Math.abs(diningCat.activity)/1000);
+}
+
+function renderAccounts(accounts) {
+  const el = document.getElementById('accountsList');
+  el.innerHTML = '';
+  accounts.filter(a=>!a.deleted&&!a.closed).forEach(acc => {
+    const bal = acc.balance/1000;
+    el.innerHTML += `<div class="tally-row"><div class="tally-label">${acc.name}</div><div class="tally-val" style="color:${bal>=0?'var(--green)':'var(--accent)'}">${fmt(bal)}</div></div>`;
+  });
+}
+
+function updateOverviewFromYNAB(month) {
+  const totalSpent = Math.abs(month.activity)/1000;
+  const income = month.income/1000;
+  document.getElementById('ov-spent').textContent = fmt(totalSpent);
+  if(income>0) document.getElementById('ov-income').textContent = fmt(income);
+  const left = income - totalSpent;
+  const leftEl = document.getElementById('ov-left');
+  leftEl.textContent = fmt(Math.abs(left));
+  leftEl.style.color = left>=0 ? 'var(--green)' : 'var(--accent)';
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function fmt(n) { return '$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(d) { if(!d) return '—'; const [y,m,day]=d.split('-'); const months=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']; return `${parseInt(day)} ${months[parseInt(m)]} ${y}`; }
+function today() { return new Date().toISOString().split('T')[0]; }
+function showStatus(id,type,msg) { const el=document.getElementById(id); if(!el) return; el.innerHTML=`<div class="alert alert-${type}" style="margin:8px 0">${msg}</div>`; setTimeout(()=>el.innerHTML='',4000); }
+
+function confetti() {
+  const colors=['#4caf7d','#e8b84b','#45b8ac','#4a9eca','#e05252'];
+  for(let i=0;i<40;i++){
+    const el=document.createElement('div'); el.className='confetti-piece';
+    el.style.left=Math.random()*100+'vw'; el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDuration=(1.5+Math.random()*2)+'s'; el.style.animationDelay=Math.random()*0.5+'s';
+    el.style.transform=`rotate(${Math.random()*360}deg)`; document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+
+function toggleCheck(el) { el.classList.toggle('checked'); el.textContent=el.classList.contains('checked')?'✓':''; }
+
+// ── DEBT CONFIG ───────────────────────────────────────────────────────────────
+const DEBT_CONFIG = {
+  wells_fargo:    {name:'Wells Fargo CC',         original:1714,  status:'collection'},
+  capital_one:    {name:'Capital One CC',          original:1040,  status:'current'},
+  maryland_ccu:   {name:'Maryland CCU',            original:2775,  status:'collection'},
+  irs:            {name:'IRS',                     original:3509,  status:'pending'},
+  amex:           {name:'AMEX CC',                 original:6817,  status:'collection'},
+  carmax:         {name:'Carmax',                  original:0,     status:'pending'},
+  mariangela:     {name:'Mariangela (amiga)',       original:1560,  status:'current'},
+  emily:          {name:'Emily',                   original:750,   status:'pending'},
+  maria_camacho:  {name:'Maria Camacho',           original:7000,  status:'pending'},
+  abogados:       {name:'Abogados — Inmigración',  original:12900, status:'current'},
+  aca:            {name:'Carro ACA',               original:16810, status:'current'},
+  mathias_medical:{name:'Mathias Medical',          original:1600,  status:'unsure'},
+  blan_medical:   {name:'Blan Medical',            original:700,   status:'unsure'},
+};
+
+// ── PAYMENTS ──────────────────────────────────────────────────────────────────
+async function savePayment() {
+  const debtKey=document.getElementById('debtSelect').value;
+  const amount=parseFloat(document.getElementById('paymentAmount').value);
+  const date=document.getElementById('paymentDate').value;
+  const type=document.getElementById('paymentType').value;
+  const note=document.getElementById('paymentNote').value.trim();
+  if(!amount||amount<=0) return showStatus('paymentStatus','warn','Ingresa un monto válido.');
+  if(!date) return showStatus('paymentStatus','warn','Selecciona la fecha del pago.');
+  const result=await fbPush('debt_payments',{debtKey,amount,date,type,note,ts:Date.now()});
+  if(result){
+    showStatus('paymentStatus','ok',`✅ Pago de ${fmt(amount)} registrado`);
+    document.getElementById('paymentAmount').value=''; document.getElementById('paymentNote').value='';
+    if(type==='payoff') confetti();
+    loadDebts(); updateOverview();
+  } else showStatus('paymentStatus','warn','❌ Error al guardar.');
+}
+
+async function deletePayment(key) {
+  if(!confirm('¿Eliminar este pago?')) return;
+  await fbDelete(`debt_payments/${key}`); loadDebts(); updateOverview();
+}
+
+async function loadDebts() {
+  const el=document.getElementById('debtsList');
+  el.innerHTML='<div class="loading"><span class="spinner"></span>Cargando...</div>';
+  const raw=await fbGet('debt_payments');
+  const payments=raw?Object.entries(raw).sort((a,b)=>b[1].ts-a[1].ts):[];
+  const byDebt={};
+  payments.forEach(([key,p])=>{ if(!byDebt[p.debtKey]) byDebt[p.debtKey]=[]; byDebt[p.debtKey].push({key,...p}); });
+  const totalPaid=payments.reduce((s,[,p])=>s+p.amount,0);
+  const pct=Math.min(100,(totalPaid/57175)*100);
+  document.getElementById('totalPaidDisplay').textContent=fmt(totalPaid);
+  document.getElementById('totalDebtProgress').style.width=pct+'%';
+  document.getElementById('totalDebtPct').textContent=pct.toFixed(1)+'% completado';
+  document.getElementById('ov-debt-paid').textContent=fmt(totalPaid);
+  if(Object.keys(byDebt).length===0){
+    el.innerHTML='<div class="empty"><div class="empty-icon">💳</div><p>Sin pagos registrados aún.</p></div>'; return;
+  }
+  el.innerHTML='';
+  Object.entries(DEBT_CONFIG).forEach(([dKey,cfg])=>{
+    const dPayments=byDebt[dKey]||[];
+    const totalPaidForDebt=dPayments.reduce((s,p)=>s+p.amount,0);
+    const remaining=Math.max(0,cfg.original-totalPaidForDebt);
+    const pct=cfg.original>0?Math.min(100,(totalPaidForDebt/cfg.original)*100):0;
+    const isComplete=remaining===0&&cfg.original>0;
+    const statusClass={collection:'ds-collection',current:'ds-current',pending:'ds-pending',unsure:'ds-pending'}[cfg.status]||'ds-pending';
+    const statusLabel={collection:'Colección',current:'Current',pending:'Pendiente',unsure:'Por definir'}[cfg.status]||'';
+    const barColor=isComplete?'var(--green)':pct>50?'var(--teal)':'var(--blue)';
+    let paymentsHTML='';
+    if(dPayments.length>0){
+      paymentsHTML='<div class="debt-payments-log">';
+      dPayments.slice(0,5).forEach(p=>{
+        const tl={regular:'Regular',settlement:'Settlement',extra:'Extra',payoff:'🎉 Liquidada'}[p.type]||p.type;
+        paymentsHTML+=`<div class="payment-entry"><div><div class="payment-date">${fmtDate(p.date)} · ${tl}</div>${p.note?`<div class="payment-note">"${p.note}"</div>`:''}</div><div style="display:flex;align-items:center;gap:8px"><div class="payment-amount">-${fmt(p.amount)}</div><button class="btn btn-danger" onclick="deletePayment('${p.key}')">✕</button></div></div>`;
+      });
+      if(dPayments.length>5) paymentsHTML+=`<div style="font-size:0.76rem;color:var(--muted);padding:4px 0">+${dPayments.length-5} más</div>`;
+      paymentsHTML+='</div>';
+    }
+    el.innerHTML+=`<div class="debt-card" ${isComplete?'style="border-color:rgba(76,175,125,0.4)"':''}><div class="debt-header"><div><div class="debt-name">${isComplete?'✅ ':''}${cfg.name}</div><div style="font-size:0.75rem;color:var(--muted);margin-top:2px">Original: ${cfg.original>0?fmt(cfg.original):'Por definir'}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span class="debt-status-badge ${isComplete?'ds-done':statusClass}">${isComplete?'Liquidada':statusLabel}</span><div class="debt-balance" style="color:${isComplete?'var(--green)':'var(--text)'}">${isComplete?'¡Pagada!':(remaining>0?fmt(remaining):'?')}</div></div></div>${cfg.original>0?`<div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:${barColor}"></div></div><div style="display:flex;justify-content:space-between;font-size:0.73rem;color:var(--muted);margin-top:3px"><span>Pagado: ${fmt(totalPaidForDebt)}</span><span>${pct.toFixed(0)}%</span></div>`:''}${paymentsHTML}</div>`;
+  });
+}
+
+// ── MEETINGS ──────────────────────────────────────────────────────────────────
+async function saveMeeting() {
+  const date=document.getElementById('meetingDate').value;
+  const week=document.getElementById('meetingWeek').value;
+  const groceries=document.getElementById('groceriesGoal').value;
+  const dining=document.getElementById('diningGoal').value;
+  const calls=document.getElementById('debtCalls').value;
+  const notes=document.getElementById('meetingNotes').value.trim();
+  const commitF=document.getElementById('commitFelipe').value.trim();
+  const commitB=document.getElementById('commitBlanmeli').value.trim();
+  if(!date) return showStatus('meetingStatus','warn','Selecciona la fecha.');
+  const result=await fbPush('weekly_meetings',{date,week:parseInt(week)||0,groceries,dining,calls,notes,commitFelipe:commitF,commitBlanmeli:commitB,ts:Date.now()});
+  if(result){
+    showStatus('meetingStatus','ok','✅ Reunión guardada');
+    document.getElementById('meetingNotes').value='';
+    document.getElementById('commitFelipe').value='';
+    document.getElementById('commitBlanmeli').value='';
+    loadMeetings();
+  } else showStatus('meetingStatus','warn','❌ Error al guardar.');
+}
+
+async function deleteMeeting(key) {
+  if(!confirm('¿Eliminar esta reunión?')) return;
+  await fbDelete(`weekly_meetings/${key}`); loadMeetings();
+}
+
+async function loadMeetings() {
+  const el=document.getElementById('meetingsList');
+  el.innerHTML='<div class="loading"><span class="spinner"></span>Cargando...</div>';
+  const raw=await fbGet('weekly_meetings');
+  if(!raw){el.innerHTML='<div class="empty"><div class="empty-icon">👫</div><p>Sin reuniones aún.</p></div>';return;}
+  const meetings=Object.entries(raw).sort((a,b)=>b[1].ts-a[1].ts);
+  el.innerHTML='';
+  meetings.forEach(([key,m])=>{
+    const gIcon={yes:'✅',close:'🟡',no:'❌'}[m.groceries]||'?';
+    const dIcon={yes:'✅',close:'🟡',no:'❌'}[m.dining]||'?';
+    const cIcon={yes:'✅',no:'❌',na:'N/A'}[m.calls]||'?';
+    const gClass={yes:'mb-yes',close:'mb-yes',no:'mb-no'}[m.groceries]||'mb-no';
+    const dClass={yes:'mb-yes',close:'mb-yes',no:'mb-no'}[m.dining]||'mb-no';
+    el.innerHTML+=`<div class="meeting-card"><div class="meeting-header"><div><div class="meeting-date">${fmtDate(m.date)}${m.week?` · Semana ${m.week}`:''}</div></div><div style="display:flex;align-items:center;gap:6px"><div class="meeting-badges"><span class="m-badge ${gClass}">${gIcon} Groceries</span><span class="m-badge ${dClass}">${dIcon} Dining</span><span class="m-badge ${m.calls==='yes'?'mb-yes':'mb-no'}">${cIcon} Llamadas</span></div><button class="btn btn-danger" onclick="deleteMeeting('${key}')">✕</button></div></div>${m.notes?`<div class="meeting-notes">${m.notes}</div>`:''}${m.commitFelipe?`<div class="meeting-commit">Felipe: "${m.commitFelipe}"</div>`:''}${m.commitBlanmeli?`<div class="meeting-commit">Blanmeli: "${m.commitBlanmeli}"</div>`:''}</div>`;
+  });
+}
+
+// ── GROCERY CHALLENGE ─────────────────────────────────────────────────────────
+const GROCERY_TARGETS={'2026-06':850,'2026-07':750,'2026-08':680,'2026-09':600,'2026-10':600,'2026-11':600,'2026-12':600};
+
+async function saveChallenge() {
+  const month=document.getElementById('challengeMonth').value;
+  const spent=parseFloat(document.getElementById('challengeSpent').value);
+  const target=parseFloat(document.getElementById('challengeTarget').value)||GROCERY_TARGETS[month]||850;
+  const notes=document.getElementById('challengeNotes').value.trim();
+  if(!spent||spent<=0) return showStatus('challengeStatus','warn','Ingresa el gasto real.');
+  const won=spent<=target;
+  const result=await fbPush('grocery_challenges',{month,spent,target,won,notes,ts:Date.now()});
+  if(result){
+    showStatus('challengeStatus',won?'ok':'gold',won?`🎉 ¡Ganaron el reto! ${fmt(spent)} vs ${fmt(target)}`:`Registrado — ${fmt(spent)} vs ${fmt(target)}`);
+    if(won) confetti();
+    document.getElementById('challengeSpent').value='';
+    document.getElementById('challengeNotes').value='';
+    loadChallenges();
+  } else showStatus('challengeStatus','warn','❌ Error.');
+}
+
+async function deleteChallenge(key) {
+  if(!confirm('¿Eliminar?')) return;
+  await fbDelete(`grocery_challenges/${key}`); loadChallenges();
+}
+
+async function loadChallenges() {
+  const el=document.getElementById('challengeHistory');
+  el.innerHTML='<div class="loading"><span class="spinner"></span>Cargando...</div>';
+  const raw=await fbGet('grocery_challenges');
+  if(!raw){el.innerHTML='<div class="empty"><div class="empty-icon">🛒</div><p>Sin resultados aún.</p></div>';return;}
+  const challenges=Object.entries(raw).sort((a,b)=>b[1].ts-a[1].ts);
+  el.innerHTML='';
+  let totalSavings=0;
+  challenges.forEach(([key,c])=>{
+    const savings=1242-c.spent; totalSavings+=Math.max(0,savings);
+    const pct=Math.min(100,(c.spent/c.target)*100);
+    const barColor=c.won?'var(--green)':'var(--accent)';
+    const [y,m]=c.month.split('-');
+    const monthName=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Sep','Oct','Nov','Dic'][parseInt(m)];
+    el.innerHTML+=`<div class="challenge-month"><div class="challenge-header"><div class="challenge-month-name">${monthName} ${y}</div><div style="display:flex;align-items:center;gap:8px"><span class="challenge-result ${c.won?'cr-win':'cr-lose'}">${c.won?'🏆 GANARON':'📊 Resultado'}</span><button class="btn btn-danger" onclick="deleteChallenge('${key}')">✕</button></div></div><div class="tally-row"><div class="tally-label">Meta</div><div class="tally-val" style="color:var(--muted)">${fmt(c.target)}</div></div><div class="tally-row"><div class="tally-label">Gastado</div><div class="tally-val" style="color:${c.won?'var(--green)':'var(--accent)'}">${fmt(c.spent)}</div></div><div class="prog-wrap" style="margin-top:8px"><div class="prog-bar" style="width:${pct}%;background:${barColor}"></div></div>${c.notes?`<div style="font-size:0.8rem;color:var(--muted);margin-top:8px;font-style:italic">"${c.notes}"</div>`:''}</div>`;
+  });
+  document.getElementById('totalGrocerySavings').textContent=fmt(totalSavings);
+}
+
+// ── BUDGET TEMPLATE ───────────────────────────────────────────────────────────
+const FIXED_ITEMS=[
+  {cat:'🏠 Renta',amt:1737},{cat:'🚗 Carro (ACA)',amt:460},{cat:'📄 Seguro de carro',amt:376},
+  {cat:'⚖️ Abogados (inmigración)',amt:860},{cat:'💧 Agua y gas',amt:206},{cat:'⚡ Electricidad',amt:97},
+  {cat:'📱 TV, teléfono, internet',amt:95},{cat:'💪 Fitness (gym)',amt:95},
+  {cat:'💰 Mariangela (préstamo)',amt:500},{cat:'📦 Self storage',amt:50},
+  {cat:'🪙 Money Mom Club',amt:47},{cat:'📄 Rent insurance',amt:24},
+];
+const VARIABLE_ITEMS=[
+  {cat:'🛒 Groceries',target:850,note:'Meta junio → $600 en sep'},{cat:'🍽️ Dining out',target:200,note:'Máx 2 salidas/semana'},
+  {cat:'⛽ Car gas',target:220,note:''},{cat:'🏠 Household supplies',target:150,note:'Revisar qué incluye'},
+  {cat:'🚕 Ridesharing',target:60,note:'Reducir — tienes carro'},{cat:'⭐ Mathias expenses',target:100,note:''},
+  {cat:'🐾 Smoky',target:60,note:'Compra mensual'},{cat:'🩺 Médico / Copays',target:60,note:''},
+  {cat:'🚗 Car maintenance',target:50,note:'Fondo preventivo'},{cat:'🎁 Gifts / Otros',target:50,note:'Solo eventos'},
+];
+
+function renderBudgetTemplate() {
+  const fixedEl=document.getElementById('fixedRows'); if(!fixedEl) return;
+  fixedEl.innerHTML='';
+  FIXED_ITEMS.forEach(item=>{ fixedEl.innerHTML+=`<div class="tally-row"><div class="tally-label">${item.cat}</div><div class="tally-val" style="color:var(--muted)">$${item.amt.toLocaleString()}</div></div>`; });
+  const varEl=document.getElementById('variableRows');
+  const varTotal=VARIABLE_ITEMS.reduce((s,i)=>s+i.target,0);
+  VARIABLE_ITEMS.forEach(item=>{ varEl.innerHTML+=`<div class="tally-row"><div class="tally-label">${item.cat}${item.note?`<span style="font-size:0.73rem;color:var(--muted);margin-left:6px">${item.note}</span>`:''}</div><div class="tally-val" style="color:var(--teal)">$${item.target.toLocaleString()}</div></div>`; });
+  const avEl=document.getElementById('availableResult');
+  if(avEl){const available=7120-4547-varTotal;avEl.textContent='$'+available.toLocaleString();avEl.style.color=available>=0?'var(--green)':'var(--accent)';}
+  const vtEl=document.getElementById('variableTotal'); if(vtEl) vtEl.textContent='$'+varTotal.toLocaleString();
+  const vtrEl=document.getElementById('variableTotalResult'); if(vtrEl) vtrEl.textContent='-$'+varTotal.toLocaleString();
+}
+
+// ── OVERVIEW UPDATE ───────────────────────────────────────────────────────────
+async function updateOverview() {
+  const raw=await fbGet('debt_payments');
+  const payments=raw?Object.values(raw):[];
+  const totalPaid=payments.reduce((s,p)=>s+p.amount,0);
+  const pct=Math.min(100,(totalPaid/57175)*100);
+  const tpEl=document.getElementById('totalPaidDisplay'); if(tpEl) tpEl.textContent=fmt(totalPaid);
+  const tdpEl=document.getElementById('totalDebtProgress'); if(tdpEl) tdpEl.style.width=pct+'%';
+  const tdpctEl=document.getElementById('totalDebtPct'); if(tdpctEl) tdpctEl.textContent=pct.toFixed(1)+'% completado';
+  const ovEl=document.getElementById('ov-debt-paid'); if(ovEl) ovEl.textContent=fmt(totalPaid);
+}
+
+// ── VISIT COUNTER ─────────────────────────────────────────────────────────────
+const STORES=[
+  {key:'sams',name:"Sam's Club",limit:2,emoji:'🏬'},
+  {key:'walmart',name:'Walmart',limit:4,emoji:'🛒'},
+  {key:'safeway',name:'Safeway',limit:2,emoji:'🛒'},
+  {key:'lidl',name:'Lidl',limit:2,emoji:'🛒'},
+];
+var visitData={};
+
+async function loadVisitTracker() {
+  const now=new Date();
+  const monthKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const raw=await fbGet(`store_visits/${monthKey}`);
+  visitData=raw||{};
+  renderVisitTracker(monthKey);
+}
+
+function renderVisitTracker(monthKey) {
+  if(!monthKey){const now=new Date();monthKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;}
+  const el=document.getElementById('visitTracker'); if(!el) return;
+  el.innerHTML='';
+  STORES.forEach(store=>{
+    const count=(visitData[store.key]&&visitData[store.key].count)||0;
+    const lastWho=(visitData[store.key]&&visitData[store.key].lastWho)||'';
+    const lastDate=(visitData[store.key]&&visitData[store.key].lastDate)||'';
+    const over=count>store.limit;
+    const barPct=Math.min(100,(count/store.limit)*100);
+    const barColor=over?'var(--accent)':count===store.limit?'var(--gold)':'var(--green)';
+    el.innerHTML+=`<div class="visit-card"><div class="visit-store">${store.emoji} ${store.name}</div><div class="visit-count" style="color:${over?'var(--accent)':count===store.limit?'var(--gold)':'var(--green)'}">${count}</div><div class="visit-limit">Meta: máx ${store.limit}x/mes</div>${lastWho?`<div style="font-size:0.68rem;color:var(--muted);margin-bottom:6px">Última: ${lastWho} · ${lastDate}</div>`:''}<div style="height:4px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;margin-bottom:8px"><div style="height:100%;width:${barPct}%;background:${barColor};border-radius:4px;transition:width 0.4s"></div></div><button class="visit-btn ${over?'over':''}" onclick="addVisit('${store.key}')">+ Fui hoy</button></div>`;
+  });
+}
+
+async function addVisit(key) {
+  const who=prompt('¿Quién fue?','Felipe')||'Felipe';
+  const now=new Date();
+  const monthKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const current=(visitData[key]&&visitData[key].count)||0;
+  const newData={count:current+1,lastWho:who,lastDate:today(),lastTs:Date.now()};
+  await fetch(`${DB}/store_visits/${monthKey}/${key}.json`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(newData)});
+  await fbPush(`store_visits_log/${monthKey}/${key}`,{who,date:today(),ts:Date.now()});
+  visitData[key]=newData;
+  renderVisitTracker(monthKey);
+}
+
+async function resetVisits() {
+  if(!confirm('¿Resetear contadores del mes actual? El historial se mantiene.')) return;
+  const now=new Date();
+  const monthKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  await fbDelete(`store_visits/${monthKey}`);
+  visitData={}; renderVisitTracker(monthKey);
+}
+
+var visitHistoryOpen=false;
+function toggleVisitHistory() {
+  visitHistoryOpen=!visitHistoryOpen;
+  const sec=document.getElementById('visitHistorySection');
+  const btn=document.getElementById('historyToggleBtn');
+  sec.style.display=visitHistoryOpen?'block':'none';
+  btn.textContent=visitHistoryOpen?'▲ Ocultar historial':'📊 Ver historial';
+  if(visitHistoryOpen) loadVisitHistory();
+}
+
+async function loadVisitHistory() {
+  const el=document.getElementById('visitHistoryContent'); if(!el) return;
+  el.innerHTML='<div class="loading"><span class="spinner"></span>Cargando historial...</div>';
+  const raw=await fbGet('store_visits_log');
+  if(!raw){el.innerHTML='<div class="empty"><div class="empty-icon">🛒</div><p>Sin historial aún.</p></div>';return;}
+  const months=Object.keys(raw).sort().reverse();
+  let html='';
+  months.forEach(month=>{
+    const [y,m]=month.split('-');
+    const monthNames=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const monthLabel=`${monthNames[parseInt(m)]} ${y}`;
+    html+=`<div style="margin-bottom:16px"><div style="font-family:'Oswald',sans-serif;font-size:0.9rem;color:var(--gold);margin-bottom:8px;letter-spacing:1px">${monthLabel}</div>`;
+    STORES.forEach(store=>{
+      const visits=raw[month][store.key]?Object.values(raw[month][store.key]):[];
+      if(visits.length===0) return;
+      const total=visits.length, felipe=visits.filter(v=>v.who==='Felipe').length, blanmeli=visits.filter(v=>v.who==='Blanmeli').length;
+      const over=total>store.limit;
+      const barPct=Math.min(100,(total/store.limit)*100);
+      const barColor=over?'var(--accent)':total===store.limit?'var(--gold)':'var(--green)';
+      html+=`<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px;margin-bottom:7px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div style="font-size:0.87rem;font-weight:600">${store.emoji} ${store.name}</div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:0.75rem;color:var(--muted)">F: ${felipe} · B: ${blanmeli}</span><span style="font-family:'Oswald',sans-serif;font-size:1rem;font-weight:700;color:${barColor}">${total}x</span></div></div><div style="height:5px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden"><div style="height:100%;width:${barPct}%;background:${barColor};border-radius:4px"></div></div><div style="font-size:0.71rem;color:var(--muted);margin-top:4px">${over?'⚠️ '+(total-store.limit)+' visitas extra':'✅ Dentro de la meta'}</div><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">${visits.sort((a,b)=>a.ts-b.ts).map(v=>`<span style="font-size:0.69rem;padding:2px 7px;border-radius:10px;background:${v.who==='Felipe'?'rgba(74,158,202,0.15)':'rgba(155,114,207,0.15)'};color:${v.who==='Felipe'?'var(--blue)':'var(--purple)'}">${v.who} ${v.date.slice(5)}</span>`).join('')}</div></div>`;
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+
+// ── CHECK-IN ──────────────────────────────────────────────────────────────────
+var checkinState={spending:null,micro:null,list:null};
+
+function selectPill(el,field) {
+  const group=el.parentElement;
+  group.querySelectorAll('.checkin-pill').forEach(p=>p.classList.remove('sel-good','sel-ok','sel-bad'));
+  const val=el.dataset.val;
+  const cls=val==='good'||val==='no'&&field==='micro'||val==='yes'&&field==='list'||val==='na'?'sel-good':val==='ok'||val==='once'?'sel-ok':'sel-bad';
+  el.classList.add(cls);
+  checkinState[field]=val;
+}
+
+async function saveCheckin() {
+  const note=document.getElementById('checkinNote').value.trim();
+  if(!checkinState.spending) return showStatus('checkinStatus','warn','Selecciona cómo estuvo el gasto de hoy.');
+  const allGood=checkinState.spending==='good'&&checkinState.micro==='no'&&checkinState.list!=='no';
+  const result=await fbPush('daily_checkins',{date:today(),...checkinState,note,allGood,ts:Date.now()});
+  if(result){
+    showStatus('checkinStatus','ok','✅ Check-in guardado');
+    if(allGood) confetti();
+    document.getElementById('checkinNote').value='';
+    Object.keys(checkinState).forEach(k=>checkinState[k]=null);
+    document.querySelectorAll('.checkin-pill').forEach(p=>p.classList.remove('sel-good','sel-ok','sel-bad'));
+    loadCheckinHistory(); updateStreak();
+  } else showStatus('checkinStatus','warn','❌ Error al guardar.');
+}
+
+async function loadCheckinHistory() {
+  const el=document.getElementById('checkinHistory'); if(!el) return;
+  const raw=await fbGet('daily_checkins');
+  if(!raw){el.innerHTML='<div class="empty"><div class="empty-icon">✅</div><p>Sin check-ins aún.</p></div>';return;}
+  const items=Object.entries(raw).sort((a,b)=>b[1].ts-a[1].ts).slice(0,14);
+  el.innerHTML='';
+  items.forEach(([k,c])=>{
+    const sLabel={good:'✅ Bien',ok:'🟡 Ok',bad:'❌ Me pasé'}[c.spending]||'—';
+    const mLabel={no:'✅ Sin micro',once:'🟡 Una vez',multiple:'❌ Varias'}[c.micro]||'—';
+    const lLabel={yes:'✅ Con lista',no:'❌ Sin lista',na:'N/A'}[c.list]||'—';
+    const sCls={good:'hp-good',ok:'hp-ok',bad:'hp-bad'}[c.spending]||'hp-ok';
+    const mCls={no:'hp-good',once:'hp-ok',multiple:'hp-bad'}[c.micro]||'hp-ok';
+    el.innerHTML+=`<div class="history-item"><div class="history-date">${fmtDate(c.date)}</div><div class="history-pills"><span class="hp ${sCls}">${sLabel}</span><span class="hp ${mCls}">${mLabel}</span><span class="hp hp-good">${lLabel}</span>${c.note?`<span class="hp" style="background:rgba(255,255,255,0.05);color:var(--muted);font-style:italic">"${c.note}"</span>`:''}</div></div>`;
+  });
+}
+
+async function updateStreak() {
+  const raw=await fbGet('daily_checkins'); if(!raw){document.getElementById('streakCount').textContent='0';return;}
+  const items=Object.values(raw).sort((a,b)=>b.ts-a.ts);
+  let streak=0; let d=new Date(); d.setHours(0,0,0,0);
+  for(let i=0;i<30;i++){
+    const ds=d.toISOString().split('T')[0];
+    const found=items.find(c=>c.date===ds&&c.allGood);
+    if(found){streak++;d.setDate(d.getDate()-1);}else break;
+  }
+  document.getElementById('streakCount').textContent=streak;
+}
+
+async function loadMicroSpend() {
+  if(!ynabToken||!currentBudgetId){alert('Conecta YNAB primero.');return;}
+  const now=new Date();
+  const month=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+  try {
+    const r=await fetch(`${YNAB_BASE}/budgets/${currentBudgetId}/months/${month}/transactions`,{headers:{'Authorization':`Bearer ${ynabToken}`}});
+    const data=await r.json();
+    const txns=data.data.transactions||[];
+    const dunkin=txns.filter(t=>t.payee_name&&(t.payee_name.includes('Dunkin')||t.payee_name.includes('Coffee'))).reduce((s,t)=>s+Math.abs(t.amount)/1000,0);
+    const seven=txns.filter(t=>t.payee_name&&t.payee_name.includes('7-Eleven')).reduce((s,t)=>s+Math.abs(t.amount)/1000,0);
+    const sbux=txns.filter(t=>t.payee_name&&t.payee_name.includes('Starbucks')).reduce((s,t)=>s+Math.abs(t.amount)/1000,0);
+    const total=dunkin+seven+sbux; const maxRef=80;
+    document.getElementById('amt-dunkin').textContent='$'+dunkin.toFixed(2);
+    document.getElementById('amt-seven').textContent='$'+seven.toFixed(2);
+    document.getElementById('amt-sbux').textContent='$'+sbux.toFixed(2);
+    document.getElementById('amt-total').textContent='$'+total.toFixed(2);
+    document.getElementById('bar-dunkin').style.width=Math.min(100,(dunkin/maxRef)*100)+'%';
+    document.getElementById('bar-seven').style.width=Math.min(100,(seven/maxRef)*100)+'%';
+    document.getElementById('bar-sbux').style.width=Math.min(100,(sbux/maxRef)*100)+'%';
+    document.getElementById('bar-total').style.width=Math.min(100,(total/(maxRef*2))*100)+'%';
+  } catch(e){alert('Error: '+e.message);}
+}
+
+// ── DECISION CONVERTER ────────────────────────────────────────────────────────
+var decisionAmount=10;
+
+function updateDecision() {
+  const a=decisionAmount;
+  document.getElementById('decisionAmt').textContent='$'+a;
+  const netHourly=7120/160;
+  const mins=Math.round((a/netHourly)*60);
+  const minsLabel=mins<60?mins+' minutos de trabajo neto':(mins/60).toFixed(1)+' horas de trabajo neto';
+  const wellsLeft=1714;
+  const daysCloser=((a/wellsLeft)*100).toFixed(0);
+  const groceryDaily=850/30;
+  const groceryDays=(a/groceryDaily).toFixed(1);
+  document.getElementById('decisionDebt').textContent=minsLabel;
+  document.getElementById('decisionDebt2').textContent='Si lo ahorras → reduces Wells Fargo un '+daysCloser+'% · o cubres '+groceryDays+' días de groceries';
+}
+
+function adjustAmount(delta){decisionAmount=Math.max(1,decisionAmount+delta);updateDecision();}
+function setAmount(n){decisionAmount=n;updateDecision();}
+
+// ── DECISION TEST ─────────────────────────────────────────────────────────────
+var testAnswers={};
+const QUESTIONS={
+  1:{q:'¿Está esta compra en el presupuesto de esta semana?',yes:2,no:'stop1'},
+  2:{q:'¿Lo necesitas hoy — o puede esperar 48 horas?',yes:3,no:'wait1'},
+  3:{q:'¿Tienes el dinero disponible sin usar tarjeta de crédito o Klarna?',yes:'go',no:'stop2'},
+};
+const RESULTS={
+  go:   {cls:'result-go',  icon:'✅',title:'Adelante',msg:'Está en el presupuesto, lo necesitas hoy y tienes el dinero. Compra con confianza.'},
+  stop1:{cls:'result-stop',icon:'🛑',title:'Parar',msg:'No está en el presupuesto esta semana. Anótalo para la reunión del viernes.'},
+  stop2:{cls:'result-stop',icon:'🛑',title:'No lo compres',msg:'Si necesitas crédito o Klarna para esto, no lo puedes pagar.'},
+  wait1:{cls:'result-wait',icon:'⏳',title:'Espera 48 horas',msg:'Si en 48 horas todavía lo quieres y está en el presupuesto, cómpralo.'},
+};
+
+function answer(qNum,ans) {
+  const q=QUESTIONS[qNum]; const next=q[ans];
+  if(typeof next==='number'){
+    const nq=QUESTIONS[next];
+    document.getElementById('questionContainer').innerHTML=`<div class="question-card"><div class="question-text">${nq.q}</div><div class="answer-row"><div class="answer-btn yes" onclick="answer(${next},'yes')">✅ Sí</div><div class="answer-btn no" onclick="answer(${next},'no')">❌ No</div></div></div>`;
+  } else {
+    const r=RESULTS[next];
+    document.getElementById('questionContainer').innerHTML='';
+    const resEl=document.getElementById('testResult'); resEl.style.display='block';
+    resEl.innerHTML=`<div class="result-box ${r.cls}"><div class="result-icon">${r.icon}</div><div class="result-title" style="color:${r.cls.includes('go')?'var(--green)':r.cls.includes('wait')?'var(--gold)':'var(--accent)'}">${r.title}</div><div class="result-msg">${r.msg}</div></div>`;
+    document.getElementById('resetTest').style.display='block';
+  }
+}
+
+function resetDecisionTest() {
+  testAnswers={};
+  document.getElementById('testResult').style.display='none';
+  document.getElementById('resetTest').style.display='none';
+  document.getElementById('questionContainer').innerHTML=`<div class="question-card"><div class="question-text">¿Está esta compra en el presupuesto de esta semana?</div><div class="answer-row"><div class="answer-btn yes" onclick="answer(1,'yes')">✅ Sí</div><div class="answer-btn no" onclick="answer(1,'no')">❌ No</div></div></div>`;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.getElementById('paymentDate').value=today();
+document.getElementById('meetingDate').value=today();
+updateOverview();
+renderBudgetTemplate();
+updateDecision();
+setTimeout(loadVisitTracker, 100);
+setTimeout(autoConnectYNAB, 300);
 </script>
+
 </body>
 </html>
