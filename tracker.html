@@ -22,7 +22,6 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
-  /* ── HEADER ── */
   header {
     background: linear-gradient(160deg, #1a2840 0%, #0f1924 100%);
     border-bottom: 2px solid rgba(224,82,82,0.35);
@@ -35,23 +34,16 @@
   .hbadge { font-size: 0.68rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
   .hb-teal { background: rgba(69,184,172,0.15); border: 1px solid rgba(69,184,172,0.35); color: #90ddd5; }
   .hb-blue { background: rgba(74,158,202,0.15); border: 1px solid rgba(74,158,202,0.35); color: #a8d4f0; }
-  /* ── TABS ── */
   .tab-bar { display: flex; background: #111922; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
   .tab { flex: 1; padding: 13px 8px; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; text-align: center; transition: all 0.18s; user-select: none; }
   .tab:hover { color: var(--soft); }
   .tab.active { color: #fff; border-bottom-color: var(--accent); }
-  /* ── PANELS ── */
   .panel { display: none; padding: 18px 14px 48px; max-width: 680px; margin: 0 auto; }
   .panel.active { display: block; }
-  /* ── SECTION HDR ── */
   .sec-hdr { border-left: 3px solid var(--accent); padding: 8px 12px; font-family: 'Oswald', sans-serif; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); margin: 20px 0 12px; background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; }
   .sec-hdr.teal { border-left-color: var(--teal); }
   .sec-hdr.blue { border-left-color: var(--blue); }
-  .sec-hdr.green { border-left-color: var(--green); }
-  .sec-hdr.gold { border-left-color: var(--gold); }
-  /* ── CARDS ── */
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-  /* ── FORM ── */
   .form-group { margin-bottom: 14px; }
   label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
   input, select, textarea {
@@ -65,15 +57,10 @@
     padding: 10px 12px;
     outline: none;
     transition: border-color 0.15s;
-    -webkit-appearance: none;
   }
   input:focus, select:focus, textarea:focus { border-color: var(--teal); }
-  select option { background: var(--surface); }
-  textarea { resize: vertical; min-height: 70px; }
-  /* ── TWO COL ── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 420px) { .two-col { grid-template-columns: 1fr; } }
-  /* ── BUTTONS ── */
   .btn {
     font-family: 'Oswald', sans-serif;
     font-size: 0.88rem;
@@ -84,37 +71,19 @@
     border: none;
     cursor: pointer;
     transition: all 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
   }
   .btn-primary { background: var(--teal); color: #fff; width: 100%; justify-content: center; margin-top: 4px; }
-  .btn-primary:hover { opacity: 0.88; }
-  .btn-primary:active { transform: scale(0.98); }
-  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
   .btn-ghost { background: var(--surface); border: 1px solid var(--border); color: var(--soft); font-size: 0.78rem; padding: 6px 14px; }
-  .btn-ghost:hover { background: var(--border); }
   .btn-danger { background: rgba(224,82,82,0.15); border: 1px solid rgba(224,82,82,0.3); color: #f0a8a8; font-size: 0.75rem; padding: 5px 12px; }
-  .btn-danger:hover { background: rgba(224,82,82,0.25); }
-  /* ── ALERTS ── */
-  .alert { border-radius: 8px; padding: 11px 14px; font-size: 0.86rem; margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
-  .alert-ok { background: rgba(76,175,125,0.1); border: 1px solid rgba(76,175,125,0.3); color: #90d4b0; }
-  .alert-warn { background: rgba(232,184,75,0.1); border: 1px solid rgba(232,184,75,0.3); color: #f5d98a; }
-  .alert-info { background: rgba(74,158,202,0.1); border: 1px solid rgba(74,158,202,0.3); color: #a8d4f0; }
-  .alert-error { background: rgba(224,82,82,0.1); border: 1px solid rgba(224,82,82,0.3); color: #f0a8a8; }
-  .alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
-  /* ── STATUS MSG ── */
-  #statusMsg, #vStatusMsg { min-height: 36px; }
-  /* ── STATS GRID ── */
+  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; overflow-x: auto; }
+  .chart-title { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  canvas { display: block; max-width: 100%; }
   .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
-  @media (max-width: 400px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
   .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 13px 10px; text-align: center; }
   .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
   .stat-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  /* ── PROGRESS BAR ── */
   .prog-wrap { background: rgba(255,255,255,0.06); border-radius: 8px; height: 8px; overflow: hidden; margin: 6px 0 2px; }
   .prog-bar { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
-  /* ── LOG LIST ── */
   .log-list { display: flex; flex-direction: column; gap: 8px; }
   .log-item {
     background: var(--card);
@@ -126,58 +95,17 @@
     justify-content: space-between;
     gap: 12px;
   }
-  .log-left { flex: 1; min-width: 0; }
-  .log-date { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); margin-bottom: 3px; }
-  .log-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
   .log-tag { font-size: 0.75rem; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
   .log-tag.teal { background: rgba(69,184,172,0.15); color: #90ddd5; border: 1px solid rgba(69,184,172,0.25); }
   .log-tag.blue { background: rgba(74,158,202,0.15); color: #a8d4f0; border: 1px solid rgba(74,158,202,0.25); }
   .log-tag.gold { background: rgba(232,184,75,0.12); color: #f5d98a; border: 1px solid rgba(232,184,75,0.25); }
-  .log-tag.green { background: rgba(76,175,125,0.15); color: #90d4b0; border: 1px solid rgba(76,175,125,0.25); }
-  .log-note { font-size: 0.8rem; color: var(--muted); margin-top: 5px; font-style: italic; }
-  .log-del { flex-shrink: 0; }
-  /* ── CHART ── */
-  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; overflow-x: auto; }
-  .chart-title { font-family: 'Oswald', sans-serif; font-size: 0.82rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-  canvas { display: block; max-width: 100%; }
-  /* ── EMPTY STATE ── */
   .empty { text-align: center; padding: 36px 20px; color: var(--muted); }
-  .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
-  .empty p { font-size: 0.88rem; }
-  /* ── LOADING ── */
   .loading { text-align: center; padding: 28px; color: var(--muted); font-size: 0.88rem; }
-  /* ── STREAK ── */
   .streak-box { background: linear-gradient(135deg, rgba(69,184,172,0.1), rgba(74,158,202,0.08)); border: 1px solid rgba(69,184,172,0.25); border-radius: 10px; padding: 14px; text-align: center; margin-bottom: 14px; }
   .streak-num { font-family: 'Oswald', sans-serif; font-size: 2.8rem; font-weight: 700; color: var(--teal); line-height: 1; }
-  .streak-lbl { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-  /* ── FILTER BAR ── */
   .filter-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-  .filter-btn { font-size: 0.75rem; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .filter-btn { font-size: 0.75rem; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; }
   .filter-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
-  /* ── SPINNER ── */
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
-  footer { text-align: center; padding: 18px; color: var(--muted); font-size: 0.73rem; border-top: 1px solid var(--border); margin-top: 20px; }
-  /* ── BACK BUTTON ── */
-  .back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(69,184,172,0.1);
-    border: 1px solid rgba(69,184,172,0.3);
-    color: var(--teal);
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 7px 14px;
-    border-radius: 20px;
-    text-decoration: none;
-    transition: all 0.18s;
-    margin-top: 8px;
-  }
-  .back-btn:hover { background: rgba(69,184,172,0.2); border-color: rgba(69,184,172,0.55); }
-  .back-btn:active { transform: scale(0.96); }
 </style>
 </head>
 <body>
@@ -188,9 +116,6 @@
     <span class="hbadge hb-teal">🌬️ O2Trainer</span>
     <span class="hbadge hb-blue">💨 Voldyne 4000</span>
   </div>
-  <div style="margin-top:10px">
-    <a href="index.html#respiracion" class="back-btn">← Volver a Guía de Salud</a>
-  </div>
 </header>
 
 <div class="tab-bar">
@@ -199,9 +124,8 @@
   <div class="tab" onclick="showTab('historial',this)">📋 Historial</div>
 </div>
 
-<!-- ══ REGISTRAR ══ -->
+<!-- REGISTRAR -->
 <div id="registrar" class="panel active">
-  <!-- O2TRAINER -->
   <div class="sec-hdr teal">💪 O2Trainer</div>
   <div class="card">
     <div class="two-col">
@@ -234,114 +158,74 @@
     <div class="two-col">
       <div class="form-group">
         <label>Reps completadas</label>
-        <input type="number" id="o2Reps" min="1" max="100" placeholder="30" value="30">
+        <input type="number" id="o2Reps" min="1" max="100" value="30">
       </div>
       <div class="form-group">
         <label>Tiempo total (min:seg)</label>
-        <input type="text" id="o2Time" placeholder="9:30" pattern="\d+:\d{2}">
+        <input type="text" id="o2Time" placeholder="9:30">
       </div>
     </div>
     <div class="form-group">
       <label>Notas (opcional)</label>
-      <textarea id="o2Notes" placeholder="¿Cómo se sintió? ¿Mareo? ¿Fácil?"></textarea>
+      <textarea id="o2Notes"></textarea>
     </div>
     <div id="statusMsg"></div>
-    <button class="btn btn-primary" id="o2SaveBtn" onclick="saveO2()">
-      💾 Guardar sesión O2Trainer
-    </button>
+    <button class="btn btn-primary" onclick="saveO2()">💾 Guardar sesión O2Trainer</button>
   </div>
 </div>
 
-<!-- ══ PROGRESO ══ -->
+<!-- PROGRESO -->
 <div id="progreso" class="panel">
-  <div id="progressLoading" class="loading"><span class="spinner"></span>Cargando datos...</div>
+  <div id="progressLoading" class="loading">Cargando datos...</div>
   <div id="progressContent" style="display:none">
-    <!-- STREAK -->
-    <div id="streakBox" class="streak-box">
+    <div class="streak-box">
       <div class="streak-num" id="streakNum">—</div>
       <div class="streak-lbl">Días consecutivos entrenando</div>
     </div>
 
-    <!-- O2 STATS -->
     <div class="sec-hdr teal">O2Trainer — Resumen</div>
-    <div class="stats-grid" id="o2Stats">
+    <div class="stats-grid">
       <div class="stat-card"><div class="stat-val" id="o2TotalSessions" style="color:var(--teal)">—</div><div class="stat-lbl">Sesiones</div></div>
       <div class="stat-card"><div class="stat-val" id="o2BestCap" style="color:var(--gold)">—</div><div class="stat-lbl">Mejor cap</div></div>
       <div class="stat-card"><div class="stat-val" id="o2BestTime" style="color:var(--green)">—</div><div class="stat-lbl">Mejor tiempo</div></div>
     </div>
 
-    <!-- CAP PROGRESS -->
-    <div class="card">
-      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:8px;font-weight:600;">Progresión de cap (14mm → 1mm)</div>
-      <div class="prog-wrap"><div class="prog-bar" id="capProgress" style="background:var(--teal)"></div></div>
-      <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-top:4px"><span>14mm</span><span id="capProgressLabel"></span><span>1mm</span></div>
-    </div>
-
-    <!-- O2 CHART -->
     <div class="chart-wrap">
       <div class="chart-title">Tiempo por sesión (min) — O2Trainer</div>
       <canvas id="o2Chart" height="160"></canvas>
     </div>
 
-    <div style="text-align:center;margin-top:8px">
+    <div style="text-align:center;margin-top:15px">
       <button class="btn btn-ghost" onclick="loadProgress()">↻ Actualizar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ HISTORIAL ══ -->
+<!-- HISTORIAL -->
 <div id="historial" class="panel">
   <div class="filter-bar">
     <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
     <button class="filter-btn" onclick="setFilter('o2',this)">O2Trainer</button>
   </div>
-  <div id="histLoading" class="loading"><span class="spinner"></span>Cargando historial...</div>
+  <div id="histLoading" class="loading">Cargando historial...</div>
   <div id="histContent" style="display:none">
     <div class="log-list" id="logList"></div>
   </div>
 </div>
 
-<footer>
-  Tracker diseñado por Dr. Mateo Rivera &nbsp;·&nbsp; Mayo 2026<br>
-  Línea base O2Trainer: 9:30 min / 30 reps · Cap 14mm
-</footer>
-
 <script>
-// ── FIREBASE CONFIG ──────────────────────────────────────────────────────────
+// ── CONFIG ─────────────────────────────────────────────────────────────
 const DB = 'https://guia-salud-fg-default-rtdb.firebaseio.com';
 
 async function fbGet(path) {
   try {
     const r = await fetch(`${DB}/${path}.json`);
-    return r.ok ? r.json() : null;
+    return r.ok ? await r.json() : null;
   } catch(e) { return null; }
 }
 
-async function fbPush(path, data) {
-  const r = await fetch(`${DB}/${path}.json`, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(data)
-  });
-  return r.ok ? r.json() : null;
-}
-
-async function fbDelete(path) {
-  const r = await fetch(`${DB}/${path}.json`, { method: 'DELETE' });
-  return r.ok;
-}
-
-// ── HELPERS ──────────────────────────────────────────────────────────────────
-function today() {
-  return new Date().toISOString().split('T')[0];
-}
-
-function fmtDate(d) {
-  if (!d) return '—';
-  const [y,m,day] = d.split('-');
-  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
-}
+// ── HELPERS ─────────────────────────────────────────────────────────────
+function today() { return new Date().toISOString().split('T')[0]; }
 
 function parseTime(str) {
   if (!str || !str.includes(':')) return null;
@@ -350,127 +234,47 @@ function parseTime(str) {
 }
 
 function secsToStr(s) {
-  if (!s && s!==0) return '—';
+  if (s == null) return '—';
   const m = Math.floor(s/60);
-  const sec = s%60;
+  const sec = s % 60;
   return m + ':' + String(sec).padStart(2,'0');
 }
 
-function showStatus(elId, type, msg) {
-  const el = document.getElementById(elId);
-  el.innerHTML = `<div class="alert alert-${type}" style="margin:10px 0 4px"><span class="alert-icon">${type==='ok'?'✅':type==='warn'?'⚠️':'❌'}</span>${msg}</div>`;
-  setTimeout(() => el.innerHTML = '', 4000);
-}
-
-// ── INIT DATES ───────────────────────────────────────────────────────────────
-document.getElementById('o2Date').value = today();
-
-// ── SAVE O2TRAINER ───────────────────────────────────────────────────────────
+// ── SAVE ───────────────────────────────────────────────────────────────
 async function saveO2() {
-  const btn = document.getElementById('o2SaveBtn');
   const date = document.getElementById('o2Date').value;
   const cap = document.getElementById('o2Cap').value;
   const reps = parseInt(document.getElementById('o2Reps').value);
   const timeStr = document.getElementById('o2Time').value.trim();
   const notes = document.getElementById('o2Notes').value.trim();
 
-  if (!date) return showStatus('statusMsg','warn','Selecciona una fecha.');
-  if (!cap) return showStatus('statusMsg','warn','Selecciona el cap.');
-  if (!reps || reps < 1) return showStatus('statusMsg','warn','Ingresa las reps completadas.');
+  if (!date || !cap || !reps || !timeStr) {
+    alert("Completa todos los campos");
+    return;
+  }
+
   const totalSecs = parseTime(timeStr);
-  if (!totalSecs) return showStatus('statusMsg','warn','Formato de tiempo: minutos:segundos (ej: 9:30)');
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Guardando...';
-
-  const data = {
-    type: 'o2trainer',
-    date,
-    cap: parseFloat(cap),
-    reps,
-    totalSecs,
-    notes,
-    ts: Date.now()
-  };
-
-  const result = await fbPush('sessions', data);
-  if (result) {
-    showStatus('statusMsg','ok',`Sesión guardada — Cap ${cap}mm · ${reps} reps · ${timeStr}`);
-    document.getElementById('o2Time').value = '';
-    document.getElementById('o2Notes').value = '';
-  } else {
-    showStatus('statusMsg','error','Error al guardar. Verifica tu conexión.');
-  }
-  btn.disabled = false;
-  btn.innerHTML = '💾 Guardar sesión O2Trainer';
-}
-
-// ── DELETE SESSION ────────────────────────────────────────────────────────────
-async function deleteSession(key) {
-  if (!confirm('¿Eliminar este registro?')) return;
-  const ok = await fbDelete(`sessions/${key}`);
-  if (ok) loadHistory();
-}
-
-// ── LOAD PROGRESS ─────────────────────────────────────────────────────────────
-async function loadProgress() {
-  document.getElementById('progressLoading').style.display = 'block';
-  document.getElementById('progressContent').style.display = 'none';
-
-  const raw = await fbGet('sessions');
-  const sessions = raw
-    ? Object.values(raw).sort((a,b) => {
-        const dateCmp = (a.date||'').localeCompare(b.date||'');
-        if (dateCmp !== 0) return dateCmp;
-        return (a.ts||0) - (b.ts||0);
-      })
-    : [];
-
-  const o2 = sessions.filter(s => s.type === 'o2trainer');
-
-  // STREAK
-  const allDates = [...new Set(sessions.map(s => s.date))].sort();
-  let streak = 0;
-  if (allDates.length) {
-    let d = new Date(today());
-    while (true) {
-      const ds = d.toISOString().split('T')[0];
-      if (allDates.includes(ds)) { 
-        streak++; 
-        d.setDate(d.getDate()-1); 
-      } else break;
-    }
-  }
-  document.getElementById('streakNum').textContent = streak;
-
-  // O2 STATS
-  document.getElementById('o2TotalSessions').textContent = o2.length || '0';
-  if (o2.length) {
-    const bestCap = Math.min(...o2.map(s => s.cap));
-    const bestTime = Math.min(...o2.map(s => s.totalSecs));
-    document.getElementById('o2BestCap').textContent = bestCap + 'mm';
-    document.getElementById('o2BestTime').textContent = secsToStr(bestTime);
-
-    const currCap = o2[o2.length-1].cap;
-    const capPct = Math.round(((14 - currCap) / 13) * 100);
-    document.getElementById('capProgress').style.width = capPct + '%';
-    document.getElementById('capProgressLabel').textContent = `Cap actual: ${currCap}mm`;
-  } else {
-    document.getElementById('o2BestCap').textContent = '—';
-    document.getElementById('o2BestTime').textContent = '—';
-    document.getElementById('capProgressLabel').textContent = 'Sin datos aún';
+  if (!totalSecs) {
+    alert("Formato de tiempo incorrecto (ej: 9:30)");
+    return;
   }
 
-  // CHARTS
-  drawO2Chart(o2);
+  const data = { type: 'o2trainer', date, cap: parseFloat(cap), reps, totalSecs, notes, ts: Date.now() };
 
-  document.getElementById('progressLoading').style.display = 'none';
-  document.getElementById('progressContent').style.display = 'block';
+  await fetch(`${DB}/sessions.json`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  });
+
+  alert("Sesión guardada correctamente");
+  document.getElementById('o2Time').value = '';
+  document.getElementById('o2Notes').value = '';
 }
 
-// ── CHART MEJORADO ───────────────────────────────────────────────────────────
-function drawChart(canvasId, labels, values, color, unit) {
-  const canvas = document.getElementById(canvasId);
+// ── CHART CORREGIDO ─────────────────────────────────────────────────────
+function drawO2Chart(sessions) {
+  const canvas = document.getElementById('o2Chart');
   const ctx = canvas.getContext('2d');
   const W = canvas.parentElement.clientWidth - 28;
   const H = 160;
@@ -478,172 +282,111 @@ function drawChart(canvasId, labels, values, color, unit) {
   canvas.height = H;
   ctx.clearRect(0,0,W,H);
 
-  if (!values.length) {
+  if (!sessions.length) {
     ctx.fillStyle = '#8ba0b8';
-    ctx.font = '13px Inter';
+    ctx.font = '14px Inter';
     ctx.textAlign = 'center';
     ctx.fillText('Sin datos aún', W/2, H/2);
     return;
   }
 
-  const PAD = { top: 20, right: 20, bottom: 42, left: 48 };
+  // Tomamos últimos 20 registros (más recientes)
+  const data = sessions.slice(-20);
+  const labels = data.map(s => s.date.slice(5)); // MM-DD
+  const values = data.map(s => s.totalSecs / 60);
+
+  const PAD = { top: 20, right: 25, bottom: 40, left: 45 };
   const cW = W - PAD.left - PAD.right;
   const cH = H - PAD.top - PAD.bottom;
 
   const minV = Math.min(...values);
   const maxV = Math.max(...values);
-  let niceMin = Math.floor(minV * 0.95);
-  let niceMax = Math.ceil(maxV * 1.05);
+  const range = maxV - minV || 1;
 
-  if (maxV - minV < 2) {
-    niceMin = Math.floor(minV) - 0.5;
-    niceMax = Math.ceil(maxV) + 0.5;
-  }
-
-  const toX = i => PAD.left + (i / Math.max(values.length-1, 1)) * cW;
-  const toY = v => PAD.top + (1 - (v - niceMin) / (niceMax - niceMin)) * cH;
+  const toX = i => PAD.left + (i / (data.length - 1)) * cW;
+  const toY = v => PAD.top + (1 - (v - minV) / range) * cH;
 
   // Grid
   ctx.strokeStyle = 'rgba(255,255,255,0.08)';
   for (let i = 0; i <= 5; i++) {
-    const y = PAD.top + (i/5) * cH;
+    const y = PAD.top + (i/5)*cH;
     ctx.beginPath();
     ctx.moveTo(PAD.left, y);
     ctx.lineTo(W - PAD.right, y);
     ctx.stroke();
-
-    ctx.fillStyle = '#8ba0b8';
-    ctx.font = '10px Inter';
-    ctx.textAlign = 'right';
-    ctx.fillText(Math.round(niceMax - i*(niceMax-niceMin)) + unit, PAD.left - 6, y + 3);
   }
 
-  // Área + Línea
-  const grad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top+cH);
-  grad.addColorStop(0, color + '50');
-  grad.addColorStop(1, color + '05');
-
+  // Línea
   ctx.beginPath();
   ctx.moveTo(toX(0), toY(values[0]));
-  values.forEach((v,i) => { if(i>0) ctx.lineTo(toX(i), toY(v)); });
-  ctx.lineTo(toX(values.length-1), PAD.top+cH);
-  ctx.lineTo(toX(0), PAD.top+cH);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.moveTo(toX(0), toY(values[0]));
-  values.forEach((v,i) => { if(i>0) ctx.lineTo(toX(i), toY(v)); });
-  ctx.strokeStyle = color;
+  values.forEach((v, i) => {
+    if (i > 0) ctx.lineTo(toX(i), toY(v));
+  });
+  ctx.strokeStyle = '#45b8ac';
   ctx.lineWidth = 3;
-  ctx.lineJoin = 'round';
   ctx.stroke();
 
-  // Puntos y etiquetas
+  // Puntos
   values.forEach((v, i) => {
-    const x = toX(i);
-    const y = toY(v);
-
     ctx.beginPath();
-    ctx.arc(x, y, 4.5, 0, Math.PI*2);
+    ctx.arc(toX(i), toY(v), 4, 0, Math.PI*2);
     ctx.fillStyle = '#fff';
     ctx.fill();
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#45b8ac';
     ctx.stroke();
+  });
 
-    // Etiquetas X (no saturar)
-    if (labels[i] && (values.length <= 8 || i % Math.ceil(values.length/7) === 0 || i === values.length-1)) {
-      ctx.fillStyle = '#8ba0b8';
-      ctx.font = '9px Inter';
-      ctx.textAlign = 'center';
-      ctx.fillText(labels[i].slice(5), x, H - PAD.bottom + 16);
+  // Etiquetas X (fechas)
+  ctx.fillStyle = '#8ba0b8';
+  ctx.font = '9px Inter';
+  ctx.textAlign = 'center';
+  data.forEach((_, i) => {
+    if (data.length <= 8 || i === 0 || i === data.length-1 || i % Math.ceil(data.length/6) === 0) {
+      ctx.fillText(labels[i], toX(i), H - 12);
     }
   });
 }
 
-function drawO2Chart(sessions) {
-  const last20 = sessions.slice(-20);
-  const labels = last20.map(s => s.date);
-  const values = last20.map(s => +(s.totalSecs / 60).toFixed(2));
-  drawChart('o2Chart', labels, values, '#45b8ac', ' min');
-}
-
-// ── LOAD HISTORY ──────────────────────────────────────────────────────────────
-let currentFilter = 'all';
-
-function setFilter(f, el) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  loadHistory();
-}
-
-async function loadHistory() {
-  // ... (mantengo tu función original de historial)
-  document.getElementById('histLoading').style.display = 'block';
-  document.getElementById('histContent').style.display = 'none';
+// ── LOAD PROGRESS ───────────────────────────────────────────────────────
+async function loadProgress() {
+  document.getElementById('progressLoading').style.display = 'block';
+  document.getElementById('progressContent').style.display = 'none';
 
   const raw = await fbGet('sessions');
-  const list = document.getElementById('logList');
-  list.innerHTML = '';
+  let sessions = raw ? Object.values(raw) : [];
 
-  if (!raw) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>Sin registros aún.</p></div>';
-    document.getElementById('histLoading').style.display = 'none';
-    document.getElementById('histContent').style.display = 'block';
-    return;
+  // Orden correcto: más antiguo primero
+  sessions.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+  const o2 = sessions.filter(s => s.type === 'o2trainer');
+
+  // Stats
+  document.getElementById('o2TotalSessions').textContent = o2.length || 0;
+  if (o2.length) {
+    const bestCap = Math.min(...o2.map(s => s.cap));
+    const bestTime = Math.min(...o2.map(s => s.totalSecs));
+    document.getElementById('o2BestCap').textContent = bestCap + 'mm';
+    document.getElementById('o2BestTime').textContent = secsToStr(bestTime);
   }
 
-  const entries = Object.entries(raw)
-    .filter(([k,v]) => currentFilter === 'all' || v.type === (currentFilter==='o2'?'o2trainer':'voldyne'))
-    .sort((a,b) => b[1].ts - a[1].ts);
+  drawO2Chart(o2);
 
-  if (!entries.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Sin registros para este filtro.</p></div>`;
-  } else {
-    entries.forEach(([key, s]) => {
-      const div = document.createElement('div');
-      div.className = 'log-item';
-      const icon = s.type === 'o2trainer' ? '💪' : '🌬️';
-      let tags = '';
-
-      if (s.type === 'o2trainer') {
-        tags = `
-          <span class="log-tag teal">Cap ${s.cap}mm</span>
-          <span class="log-tag blue">${s.reps} reps</span>
-          <span class="log-tag gold">${secsToStr(s.totalSecs)}</span>
-        `;
-      }
-
-      div.innerHTML = `
-        <div class="log-left">
-          <div class="log-date">${icon} ${fmtDate(s.date)}</div>
-          <div class="log-metrics">${tags}</div>
-          ${s.notes ? `<div class="log-note">"${s.notes}"</div>` : ''}
-        </div>
-        <div class="log-del">
-          <button class="btn btn-danger" onclick="deleteSession('${key}')">✕</button>
-        </div>
-      `;
-      list.appendChild(div);
-    });
-  }
-  document.getElementById('histLoading').style.display = 'none';
-  document.getElementById('histContent').style.display = 'block';
+  document.getElementById('progressLoading').style.display = 'none';
+  document.getElementById('progressContent').style.display = 'block';
 }
 
-// ── TAB NAV ──────────────────────────────────────────────────────────────────
+// ── TAB NAV ─────────────────────────────────────────────────────────────
 function showTab(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+
   if (id === 'progreso') loadProgress();
-  if (id === 'historial') loadHistory();
 }
+
+// Init
+document.getElementById('o2Date').value = today();
 </script>
 </body>
 </html>
